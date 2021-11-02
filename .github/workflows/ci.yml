@@ -1,0 +1,23 @@
+name: Create new plugin Release
+
+on:
+  push:
+jobs:
+  release:
+    name: Build and test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          cache: npm
+          node-version: 16
+      - name: CI build
+        run: npm ci
+        id: plugin-build
+      - name: Publish Plugin
+        run: npx semantic-release
+        id: publish-plugin
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_AUTOMATION_TOKEN }}
