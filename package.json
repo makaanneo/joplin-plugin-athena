@@ -1,6 +1,6 @@
 {
-  "name": "joplin-plugin-paperless-file-importer",
-  "version": "1.0.0",
+  "name": "joplin-plugin-paperless",
+  "version": "0.1.0",
   "scripts": {
     "dist": "npm run plugin-build && npm run plugin-extrascripts && npm run plugin-pack",
     "plugin-build": "webpack --config-name pluginConfig",
