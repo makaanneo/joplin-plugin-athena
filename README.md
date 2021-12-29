@@ -1,5 +1,7 @@
 # Joplin Plugin paperless importer
 
+First beta version of a fancy jopling plugin to get order in the pdf chaos. No OCR so far all my PDFs are get OCR on scan.
+
 ## Special Thanks to
 
 - [JackGruber joplin Plugin hotfolder](https://github.com/JackGruber/joplin-plugin-hotfolder) base for import logic.
