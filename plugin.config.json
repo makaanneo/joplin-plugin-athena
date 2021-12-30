@@ -1,0 +1,3 @@
+{
+	"extraScripts": ["codeMirror/markdownFolding.ts"]
+}
