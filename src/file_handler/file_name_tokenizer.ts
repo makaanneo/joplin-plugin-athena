@@ -44,10 +44,14 @@ class fileNameTokenizer {
       extractedDateTime !== ''
     ) {
       cleanName = cleanName.replace(extractedDateTime, '').trim();
-      if (!isNaN(Date.parse(extractedDateTime)))
+      if (!isNaN(Date.parse(extractedDateTime))) {
         result.DateTime = new Date(extractedDateTime);
-      console.log(`datetime: ${result.DateTime}`);
+      }
     }
+    if (result.DateTime === null) {
+      result.DateTime = new Date(Date.now());
+    }
+    console.log(`datetime: ${result.DateTime}`);
     let tokens = cleanName.match(this.tokenRegEx);
     result.Tokens = tokens;
     return result;

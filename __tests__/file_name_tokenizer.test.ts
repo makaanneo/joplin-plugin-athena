@@ -3,11 +3,19 @@ import type { fileNameTokens } from '../src/file_handler/file_name_tokenizer';
 
 jest.mock('../src/settings/settings');
 
+const mockDateNow = new Date('2022-01-04T11:11:11.135Z');
+
 describe('Tokenize filesnames without date', function () {
+  beforeEach(() => {
+    jest
+      .spyOn(global.Date, 'now')
+      .mockImplementationOnce(() => mockDateNow.valueOf());
+  });
+
   it(`should tokenize: test_file_name.pdf`, async () => {
     const sut = new fileNameTokenizer();
     const expected: fileNameTokens = {
-      DateTime: null,
+      DateTime: mockDateNow,
       Tokens: ['test', 'file', 'name']
     };
     const actual: fileNameTokens = await sut.tokenize(`test_file_name.pdf`);
@@ -16,7 +24,7 @@ describe('Tokenize filesnames without date', function () {
   it(`should tokenize: test-file_name.pdf`, async () => {
     const sut = new fileNameTokenizer();
     const expected: fileNameTokens = {
-      DateTime: null,
+      DateTime: mockDateNow,
       Tokens: ['test', 'file', 'name']
     };
     const actual: fileNameTokens = await sut.tokenize(`test-file_name.pdf`);
@@ -25,7 +33,16 @@ describe('Tokenize filesnames without date', function () {
   it(`should tokenize: test[file, name].pdf`, async () => {
     const sut = new fileNameTokenizer();
     const expected: fileNameTokens = {
-      DateTime: null,
+      DateTime: mockDateNow,
+      Tokens: ['test', 'file', 'name']
+    };
+    const actual: fileNameTokens = await sut.tokenize(`test[file, name].pdf`);
+    expect(actual).toEqual(expected);
+  });
+  it(`should tokenize: test[file, name].pdf and return date now`, async () => {
+    const sut = new fileNameTokenizer();
+    const expected: fileNameTokens = {
+      DateTime: mockDateNow,
       Tokens: ['test', 'file', 'name']
     };
     const actual: fileNameTokens = await sut.tokenize(`test[file, name].pdf`);
