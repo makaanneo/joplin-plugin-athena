@@ -8,9 +8,10 @@ The plugin in currently under development and in beta stage. You can specify a f
 
 ## Usage
 
-Setup like on the screenshot.
-
+Fill in the required values for the options.
 ![Image](assets/JoplinOptions.png)
+
+And copy PDF files inside the import path to start working.
 
 ## Misc
 
