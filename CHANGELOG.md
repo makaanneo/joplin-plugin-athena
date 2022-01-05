@@ -1,3 +1,10 @@
+## [1.1.3](https://github.com/makaanneo/joplin-plugin-athena/compare/v1.1.2...v1.1.3) (2022-01-05)
+
+
+### Bug Fixes
+
+* **versioning:** enable auto versioning ([32019ca](https://github.com/makaanneo/joplin-plugin-athena/commit/32019caf4ca7638a2b35efb852f136937dd879f5))
+
 ## [1.1.2](https://github.com/makaanneo/joplin-plugin-athena/compare/v1.1.1...v1.1.2) (2022-01-04)
 
 
