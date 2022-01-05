@@ -10,7 +10,8 @@
     "update": "npm install -g generator-joplin && yo joplin --update",
     "prettier-format": "prettier --config .prettierrc src/**/*.ts --write",
     "lint": "eslint . --ext .ts",
-    "test": "jest"
+    "test": "jest",
+    "bump-plugin-version": "node bump-plugin-version.js"
   },
   "license": "MIT",
   "keywords": [
@@ -23,6 +24,7 @@
   },
   "devDependencies": {
     "@semantic-release/changelog": "^6.0.1",
+    "@semantic-release/exec": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
     "@semantic-release/npm": "^8.0.3",
     "@types/chokidar": "^2.1.3",

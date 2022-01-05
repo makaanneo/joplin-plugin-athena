@@ -5,6 +5,9 @@
     "@semantic-release/release-notes-generator",
     "@semantic-release/changelog",
     "@semantic-release/npm",
-    "@semantic-release/git"
+    "@semantic-release/git",
+    ["@semantic-release/exec", {
+      "prepareCmd": "npm run bump-plugin-version -- ${nextRelease.version}"
+    }],
   ]
 }
