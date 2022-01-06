@@ -1,6 +1,7 @@
 import type { pluginSettings } from '../settings/pluginSettings';
 import * as settings from '../settings/settings';
 import fs = require('fs-extra');
+import * as path from 'path';
 
 class fileHandler {
   private _pluginSettings: pluginSettings;
@@ -26,11 +27,10 @@ class fileHandler {
   ): Promise<string> {
     await this.initialize();
     const targetFolder = await this.createArchiveFolderIfNotExists(
-      fileName,
       archivePath,
       dateTime
     );
-    var target = targetFolder + fileName;
+    var target = path.join(targetFolder, fileName);
     fs.rename(file, target);
     return target;
   }
@@ -40,23 +40,26 @@ class fileHandler {
   }
 
   public async createArchiveFolderIfNotExists(
-    fileName: string,
     archiveBaseFolder: string,
     dateTime: Date
   ): Promise<string> {
     await this.initialize();
+    let archiveDate: Date = null;
+    if (typeof dateTime === undefined || dateTime === null) {
+      archiveDate = new Date();
+    } else {
+      archiveDate = dateTime;
+    }
+    let target = 'no_date';
     try {
-      const year = dateTime.getFullYear();
-      const month = `${dateTime.getMonth() + 1 < 10 ? '0' : ''}${
-        dateTime.getMonth() + 1
+      const year = archiveDate.getFullYear();
+      const month = `${archiveDate.getMonth() + 1 < 10 ? '0' : ''}${
+        archiveDate.getMonth() + 1
       }`;
+      target = path.join(archiveBaseFolder, year.toString(), month);
     } catch (error) {
       console.info(`Date is not valid: ${dateTime}`);
     }
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = now.getMonth();
-    const target = archiveBaseFolder + `/${year}/${month}/`;
     fs.mkdirSync(target, { recursive: true });
     return target;
   }

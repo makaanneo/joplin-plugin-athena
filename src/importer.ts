@@ -113,7 +113,7 @@ class watchAndImport {
     const fntokenizer = new fileNameTokenizer();
     const tokens = await fntokenizer.tokenize(file);
     let noteDate = tokens.DateTime;
-    if (typeof noteDate === undefined || noteDate != null) {
+    if (typeof noteDate === undefined || noteDate === null) {
       noteDate = new Date();
     }
     if (
