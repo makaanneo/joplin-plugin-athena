@@ -1,3 +1,10 @@
+## [1.1.5](https://github.com/makaanneo/joplin-plugin-athena/compare/v1.1.4...v1.1.5) (2022-01-06)
+
+
+### Bug Fixes
+
+* **archive folder:** Fix issue with not correct used archive folder date ([69fb349](https://github.com/makaanneo/joplin-plugin-athena/commit/69fb34928fadb8b8c941e44b96ba3f3cc4dbc880))
+
 ## [1.1.4](https://github.com/makaanneo/joplin-plugin-athena/compare/v1.1.3...v1.1.4) (2022-01-05)
 
 
