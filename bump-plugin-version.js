@@ -11,8 +11,8 @@ function bumpVersion(manifestPath, destPath, version) {
 
 if (process.argv.length > 2) {
   bumpVersion(
-    'publish/io.github.makaanneo.Athena.json',
-    'publish/io.github.makaanneo.Athena.json',
+    'src/manifest.json',
+    'src/manifest.json',
     process.argv[2]
   );
 }
