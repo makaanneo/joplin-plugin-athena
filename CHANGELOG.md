@@ -1,3 +1,15 @@
+# [1.2.0](https://github.com/makaanneo/joplin-plugin-athena/compare/v1.1.5...v1.2.0) (2022-01-12)
+
+
+### Bug Fixes
+
+* wrong file for plugin manifest.json update ([a77bad6](https://github.com/makaanneo/joplin-plugin-athena/commit/a77bad67b86a5b2ede3772e2ece2d0b011bf5e37))
+
+
+### Features
+
+* Add proper config to update and commit plugin manifest with version ([fe04657](https://github.com/makaanneo/joplin-plugin-athena/commit/fe04657093d65d25783d9998a46f84f41dde66a8))
+
 ## [1.1.5](https://github.com/makaanneo/joplin-plugin-athena/compare/v1.1.4...v1.1.5) (2022-01-06)
 
 
