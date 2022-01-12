@@ -5,9 +5,13 @@
     "@semantic-release/release-notes-generator",
     "@semantic-release/changelog",
     "@semantic-release/npm",
-    "@semantic-release/git",
     ["@semantic-release/exec", {
-      "prepareCmd": "npm run bump-plugin-version -- ${nextRelease.version}"
+      "prepareCmd": "npm run bump-plugin-version -- ${nextRelease.version} && npm install",
     }],
+    ["@semantic-release/git", {
+      "assets": ["src/manifest.json", 'CHANGELOG.md', 'package.json', 'package-lock.json', 'npm-shrinkwrap.json'],
+    }],
+    "@semantic-release/github",
+
   ]
 }
