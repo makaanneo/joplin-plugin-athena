@@ -1,7 +1,6 @@
 import { noteBase } from '../note/note_base';
 import { importNoteData } from './importNoteData';
 import joplin from 'api';
-import * as fileType from 'file-type';
 import * as path from 'path';
 import { noteImportTemplate } from '../core/noteImportTemplate';
 import { pdfImportHandler } from '../mime_type_handler/pdf.import.handler';
@@ -12,7 +11,6 @@ class fileAsAttachment extends noteBase {
     noteTitle: string,
     noteFolder: string
   ): Promise<importNoteData> {
-    const mimeType = await fileType.fromFile(file);
     const fileName = path.basename(file);
     const resource = await this.createResources(file, noteTitle, fileName);
     if (resource.id) {
