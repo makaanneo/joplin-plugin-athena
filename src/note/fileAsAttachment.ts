@@ -12,7 +12,7 @@ class fileAsAttachment extends noteBase {
     noteFolder: string
   ): Promise<importNoteData> {
     const fileName = path.basename(file);
-    const resource = await this.createResources(file, noteTitle, fileName);
+    const resource = await this.createResources(file, fileName);
     if (resource.id) {
       const isPdf = resource.mime === 'application/pdf';
       let preparedNote: noteImportTemplate = null;
@@ -39,7 +39,6 @@ class fileAsAttachment extends noteBase {
 
   private async createResources(
     file: string,
-    title: string,
     fileName: string
   ): Promise<any> {
     try {
@@ -47,7 +46,7 @@ class fileAsAttachment extends noteBase {
         ['resources'],
         null,
         {
-          title: title,
+          title: fileName,
           fileName: fileName
         },
         [
