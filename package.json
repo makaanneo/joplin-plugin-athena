@@ -1,6 +1,6 @@
 {
   "name": "joplin-plugin-athena",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "scripts": {
     "dist": "npm run plugin-build && npm run plugin-extrascripts && npm run plugin-pack",
     "plugin-build": "webpack --config-name pluginConfig",

@@ -1,3 +1,10 @@
+## [1.2.1](https://github.com/makaanneo/joplin-plugin-athena/compare/v1.2.0...v1.2.1) (2022-01-14)
+
+
+### Bug Fixes
+
+* **import:** missing file extension on file name after import of resource ([65d20ee](https://github.com/makaanneo/joplin-plugin-athena/commit/65d20eefe0f07bf4f60802c34262d8acbb54ec0b))
+
 # [1.2.0](https://github.com/makaanneo/joplin-plugin-athena/compare/v1.1.5...v1.2.0) (2022-01-12)
 
 
