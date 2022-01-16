@@ -1,3 +1,16 @@
+# [1.5.0](https://github.com/makaanneo/joplin-plugin-athena/compare/v1.4.0...v1.5.0) (2022-01-16)
+
+
+### Bug Fixes
+
+* **security dependency:** bump versions ([01f6655](https://github.com/makaanneo/joplin-plugin-athena/commit/01f6655dc66370db533ba4079c6775784d6326db))
+* **version:** fix version ([dc045bf](https://github.com/makaanneo/joplin-plugin-athena/commit/dc045bfc676af11b71c719db3690a7f1eba3d542))
+
+
+### Features
+
+* security dependency bump ([37e6015](https://github.com/makaanneo/joplin-plugin-athena/commit/37e601562b5b6451d082413bf63708de077405b7))
+
 # [1.4.0](https://github.com/makaanneo/joplin-plugin-athena/compare/v1.3.0...v1.4.0) (2022-01-16)
 
 
