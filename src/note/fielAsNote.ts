@@ -18,7 +18,7 @@ class fielAsNote extends noteBase {
       return;
     }
     const hash = await super.buildFileHash(file);
-    let noteBody = fileBuffer.ToString();
+    let noteBody = fileBuffer;
     noteBody += await super.buildHashCommentBlock(hash);
     return {
       JoplinNote: await joplin.data.post(['notes'], null, {
