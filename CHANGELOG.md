@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/makaanneo/joplin-plugin-athena/compare/v1.2.1...v1.3.0) (2022-01-16)
+
+
+### Features
+
+* **text import:** fix error in text file import ([2f5c6fa](https://github.com/makaanneo/joplin-plugin-athena/commit/2f5c6fac9b12277917db4959f5b1f9cf6e001148))
+
 ## [1.2.1](https://github.com/makaanneo/joplin-plugin-athena/compare/v1.2.0...v1.2.1) (2022-01-14)
 
 
