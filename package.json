@@ -70,6 +70,7 @@
   },
   "overrides": {
     "marked": "^4.0.10",
+    "json-schema": "^0.4.0",
     "semantic-release": "^18.0.1",
     "marked-terminal": "^5.0.0"
   },
