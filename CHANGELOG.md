@@ -1,3 +1,10 @@
+## [1.5.1](https://github.com/makaanneo/joplin-plugin-athena/compare/v1.5.0...v1.5.1) (2022-01-16)
+
+
+### Bug Fixes
+
+* add new lines before add comment section in note ([f298d88](https://github.com/makaanneo/joplin-plugin-athena/commit/f298d8863dbc392ce5b9570aee54afcbf7c375ef))
+
 # [1.5.0](https://github.com/makaanneo/joplin-plugin-athena/compare/v1.4.0...v1.5.0) (2022-01-16)
 
 
