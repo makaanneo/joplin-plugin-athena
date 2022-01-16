@@ -4,6 +4,7 @@ import joplin from 'api';
 import * as path from 'path';
 import { noteImportTemplate } from '../core/noteImportTemplate';
 import { pdfImportHandler } from '../mime_type_handler/pdf.import.handler';
+import { EOL } from 'os';
 
 class fileAsAttachment extends noteBase {
   async import(
@@ -25,6 +26,8 @@ class fileAsAttachment extends noteBase {
         console.warn(`Tag in list: ${preparedNote.Tags[loop]}`);
       }
       const hash = await super.buildFileHash(file);
+      preparedNote.Body += EOL;
+      preparedNote.Body += EOL;
       preparedNote.Body += await super.buildHashCommentBlock(hash);
       return {
         JoplinNote: await joplin.data.post(['notes'], null, {
@@ -37,10 +40,7 @@ class fileAsAttachment extends noteBase {
     }
   }
 
-  private async createResources(
-    file: string,
-    fileName: string
-  ): Promise<any> {
+  private async createResources(file: string, fileName: string): Promise<any> {
     try {
       return await joplin.data.post(
         ['resources'],

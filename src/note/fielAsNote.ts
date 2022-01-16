@@ -2,6 +2,7 @@ import { noteBase } from '../note/note_base';
 import { importNoteData } from './importNoteData';
 import joplin from 'api';
 import fs = require('fs-extra');
+import { EOL } from 'os';
 
 class fielAsNote extends noteBase {
   async import(
@@ -19,6 +20,8 @@ class fielAsNote extends noteBase {
     }
     const hash = await super.buildFileHash(file);
     let noteBody = fileBuffer;
+    noteBody += EOL;
+    noteBody += EOL;
     noteBody += await super.buildHashCommentBlock(hash);
     return {
       JoplinNote: await joplin.data.post(['notes'], null, {
