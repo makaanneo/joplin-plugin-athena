@@ -17,9 +17,17 @@ And copy PDF files inside the import path to start working.
 
 This plugin is still in beta phase.
 
+Any PR / Issue / Discussion is welcome!
+
 ## License
 
 [MIT](LICENSE.md)
+
+## Thanks
+
+Basically, this plugin is inspired by:
+* [Resource Search Plugin](https://github.com/roman-r-m/joplin-plugin-resource-search)
+* [Hotfolder](https://github.com/JackGruber/joplin-plugin-hotfolder)
 
 ## Development
 
