@@ -26,8 +26,9 @@ Any PR / Issue / Discussion is welcome!
 ## Thanks
 
 Basically, this plugin is inspired by:
-* [Resource Search Plugin](https://github.com/roman-r-m/joplin-plugin-resource-search)
-* [Hotfolder](https://github.com/JackGruber/joplin-plugin-hotfolder)
+
+- [Resource Search Plugin](https://github.com/roman-r-m/joplin-plugin-resource-search)
+- [Hotfolder](https://github.com/JackGruber/joplin-plugin-hotfolder)
 
 ## Development
 
@@ -36,4 +37,4 @@ and [how to build](GENERATOR_DOC.md)
 
 ### webpack
 
-For this plugin webpack is updated to version 5. the [webpackconfig](webpack.config.js) is configured accordingy.
+For this plugin webpack is updated to version 5. the [webpackconfig](webpack.config.js) is configured accordingly.
