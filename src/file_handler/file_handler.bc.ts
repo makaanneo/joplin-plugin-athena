@@ -22,21 +22,26 @@ class fileHandler {
   public async archive_file(
     file: string,
     fileName: string,
-    archivePath: string,
-    dateTime: Date
+    archivePath: string
   ): Promise<string> {
     await this.initialize();
-    const targetFolder = await this.createArchiveFolderIfNotExists(
-      archivePath,
-      dateTime
-    );
-    var target = path.join(targetFolder, fileName);
-    fs.rename(file, target);
+    var target = path.join(archivePath, fileName);
+    fs.renameSync(file, target);
     return target;
   }
 
   public async clean_up_file(file: string): Promise<void> {
     fs.removeSync(file);
+  }
+
+  public async createDuplicateArchiveFolder(
+    archiveBaseFolder: string
+  ): Promise<string> {
+    const target = path.join(archiveBaseFolder, 'duplicate');
+    if (!(fs.pathExistsSync(target))) {
+      fs.mkdirSync(target, { recursive: true });
+    }
+    return target;
   }
 
   public async createArchiveFolderIfNotExists(
@@ -60,7 +65,10 @@ class fileHandler {
     } catch (error) {
       console.info(`Date is not valid: ${dateTime}`);
     }
-    fs.mkdirSync(target, { recursive: true });
+    if (!(fs.pathExistsSync(target))) {
+      console.log(`Create archive target: ${target}`);
+      fs.mkdirSync(target, { recursive: true });
+    }
     return target;
   }
 }

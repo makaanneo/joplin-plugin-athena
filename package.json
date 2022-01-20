@@ -71,7 +71,9 @@
   "overrides": {
     "marked": "^4.0.10",
     "json-schema": "^0.4.0",
-    "semantic-release": "^18.0.1"
+    "semantic-release": "^18.0.1",
+    "string-width": "^4.2.3",
+    "jsprim": "^1.4.2"
   },
   "dependencies": {
     "@babel/preset-typescript": "^7.16.7",
