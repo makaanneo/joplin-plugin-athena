@@ -1,3 +1,10 @@
+## [1.5.2](https://github.com/makaanneo/joplin-plugin-athena/compare/v1.5.1...v1.5.2) (2022-01-20)
+
+
+### Bug Fixes
+
+* **readme:** update readme ([6d0d607](https://github.com/makaanneo/joplin-plugin-athena/commit/6d0d6078acc156363f468d191f23d127f1ce3579))
+
 ## [1.5.1](https://github.com/makaanneo/joplin-plugin-athena/compare/v1.5.0...v1.5.1) (2022-01-16)
 
 
