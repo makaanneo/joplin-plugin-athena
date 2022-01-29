@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/makaanneo/joplin-plugin-athena/compare/v1.5.3...v1.6.0) (2022-01-29)
+
+
+### Features
+
+* **security:** bump versions ([23c8dc5](https://github.com/makaanneo/joplin-plugin-athena/commit/23c8dc5b28d98287955c751b75645fb018a7d59a))
+
 ## [1.5.3](https://github.com/makaanneo/joplin-plugin-athena/compare/v1.5.2...v1.5.3) (2022-01-20)
 
 
