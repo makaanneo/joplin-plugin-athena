@@ -1,6 +1,6 @@
 {
   "name": "joplin-plugin-athena",
-  "version": "1.5.1",
+  "version": "1.5.3",
   "scripts": {
     "dist": "npm run plugin-build && npm run plugin-extrascripts && npm run plugin-pack",
     "plugin-build": "webpack --config-name pluginConfig",
@@ -72,7 +72,9 @@
     "marked": "^4.0.10",
     "json-schema": "^0.4.0",
     "semantic-release": "^18.0.1",
-    "simple-get": "^4.0.1"
+    "simple-get": "^4.0.1",
+    "string-width": "^4.2.3",
+    "jsprim": "^1.4.2"
   },
   "dependencies": {
     "@babel/preset-typescript": "^7.16.7",

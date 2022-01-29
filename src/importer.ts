@@ -97,42 +97,42 @@ class watchAndImport {
       console.info(`SKIP: File: ${file} => Ignored by user ${ignoreFileUser}!`);
       return;
     }
-    if (duplicated) {
+    let noteDate = new Date(Date.now());
+    if (duplicated && !this._pluginSettings.importDuplicates) {
       console.info(`SKIP: File: ${file} => already imported!`);
-      return;
-    }
-    let nbBc = new notebookBc();
-    const importNotebookId = (
-      await nbBc.getNotebookByName(this._pluginSettings.importNotebook)
-    ).id;
-
-    const fileExt = path.extname(file);
-    let data = null;
-    const noteTitle = fileName.replace(fileExt, '');
-
-    const fntokenizer = new fileNameTokenizer();
-    const tokens = await fntokenizer.tokenize(file);
-    let noteDate = tokens.DateTime;
-    if (typeof noteDate === undefined || noteDate === null) {
-      noteDate = new Date();
-    }
-    if (
-      this._pluginSettings.extensionsAddAsText
-        .toLowerCase()
-        .split(/\s*,\s*/)
-        .indexOf(fileExt) !== -1
-    ) {
-      console.info('Import as Text');
-      const importer = new fielAsNote();
-      data = await importer.import(file, noteTitle, importNotebookId);
     } else {
-      console.info('Import as attachment');
+      let nbBc = new notebookBc();
+      const importNotebookId = (
+        await nbBc.getNotebookByName(this._pluginSettings.importNotebook)
+      ).id;
 
-      const importer = new fileAsAttachment();
-      data = await importer.import(file, noteTitle, importNotebookId);
+      const fileExt = path.extname(file);
+      let data = null;
+      const noteTitle = fileName.replace(fileExt, '');
+
+      const fntokenizer = new fileNameTokenizer();
+      const tokens = await fntokenizer.tokenize(file);
+      console.log(`Datetime from filename: ${tokens.DateTime}`);
+      if (typeof tokens.DateTime !== undefined && tokens.DateTime !== null) {
+        noteDate = tokens.DateTime;
+      }
+      if (
+        this._pluginSettings.extensionsAddAsText
+          .toLowerCase()
+          .split(/\s*,\s*/)
+          .indexOf(fileExt) !== -1
+      ) {
+        console.info('Import as Text');
+        const importer = new fielAsNote();
+        data = await importer.import(file, noteTitle, importNotebookId);
+      } else {
+        console.info('Import as attachment');
+
+        const importer = new fileAsAttachment();
+        data = await importer.import(file, noteTitle, importNotebookId);
+      }
+      this.tagNote(data, tokens.Tokens);
     }
-    this.tagNote(data, tokens.Tokens);
-
     this.archiveFile(file, fileName, duplicated, noteDate);
   }
 
@@ -167,14 +167,15 @@ class watchAndImport {
     if (this._pluginSettings.archiveImportedFiles) {
       let archiveTarget = '';
       if (!duplicated) {
-        archiveTarget = this._pluginSettings.archiveImportedFilesTarget;
+        archiveTarget= await fileHdl.createArchiveFolderIfNotExists(this._pluginSettings.archiveImportedFilesTarget, dateTime);
       } else {
         archiveTarget =
           this._pluginSettings.archiveImportedFilesTarget + '/duplicate';
-        fs.mkdirSync(archiveTarget, { recursive: true });
+        await fileHdl.createDuplicateArchiveFolder(archiveTarget);
       }
       try {
-        await fileHdl.archive_file(file, fileName, archiveTarget, dateTime);
+        console.log(`Archive file: ${fileName} to: ${archiveTarget}.`);
+        await fileHdl.archive_file(file, fileName, archiveTarget);
       } catch (e) {
         console.error(e);
         return;

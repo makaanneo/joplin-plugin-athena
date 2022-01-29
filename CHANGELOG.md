@@ -1,3 +1,17 @@
+## [1.5.3](https://github.com/makaanneo/joplin-plugin-athena/compare/v1.5.2...v1.5.3) (2022-01-20)
+
+
+### Bug Fixes
+
+* **duplicate handling:** Fix handling of duplicates ([53b4302](https://github.com/makaanneo/joplin-plugin-athena/commit/53b430224ae223f2a7050dcdd25aa813ec3e6330))
+
+## [1.5.2](https://github.com/makaanneo/joplin-plugin-athena/compare/v1.5.1...v1.5.2) (2022-01-20)
+
+
+### Bug Fixes
+
+* **readme:** update readme ([6d0d607](https://github.com/makaanneo/joplin-plugin-athena/commit/6d0d6078acc156363f468d191f23d127f1ce3579))
+
 ## [1.5.1](https://github.com/makaanneo/joplin-plugin-athena/compare/v1.5.0...v1.5.1) (2022-01-16)
 
 
