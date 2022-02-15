@@ -1,3 +1,10 @@
+# [1.7.0](https://github.com/makaanneo/joplin-plugin-athena/compare/v1.6.0...v1.7.0) (2022-02-15)
+
+
+### Features
+
+* **skippdfcontent:** Add new setting to skip pdf content on import and fix refresh issue ([#3](https://github.com/makaanneo/joplin-plugin-athena/issues/3),[#4](https://github.com/makaanneo/joplin-plugin-athena/issues/4)) ([1d381f1](https://github.com/makaanneo/joplin-plugin-athena/commit/1d381f12c4505049d717d10b5d4a1f5044089acd))
+
 # [1.6.0](https://github.com/makaanneo/joplin-plugin-athena/compare/v1.5.3...v1.6.0) (2022-01-29)
 
 
