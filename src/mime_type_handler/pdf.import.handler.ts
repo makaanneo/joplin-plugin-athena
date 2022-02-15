@@ -14,11 +14,16 @@ class pdfImportHandler extends baseHandler {
   public async importFile(
     file: string,
     noteTitle: string,
-    resource: any
+    resource: any,
+    skipPDFTextBody: boolean
   ): Promise<noteImportTemplate> {
-    const fullText = await pdf.extractPdfText(file);
+    let pdfFullText = '';
+    console.log(`Skip Content set: ${skipPDFTextBody}`);
+    if (skipPDFTextBody === false) {
+      pdfFullText = await pdf.extractPdfText(file);
+      console.log(`DO not Skip Content: ${pdfFullText}`);
+    }
     const metaInformation = await pdf.extractPdfMetadata(file);
-    const hash = await super.buildFileHash(file);
     const fileName = path.basename(file);
 
     console.log(
@@ -31,14 +36,14 @@ class pdfImportHandler extends baseHandler {
     console.log(
       `extracted text from ${resource.id}/${
         resource.title
-      }: ${fullText.substring(0, 100)}`
+      }: ${pdfFullText.substring(0, 100)}`
     );
     body += EOL;
     body += EOL;
     const pdfImporter = new pdfImportHandler();
     body += await pdfImporter.buildCommentBlockForNote(
       await pdfImporter.buildMetadataString(metaInformation),
-      fullText
+      pdfFullText
     );
     return {
       Body: body,

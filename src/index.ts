@@ -19,10 +19,12 @@ joplin.plugins.register({
     console.log(await settings.getImportSettings());
     joplin.settings.onChange(async (event: any) => {
       console.log('Settings changed');
+      await watcher.initialize(); // refreshes as well settings in object.
       await watcher.watchDirectory();
     });
     // register business logic
     console.info('Athena plugin start watching!');
+    await watcher.initialize();
     await watcher.watchDirectory();
   }
 });

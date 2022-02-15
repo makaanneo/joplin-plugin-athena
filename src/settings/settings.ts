@@ -128,6 +128,15 @@ export async function register(): Promise<void> {
       label: 'Force import of duplicates',
       description: 'Force import of duplicates.',
       advanced: true
+    },
+    skipPDFBodyText: {
+      value: false,
+      type: SettingItemType.Bool,
+      section: 'importerSection',
+      public: true,
+      label: 'Skip PDF Text body import',
+      description: 'PDF Text will be skipped on import.',
+      advanced: true
     }
   });
 }
@@ -162,6 +171,7 @@ export async function getImportSettings(): Promise<pluginSettings> {
     'tagNewFilesAsNewWithTag'
   );
   const importTags = await joplin.settings.value('importTags');
+  const skipPDFBodyText = await joplin.settings.value('skipPDFBodyText');
 
   return {
     importTags: importTags,
@@ -177,6 +187,7 @@ export async function getImportSettings(): Promise<pluginSettings> {
     archiveImportedFilesTarget: archiveImportedFilesTarget,
     tagNewFilesAsNew: tagNewFilesAsNew,
     tagNewFilesAsNewWithTag: tagNewFilesAsNewWithTag,
-    importDuplicates: importDuplicates
+    importDuplicates: importDuplicates,
+    skipPDFBodyText: skipPDFBodyText
   };
 }

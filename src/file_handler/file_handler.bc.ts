@@ -38,7 +38,7 @@ class fileHandler {
     archiveBaseFolder: string
   ): Promise<string> {
     const target = path.join(archiveBaseFolder, 'duplicate');
-    if (!(fs.pathExistsSync(target))) {
+    if (!fs.pathExistsSync(target)) {
       fs.mkdirSync(target, { recursive: true });
     }
     return target;
@@ -51,7 +51,7 @@ class fileHandler {
     await this.initialize();
     let archiveDate: Date = null;
     if (typeof dateTime === undefined || dateTime === null) {
-      archiveDate = new Date();
+      archiveDate = new Date(Date.now());
     } else {
       archiveDate = dateTime;
     }
@@ -65,7 +65,7 @@ class fileHandler {
     } catch (error) {
       console.info(`Date is not valid: ${dateTime}`);
     }
-    if (!(fs.pathExistsSync(target))) {
+    if (!fs.pathExistsSync(target)) {
       console.log(`Create archive target: ${target}`);
       fs.mkdirSync(target, { recursive: true });
     }

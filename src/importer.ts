@@ -24,7 +24,7 @@ class watchAndImport {
   /**
    * initialize the controller component.
    */
-  private async initialize() {
+  public async initialize() {
     try {
       this._pluginSettings = await settings.getImportSettings();
     } catch (error) {
@@ -116,6 +116,9 @@ class watchAndImport {
       if (typeof tokens.DateTime !== undefined && tokens.DateTime !== null) {
         noteDate = tokens.DateTime;
       }
+
+      const skipPDFBodyText = this._pluginSettings.skipPDFBodyText;
+
       if (
         this._pluginSettings.extensionsAddAsText
           .toLowerCase()
@@ -128,7 +131,7 @@ class watchAndImport {
       } else {
         console.info('Import as attachment');
 
-        const importer = new fileAsAttachment();
+        const importer = new fileAsAttachment(skipPDFBodyText);
         data = await importer.import(file, noteTitle, importNotebookId);
       }
       this.tagNote(data, tokens.Tokens);
@@ -167,7 +170,10 @@ class watchAndImport {
     if (this._pluginSettings.archiveImportedFiles) {
       let archiveTarget = '';
       if (!duplicated) {
-        archiveTarget= await fileHdl.createArchiveFolderIfNotExists(this._pluginSettings.archiveImportedFilesTarget, dateTime);
+        archiveTarget = await fileHdl.createArchiveFolderIfNotExists(
+          this._pluginSettings.archiveImportedFilesTarget,
+          dateTime
+        );
       } else {
         archiveTarget =
           this._pluginSettings.archiveImportedFilesTarget + '/duplicate';

@@ -7,6 +7,11 @@ import { pdfImportHandler } from '../mime_type_handler/pdf.import.handler';
 import { EOL } from 'os';
 
 class fileAsAttachment extends noteBase {
+
+  public constructor(readonly skipPDFTextBody: boolean) {
+    super();
+  }
+
   async import(
     file: string,
     noteTitle: string,
@@ -19,7 +24,7 @@ class fileAsAttachment extends noteBase {
       let preparedNote: noteImportTemplate = null;
       if (isPdf) {
         const pdfImport = new pdfImportHandler();
-        preparedNote = await pdfImport.importFile(file, noteTitle, resource);
+        preparedNote = await pdfImport.importFile(file, noteTitle, resource, this.skipPDFTextBody);
       }
 
       for (let loop: number = 0; loop <= preparedNote.Tags.length; loop++) {
