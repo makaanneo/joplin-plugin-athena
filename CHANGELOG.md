@@ -1,3 +1,10 @@
+# [1.8.0](https://github.com/makaanneo/joplin-plugin-athena/compare/v1.7.0...v1.8.0) (2022-02-18)
+
+
+### Features
+
+* **Duplicate files:** Handle duplicate duplicate files now correct ([f589fcc](https://github.com/makaanneo/joplin-plugin-athena/commit/f589fcc0737ce3c81acbc577f3c724be941b4f1c))
+
 # [1.7.0](https://github.com/makaanneo/joplin-plugin-athena/compare/v1.6.0...v1.7.0) (2022-02-15)
 
 
