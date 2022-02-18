@@ -25,8 +25,14 @@ class fileHandler {
     archivePath: string
   ): Promise<string> {
     await this.initialize();
-    var target = path.join(archivePath, fileName);
-    fs.renameSync(file, target);
+    let target = path.join(archivePath, fileName);
+    if (fs.existsSync(target)) {
+      const newFileName = `${fileName}${new Date(Date.now())}`;
+      target = path.join(archivePath, newFileName);
+      fs.moveSync(file, target, { overwrite: false });
+    } else {
+      fs.moveSync(file, target, { overwrite: false });
+    }
     return target;
   }
 
@@ -38,9 +44,7 @@ class fileHandler {
     archiveBaseFolder: string
   ): Promise<string> {
     const target = path.join(archiveBaseFolder, 'duplicate');
-    if (!fs.pathExistsSync(target)) {
-      fs.mkdirSync(target, { recursive: true });
-    }
+    fs.ensureDirSync(target);
     return target;
   }
 
@@ -65,10 +69,7 @@ class fileHandler {
     } catch (error) {
       console.info(`Date is not valid: ${dateTime}`);
     }
-    if (!fs.pathExistsSync(target)) {
-      console.log(`Create archive target: ${target}`);
-      fs.mkdirSync(target, { recursive: true });
-    }
+    fs.ensureDirSync(target);
     return target;
   }
 }
