@@ -75,6 +75,7 @@
     "simple-get": "^4.0.1",
     "string-width": "^4.2.3",
     "Minimist": "^1.2.6",
+    "ansi-regex": ">=3.0.1",
     "jsprim": "^1.4.2"
   },
   "dependencies": {
