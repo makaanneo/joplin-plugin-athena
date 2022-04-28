@@ -74,6 +74,7 @@
     "semantic-release": "^18.0.1",
     "simple-get": "^4.0.1",
     "string-width": "^4.2.3",
+    "Minimist": "^1.2.6",
     "jsprim": "^1.4.2"
   },
   "dependencies": {
