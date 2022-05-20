@@ -1,6 +1,7 @@
 import joplin from 'api';
 import { SettingItemType } from 'api/types';
 import type { pluginSettings } from './pluginSettings';
+import { ENABLE_DOCUMENT_FOLDER, ENABLE_CODE_FOLD } from './../common';
 
 export async function register(): Promise<void> {
   await joplin.settings.registerSection('importerSection', {
@@ -138,7 +139,7 @@ export async function register(): Promise<void> {
       description: 'PDF Text will be skipped on import.',
       advanced: true
     },
-    documentFold: {
+    enableDocumentFolder: {
       value: true,
       public: true,
       section: 'importerSection',
@@ -157,7 +158,6 @@ export async function getImportSettings(): Promise<pluginSettings> {
     'extensionsAddAsText'
   );
 
-  const selectedFolder = await joplin.workspace.selectedFolder();
   const importNotebook = await joplin.settings.value('importNotebook');
   const importPath = await joplin.settings.value('importPath');
   const importWithFolders = false; //await joplin.settings.value('importWithFolders');

@@ -345,12 +345,17 @@ function buildExtraScriptConfigs(userConfig) {
   console.log('Add extra script and config.');
   for (const scriptName of userConfig.extraScripts) {
     const scriptPaths = resolveExtraScriptPath(scriptName);
+    console.log(scriptPaths);
     output.push(
       Object.assign({}, extraScriptConfig, {
         entry: scriptPaths.entry,
         output: scriptPaths.output
       })
     );
+  }
+
+  for (const outputObject of output) {
+    console.log(JSON.stringify(outputObject));
   }
   return output;
 }

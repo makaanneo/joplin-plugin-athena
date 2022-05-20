@@ -2,7 +2,7 @@ import joplin from 'api';
 import * as settings from './settings/settings';
 import { watchAndImport } from './importer';
 import { ContentScriptType } from 'api/types';
-import { ENABLE_DOCUMENT_FOLDER, ENABLE_CODE_FOLD } from './common';
+import { ENABLE_DOCUMENT_FOLDER } from './common';
 
 joplin.plugins.register({
   onStart: async function () {
@@ -10,16 +10,6 @@ joplin.plugins.register({
     // register settings
     await settings.register();
     const documentFolder = await joplin.settings.value(ENABLE_DOCUMENT_FOLDER);
-    const enableCodeFolder = await joplin.settings.value(ENABLE_CODE_FOLD);
-
-    if (enableCodeFolder) {
-      // register extra scripts
-      await joplin.contentScripts.register(
-        ContentScriptType.CodeMirrorPlugin,
-        'markdownFolding',
-        './driver/codemirror/fold/markdownFolding.js'
-      );
-    }
 
     if (documentFolder) {
       await joplin.contentScripts.register(
