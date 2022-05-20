@@ -1,3 +1,6 @@
 {
-	"extraScripts": ["codeMirror/markdownFolding.ts"]
+	"extraScripts": [
+		"driver/codemirror/fold/markdownFolding.ts",
+		"driver/codemirror/documentFolder/index.ts"
+	]
 }
