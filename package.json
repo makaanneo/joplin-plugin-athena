@@ -79,7 +79,6 @@
     "Minimist": "^1.2.6",
     "ansi-regex": ">=3.0.1",
     "jsprim": "^1.4.2",
-    "jest": "^28.1.0"
   },
   "dependencies": {
     "@babel/preset-typescript": "^7.16.7",
