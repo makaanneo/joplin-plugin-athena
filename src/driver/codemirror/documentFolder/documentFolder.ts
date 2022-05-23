@@ -20,7 +20,7 @@ export default class DocumentFolder {
     const doc = this.editor.getDoc();
     const cursor = this.editor.getCursor();
 
-    let meetMermaid = false;
+    let meetDocument = false;
     let from;
     let blockType = 'document';
     doc.eachLine((line) => {
@@ -33,17 +33,17 @@ export default class DocumentFolder {
 
       for (const [tokenIndex, token] of lineTokens.entries()) {
         if (!token.type?.includes('line-cm-jn-code-block')) {
-          if (!meetMermaid) {
+          if (!meetDocument) {
             continue;
           }
         } else {
-          if (!meetMermaid && token.string.includes('document')) {
-            meetMermaid = true;
+          if (!meetDocument && token.string.includes('document')) {
+            meetDocument = true;
             from = { line: lineNo, ch: token.start };
             blockType = 'document';
           } else if (token.string.endsWith('```')) {
-            if (!meetMermaid) continue;
-            meetMermaid = false;
+            if (!meetDocument) continue;
+            meetDocument = false;
 
             // not fold when it is folded ?
             if (
@@ -89,7 +89,7 @@ export default class DocumentFolder {
     const markEl = document.createElement('i');
     markEl.classList.add(MARKER_CLASS_NAME);
     markEl.textContent = `==> folded ${blockType} block <==`;
-    markEl.style.cssText = 'color: darkgray;';
+    markEl.style.cssText = 'color: var(--joplin-color);';
     return markEl;
   }
 }

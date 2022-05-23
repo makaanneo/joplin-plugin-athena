@@ -45,6 +45,7 @@ class watchAndImport {
         watcher = [];
       }
       let chokidarWatcher = null;
+      const ownObject = this;
       try {
         chokidarWatcher = chokidar
           .watch(this._pluginSettings.importPath, {
@@ -58,7 +59,7 @@ class watchAndImport {
           })
           .on('add', async function on(path) {
             console.log('watchAndImport File', path, 'has been added');
-            await this.processFile(path);
+            await ownObject.processFile(path);
           });
       } catch (error) {
         console.error(error);

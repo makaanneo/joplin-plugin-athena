@@ -7,7 +7,6 @@ import { pdfImportHandler } from '../mime_type_handler/pdf.import.handler';
 import { EOL } from 'os';
 
 class fileAsAttachment extends noteBase {
-
   public constructor(readonly skipPDFTextBody: boolean) {
     super();
   }
@@ -24,10 +23,14 @@ class fileAsAttachment extends noteBase {
       let preparedNote: noteImportTemplate = null;
       if (isPdf) {
         const pdfImport = new pdfImportHandler();
-        preparedNote = await pdfImport.importFile(file, noteTitle, resource, this.skipPDFTextBody);
+        preparedNote = await pdfImport.importFile(
+          file,
+          noteTitle,
+          resource,
+          this.skipPDFTextBody
+        );
       }
-
-      for (let loop: number = 0; loop <= preparedNote.Tags.length; loop++) {
+      for (let loop = 0; loop <= preparedNote.Tags.length; loop++) {
         console.warn(`Tag in list: ${preparedNote.Tags[loop]}`);
       }
       const hash = await super.buildFileHash(file);

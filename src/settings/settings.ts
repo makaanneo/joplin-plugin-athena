@@ -1,7 +1,7 @@
 import joplin from 'api';
 import { SettingItemType } from 'api/types';
 import type { pluginSettings } from './pluginSettings';
-import { ENABLE_DOCUMENT_FOLDER, ENABLE_CODE_FOLD } from './../common';
+import { ENABLE_DOCUMENT_FOLDER } from './../common';
 
 export async function register(): Promise<void> {
   await joplin.settings.registerSection('importerSection', {

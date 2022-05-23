@@ -315,28 +315,6 @@ const createArchiveConfig = {
   ]
 };
 
-function resolveExtraScriptPath(name) {
-  const relativePath = `./src/${name}`;
-
-  const fullPath = path.resolve(`${rootDir}/${relativePath}`);
-  if (!fs.pathExistsSync(fullPath))
-    throw new Error(`Could not find extra script: "${name}" at "${fullPath}"`);
-
-  const s = name.split('.');
-  s.pop();
-  const nameNoExt = s.join('.');
-
-  return {
-    entry: relativePath,
-    output: {
-      path: distDir,
-      library: 'default',
-      libraryTarget: 'commonjs',
-      libraryExport: 'default'
-    }
-  };
-}
-
 function buildWebpackConfiguration(extraScripts) {
   const entriesForEntry = {};
   for (const name of extraScripts) {
