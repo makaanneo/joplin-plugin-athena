@@ -329,7 +329,33 @@ function resolveExtraScriptPath(name) {
   return {
     entry: relativePath,
     output: {
-      filename: `${nameNoExt}.js`,
+      path: distDir,
+      library: 'default',
+      libraryTarget: 'commonjs',
+      libraryExport: 'default'
+    }
+  };
+}
+
+function buildWebpackConfiguration(extraScripts) {
+  const entriesForEntry = {};
+  for (const name of extraScripts) {
+    const relativePath = `./src/${name}`;
+
+    const fullPath = path.resolve(`${rootDir}/${relativePath}`);
+    if (!fs.pathExistsSync(fullPath))
+      throw new Error(
+        `Could not find extra script: "${name}" at "${fullPath}"`
+      );
+
+    const s = name.split('.');
+    s.pop();
+    const nameNoExt = s.join('.');
+    entriesForEntry[nameNoExt] = relativePath;
+  }
+  return {
+    entry: entriesForEntry,
+    output: {
       path: distDir,
       library: 'default',
       libraryTarget: 'commonjs',
@@ -343,20 +369,14 @@ function buildExtraScriptConfigs(userConfig) {
 
   const output = [];
   console.log('Add extra script and config.');
-  for (const scriptName of userConfig.extraScripts) {
-    const scriptPaths = resolveExtraScriptPath(scriptName);
-    console.log(scriptPaths);
-    output.push(
-      Object.assign({}, extraScriptConfig, {
-        entry: scriptPaths.entry,
-        output: scriptPaths.output
-      })
-    );
-  }
+  const scriptPaths = buildWebpackConfiguration(userConfig.extraScripts);
+  output.push(
+    Object.assign({}, extraScriptConfig, {
+      entry: scriptPaths.entry,
+      output: scriptPaths.output
+    })
+  );
 
-  for (const outputObject of output) {
-    console.log(JSON.stringify(outputObject));
-  }
   return output;
 }
 
