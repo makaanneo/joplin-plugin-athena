@@ -78,7 +78,7 @@
     "string-width": "^5.1.2",
     "Minimist": "^1.2.6",
     "ansi-regex": ">=3.0.1",
-    "jsprim": "^1.4.2",
+    "jsprim": "^1.4.2"
   },
   "dependencies": {
     "@babel/preset-typescript": "^7.16.7",
