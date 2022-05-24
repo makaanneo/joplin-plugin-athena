@@ -1,16 +1,3 @@
-# [1.9.0](https://github.com/makaanneo/joplin-plugin-athena/compare/v1.8.0...v1.9.0) (2022-05-23)
-
-
-### Bug Fixes
-
-* dependency ([751276c](https://github.com/makaanneo/joplin-plugin-athena/commit/751276cc6c1949c84673cc4d9bbf717220288b22))
-* typo ([da97a25](https://github.com/makaanneo/joplin-plugin-athena/commit/da97a258b64a0ae0a97cc36af8ae8bff798bb6d4))
-
-
-### Features
-
-* **some refactorings:** update dependencies and refactor ([ba42b7d](https://github.com/makaanneo/joplin-plugin-athena/commit/ba42b7ddf13a91a115ebbca1992fd970bcddbdac))
-
 # [1.8.0](https://github.com/makaanneo/joplin-plugin-athena/compare/v1.7.0...v1.8.0) (2022-02-18)
 
 

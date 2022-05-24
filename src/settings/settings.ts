@@ -1,7 +1,6 @@
 import joplin from 'api';
 import { SettingItemType } from 'api/types';
 import type { pluginSettings } from './pluginSettings';
-import { ENABLE_DOCUMENT_FOLDER } from './../common';
 
 export async function register(): Promise<void> {
   await joplin.settings.registerSection('importerSection', {
@@ -138,15 +137,6 @@ export async function register(): Promise<void> {
       label: 'Skip PDF Text body import',
       description: 'PDF Text will be skipped on import.',
       advanced: true
-    },
-    enableDocumentFolder: {
-      value: true,
-      public: true,
-      section: 'importerSection',
-      type: SettingItemType.Bool,
-      label: 'Enable "Auto fold document block in editor"',
-      description:
-        'Fold document block in editor for better view. (requires restart)'
     }
   });
 }
@@ -158,6 +148,7 @@ export async function getImportSettings(): Promise<pluginSettings> {
     'extensionsAddAsText'
   );
 
+  const selectedFolder = await joplin.workspace.selectedFolder();
   const importNotebook = await joplin.settings.value('importNotebook');
   const importPath = await joplin.settings.value('importPath');
   const importWithFolders = false; //await joplin.settings.value('importWithFolders');

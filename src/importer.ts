@@ -3,6 +3,7 @@ import * as filePattern from './core/filePattern';
 import * as path from 'path';
 import * as helper from './core/helper';
 import * as settings from './settings/settings';
+import fs = require('fs-extra');
 import { notebookBc } from './notebooks/notebook.bc';
 import { fileHandler } from './file_handler/file_handler.bc';
 import { fileNameTokenizer } from './file_handler/file_name_tokenizer';
@@ -37,6 +38,7 @@ class watchAndImport {
       ? this._pluginSettings.importRecursiveDepth
       : 0;
     if (this._pluginSettings.importPath.trim() !== '') {
+      const ownObject = this;
       if (watcher.length > 0) {
         watcher.forEach(async (element) => {
           console.log(`End watching directory: ${element}`);
@@ -45,7 +47,6 @@ class watchAndImport {
         watcher = [];
       }
       let chokidarWatcher = null;
-      const ownObject = this;
       try {
         chokidarWatcher = chokidar
           .watch(this._pluginSettings.importPath, {
@@ -100,7 +101,7 @@ class watchAndImport {
     if (duplicated && !this._pluginSettings.importDuplicates) {
       console.info(`SKIP: File: ${file} => already imported!`);
     } else {
-      const nbBc = new notebookBc();
+      let nbBc = new notebookBc();
       const importNotebookId = (
         await nbBc.getNotebookByName(this._pluginSettings.importNotebook)
       ).id;
