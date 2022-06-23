@@ -1,3 +1,10 @@
+## [1.9.2](https://github.com/makaanneo/joplin-plugin-athena/compare/v1.9.1...v1.9.2) (2022-06-23)
+
+
+### Bug Fixes
+
+* **tags:** fix issue with add tags. ([4732003](https://github.com/makaanneo/joplin-plugin-athena/commit/4732003719122aa43177a863319aaf7019dcb545))
+
 ## [1.9.1](https://github.com/makaanneo/joplin-plugin-athena/compare/v1.9.0...v1.9.1) (2022-06-23)
 
 
