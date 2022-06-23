@@ -37,7 +37,7 @@ export async function getTagId(tag: string): Promise<string> {
     return '';
   }
   console.info(`search for tags: ${tag}`);
-  const query = await joplin.data.get(['tags']);
+  const query = (await joplin.data.get(['tags'])).items;
 
   console.log(`Look for Tag: ${tag}.`);
   const result = query.filter((x: { title: string }) => x.title == tag);
