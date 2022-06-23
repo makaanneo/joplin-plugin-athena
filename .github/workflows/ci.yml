@@ -13,7 +13,7 @@ jobs:
           cache: npm
           node-version: 16
       - name: CI build
-        run: npm ci
+        run: npm install
         id: plugin-build
       - name: Publish Plugin
         run: npx semantic-release
