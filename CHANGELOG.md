@@ -1,3 +1,12 @@
+## [1.9.1](https://github.com/makaanneo/joplin-plugin-athena/compare/v1.9.0...v1.9.1) (2022-06-23)
+
+
+### Bug Fixes
+
+* **ci:** fix command ([baa4fe8](https://github.com/makaanneo/joplin-plugin-athena/commit/baa4fe846f6f9ff54abe2fdba0535476ab8db4be))
+* **package-lock:** fix out of sync ([3d61354](https://github.com/makaanneo/joplin-plugin-athena/commit/3d613541d9fa30705b3f7cc03cb641545f423691))
+* **tokenizer, tags:** Issue with tags solved, solved tokenizer ignore only number segments. ([78fd51e](https://github.com/makaanneo/joplin-plugin-athena/commit/78fd51e101076215ca4100beedaaa7b82b0370b5))
+
 # [1.8.0](https://github.com/makaanneo/joplin-plugin-athena/compare/v1.7.0...v1.8.0) (2022-02-18)
 
 
