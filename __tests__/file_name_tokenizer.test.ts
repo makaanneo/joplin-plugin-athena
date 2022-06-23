@@ -48,6 +48,17 @@ describe('Tokenize filesnames without date', function () {
     const actual: fileNameTokens = await sut.tokenize(`test[file, name].pdf`);
     expect(actual).toEqual(expected);
   });
+  it(`should tokenize: test-12345545-test123.pdf and return date now`, async () => {
+    const sut = new fileNameTokenizer();
+    const expected: fileNameTokens = {
+      DateTime: mockDateNow,
+      Tokens: ['test', 'test123']
+    };
+    const actual: fileNameTokens = await sut.tokenize(
+      `test-12345545-test123.pdf`
+    );
+    expect(actual).toEqual(expected);
+  });
 });
 
 describe('Tokenize filesnames with date', function () {
@@ -100,5 +111,15 @@ describe('Tokenize filesnames with date', function () {
     expect(
       await sut.tokenize(`29101-01-01-test_file_name 2345/12/41.pdf`)
     ).not.toEqual(expected);
+  });
+  it(`should handle number tokens: 2099-12-12-test_file123-2934_name.pdf`, async () => {
+    const sut = new fileNameTokenizer();
+    const expected: fileNameTokens = {
+      DateTime: new Date('2099-12-12T00:00:00.000Z'),
+      Tokens: ['test', 'file123', 'name']
+    };
+    expect(await sut.tokenize(`2099-12-12-test_file123-2934_name.pdf`)).toEqual(
+      expected
+    );
   });
 });

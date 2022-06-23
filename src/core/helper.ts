@@ -37,22 +37,20 @@ export async function getTagId(tag: string): Promise<string> {
     return '';
   }
   console.info(`search for tags: ${tag}`);
-  const query = await joplin.data.get(['search'], {
-    query: tag,
-    type: 'tag',
-    fields: 'id,title'
-  });
-  if (query.items.length === 0) {
-    console.log("Create tag '" + tag + "'");
-    const newTag = await joplin.data.post(['tags'], null, {
-      title: tag
-    });
-    return newTag.id;
-  } else if (query.items.length === 1) {
-    return query.items[0].id;
+  const query = await joplin.data.get(['tags']);
+
+  console.log(`Look for Tag: ${tag}.`);
+  const result = query.filter((x: { title: string }) => x.title == tag);
+  let tagId = '';
+  if (result.length === 0) {
+    console.log(`Tag: ${tag} not found in joplin will create new one.`);
+    tagId = (
+      await joplin.data.post(['tags'], null, {
+        title: tag
+      })
+    ).id;
   } else {
-    console.error('More than one tag match!');
-    console.error(query);
-    return null;
+    tagId = result[0].id;
   }
+  return tagId;
 }

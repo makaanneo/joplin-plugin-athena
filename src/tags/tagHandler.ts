@@ -2,6 +2,7 @@ import type { pluginSettings } from '../settings/pluginSettings';
 import * as settings from '../settings/settings';
 import crypto = require('crypto');
 import fs = require('fs-extra');
+import joplin from 'api';
 
 class tagHandler {
   private _pluginSettings: pluginSettings;
@@ -18,13 +19,6 @@ class tagHandler {
     } catch (error) {
       console.error(error);
     }
-  }
-
-  public async buildFileHash(filePath: string): Promise<string> {
-    const fileBuffer = fs.readFileSync(filePath);
-    const hash = crypto.createHash('sha512');
-    hash.update(fileBuffer);
-    return hash.digest('hex');
   }
 }
 export { tagHandler };
