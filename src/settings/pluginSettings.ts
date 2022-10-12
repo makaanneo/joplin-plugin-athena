@@ -14,6 +14,7 @@ interface pluginSettings {
   tagNewFilesAsNewWithTag: string;
   importDuplicates: boolean;
   skipPDFBodyText: boolean;
+  enableTagExtract: boolean;
 }
 
 export { pluginSettings };

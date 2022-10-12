@@ -54,6 +54,20 @@ abstract class noteBase implements noteBuilder {
     return hash.digest('hex');
   }
 
+  protected async buildFrontMatter(items: Array<[string, string]>): Promise<string> {
+    const startTag = '---';
+    const endTag = '---'
+    let frontMatterBlock = '';
+    frontMatterBlock += startTag;
+    items.forEach(element => {
+      frontMatterBlock += element[0];
+      frontMatterBlock += ' '
+      frontMatterBlock += element[1];
+    });
+    frontMatterBlock += endTag;
+    return frontMatterBlock;
+  }
+
   protected async buildHashCommentBlock(hash: string): Promise<string> {
     const startTag = '<!--';
     const endTag = '-->';

@@ -152,7 +152,7 @@ class watchAndImport {
       if (this._pluginSettings.tagNewFilesAsNew) {
         tags.push(this._pluginSettings.tagNewFilesAsNewWithTag);
       }
-      if (tokens.length > 0) {
+      if (tokens.length > 0 && this._pluginSettings.enableTagExtract) {
         tags = [...new Set(tags), ...new Set(tokens)];
       }
       console.log(`Tags to apply: ${tags}`);

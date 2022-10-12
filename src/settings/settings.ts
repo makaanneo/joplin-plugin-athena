@@ -147,6 +147,15 @@ export async function register(): Promise<void> {
       label: 'Enable "Auto fold document block in editor"',
       description:
         'Fold document block in editor for better view. (requires restart)'
+    },
+    enableTagExtract: {
+      value: false,
+      public: true,
+      section: 'importerSection',
+      type: SettingItemType.Bool,
+      label: 'Enable tag extractor"',
+      description:
+        'Enable tag extraction from file name (experimentag)'
     }
   });
 }
@@ -181,6 +190,7 @@ export async function getImportSettings(): Promise<pluginSettings> {
   );
   const importTags = await joplin.settings.value('importTags');
   const skipPDFBodyText = await joplin.settings.value('skipPDFBodyText');
+  const enableTagExtract = await joplin.settings.value('enableTagExtract');
 
   return {
     importTags: importTags,
@@ -197,6 +207,7 @@ export async function getImportSettings(): Promise<pluginSettings> {
     tagNewFilesAsNew: tagNewFilesAsNew,
     tagNewFilesAsNewWithTag: tagNewFilesAsNewWithTag,
     importDuplicates: importDuplicates,
-    skipPDFBodyText: skipPDFBodyText
+    skipPDFBodyText: skipPDFBodyText,
+    enableTagExtract: enableTagExtract
   };
 }
