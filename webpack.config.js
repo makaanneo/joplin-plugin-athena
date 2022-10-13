@@ -204,7 +204,9 @@ function onBuildCompleted() {
   try {
     fs.removeSync(path.resolve(publishDir, 'index.js'));
     fs.removeSync(path.resolve(distDir, '__tests__'));
+    fs.removeSync(path.resolve(distDir, 'coverage'));
     fs.removeSync(path.resolve(publishDir, '__tests__'));
+    fs.removeSync(path.resolve(publishDir, 'coverage'));
     createPluginArchive(distDir, pluginArchiveFilePath);
     createPluginInfo(manifestPath, pluginInfoFilePath, pluginArchiveFilePath);
     validatePackageJson();
@@ -270,7 +272,8 @@ const pluginConfig = Object.assign({}, baseConfig, {
               // already copied into /dist so we don't copy them.
               '**/*.ts',
               '**/*.tsx',
-              '**/__tests__/*'
+              '**/__tests__/*',
+              '**/coverage/*'
             ]
           }
         }
