@@ -138,15 +138,6 @@ export async function register(): Promise<void> {
       label: 'Skip PDF Text body import',
       description: 'PDF Text will be skipped on import.',
       advanced: true
-    },
-    enableDocumentFolder: {
-      value: true,
-      public: true,
-      section: 'importerSection',
-      type: SettingItemType.Bool,
-      label: 'Enable "Auto fold document block in editor"',
-      description:
-        'Fold document block in editor for better view. (requires restart)'
     }
   });
 }
