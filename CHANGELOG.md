@@ -1,3 +1,10 @@
+## [1.9.3](https://github.com/makaanneo/joplin-plugin-athena/compare/v1.9.2...v1.9.3) (2022-10-13)
+
+
+### Performance Improvements
+
+* **tags:** remove tag option importags ([8453ed3](https://github.com/makaanneo/joplin-plugin-athena/commit/8453ed3e040cb91f0a46b74e258fcd7735da4e70))
+
 ## [1.9.2](https://github.com/makaanneo/joplin-plugin-athena/compare/v1.9.1...v1.9.2) (2022-06-23)
 
 
