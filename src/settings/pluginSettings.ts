@@ -1,7 +1,6 @@
 interface pluginSettings {
   extensionsAddAsText: string;
   ignoreFiles: string;
-  importTags: string;
   importPath: string;
   importWithFolders: boolean;
   extractTagsFromFile: boolean;
@@ -14,7 +13,6 @@ interface pluginSettings {
   tagNewFilesAsNewWithTag: string;
   importDuplicates: boolean;
   skipPDFBodyText: boolean;
-  enableTagExtract: boolean;
 }
 
 export { pluginSettings };

@@ -17,7 +17,8 @@ export async function register(): Promise<void> {
       type: SettingItemType.String,
       section: 'importerSection',
       public: true,
-      label: 'Import Path'
+      label: 'Import Path',
+      description: 'Directory to monitor for import new files.'
     },
     ignoreFiles: {
       value: '.*',
@@ -45,14 +46,6 @@ export async function register(): Promise<void> {
       description:
         'If no notebook is specified, the import is made to the current notebook.'
     },
-    importTags: {
-      value: '',
-      type: SettingItemType.String,
-      section: 'importerSection',
-      public: true,
-      label: 'Tags',
-      description: 'Comma separated list of tags to be added to the note.'
-    },
     extractTagsFromFile: {
       value: false,
       type: SettingItemType.Bool,
@@ -60,7 +53,7 @@ export async function register(): Promise<void> {
       public: true,
       label: 'Extract Tags from file',
       description:
-        'Extract Tags from file, for pdf use as well keywords from metadata.',
+        'Experiementel: Try to extract tags from file name and pdf file meta data. (Alpha)',
       advanced: true
     },
     importRecursive: {
@@ -112,11 +105,11 @@ export async function register(): Promise<void> {
       advanced: true
     },
     tagNewFilesAsNewWithTag: {
-      value: 'paperless:new_file',
+      value: 'document: new_file',
       type: SettingItemType.String,
       section: 'importerSection',
       public: true,
-      label: 'Spezial new-file tag value',
+      label: 'Tag imported file with value',
       description:
         'Tag new files automatically with a special tag to identify for later processing.',
       advanced: true
@@ -147,15 +140,6 @@ export async function register(): Promise<void> {
       label: 'Enable "Auto fold document block in editor"',
       description:
         'Fold document block in editor for better view. (requires restart)'
-    },
-    enableTagExtract: {
-      value: false,
-      public: true,
-      section: 'importerSection',
-      type: SettingItemType.Bool,
-      label: 'Enable tag extractor"',
-      description:
-        'Enable tag extraction from file name (experimentag)'
     }
   });
 }
@@ -188,12 +172,9 @@ export async function getImportSettings(): Promise<pluginSettings> {
   const tagNewFilesAsNewWithTag = await joplin.settings.value(
     'tagNewFilesAsNewWithTag'
   );
-  const importTags = await joplin.settings.value('importTags');
   const skipPDFBodyText = await joplin.settings.value('skipPDFBodyText');
-  const enableTagExtract = await joplin.settings.value('enableTagExtract');
 
   return {
-    importTags: importTags,
     extensionsAddAsText: extensionsAddAsText,
     ignoreFiles: ignoreFiles,
     importPath: importPath,
@@ -207,7 +188,6 @@ export async function getImportSettings(): Promise<pluginSettings> {
     tagNewFilesAsNew: tagNewFilesAsNew,
     tagNewFilesAsNewWithTag: tagNewFilesAsNewWithTag,
     importDuplicates: importDuplicates,
-    skipPDFBodyText: skipPDFBodyText,
-    enableTagExtract: enableTagExtract
+    skipPDFBodyText: skipPDFBodyText
   };
 }

@@ -78,8 +78,7 @@ class watchAndImport {
     const fileName = path.basename(file);
 
     console.log(
-      `Path from ${
-        this._pluginSettings.importPath
+      `Path from ${this._pluginSettings.importPath
       } to ${file} is relative ${path.relative(
         this._pluginSettings.importPath,
         file
@@ -145,14 +144,11 @@ class watchAndImport {
       this._pluginSettings.extractTagsFromFile ||
       this._pluginSettings.tagNewFilesAsNew
     ) {
-      if (this._pluginSettings.importTags !== '') {
-        tags.push(this._pluginSettings.importTags);
-      }
       tags = [...new Set(note.Tags), ...note.Tags];
       if (this._pluginSettings.tagNewFilesAsNew) {
         tags.push(this._pluginSettings.tagNewFilesAsNewWithTag);
       }
-      if (tokens.length > 0 && this._pluginSettings.enableTagExtract) {
+      if (tokens.length > 0 && !this._pluginSettings.extractTagsFromFile) {
         tags = [...new Set(tags), ...new Set(tokens)];
       }
       console.log(`Tags to apply: ${tags}`);
