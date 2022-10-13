@@ -120,6 +120,7 @@ function createPluginArchive(sourceDir, destPath) {
       strict: true,
       portable: true,
       file: destPath,
+      filter: (path) => tarFilter(path),
       cwd: sourceDir,
       sync: true
     },
@@ -127,6 +128,16 @@ function createPluginArchive(sourceDir, destPath) {
   );
 
   console.info(chalk.cyan(`Plugin archive has been created in ${destPath}`));
+}
+
+const ignoreFilesForPluginArchive = ['bump-plugin-version.d.ts','emptyContentScript.d.ts','jest.config.d.ts' , 'webpack.config.d.ts']
+
+function tarFilter(path) {
+  if (ignoreFilesForPluginArchive.includes(path)) {
+    console.warn(`Path ${path} will be ignored!`);
+    return false;
+  }
+  return true;
 }
 
 function createPluginInfo(manifestPath, destPath, jplFilePath) {
@@ -278,6 +289,17 @@ const extraScriptConfig = Object.assign({}, baseConfig, {
   }
 });
 
+const emptyContentScript = Object.assign({}, baseConfig, {
+  name: 'attachContentScripts',
+  entry: './emptyContentScript.js',
+  resolve: {
+    alias: {
+      api: path.resolve(__dirname, 'api')
+    },
+    extensions: ['.tsx', '.ts', '.js', '.json']
+  }
+});
+
 const createArchiveConfig = {
   stats: 'errors-only',
   name: 'createArchiveConfig',
@@ -343,7 +365,7 @@ function buildWebpackConfiguration(extraScripts) {
 }
 
 function buildExtraScriptConfigs(userConfig) {
-  if (!userConfig.extraScripts.length) return [];
+  if (!userConfig.extraScripts.length) return [emptyContentScript];
 
   const output = [];
   console.log('Add extra script and config.');

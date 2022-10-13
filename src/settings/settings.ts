@@ -1,7 +1,6 @@
 import joplin from 'api';
 import { SettingItemType } from 'api/types';
 import type { pluginSettings } from './pluginSettings';
-import { ENABLE_DOCUMENT_FOLDER } from './../common';
 
 export async function register(): Promise<void> {
   await joplin.settings.registerSection('importerSection', {
@@ -19,6 +18,14 @@ export async function register(): Promise<void> {
       public: true,
       label: 'Import Path',
       description: 'Directory to monitor for import new files.'
+    },
+    autoImportFiles: {
+      value: false,
+      type: SettingItemType.Bool,
+      section: 'importerSection',
+      public: true,
+      label: 'Auto import new files from monitored directory.',
+      description: 'Auto import new files from monitored Directory.'
     },
     ignoreFiles: {
       value: '.*',
@@ -99,7 +106,7 @@ export async function register(): Promise<void> {
       type: SettingItemType.Bool,
       section: 'importerSection',
       public: true,
-      label: 'Spezial new-file tag',
+      label: 'Add tags to imported files',
       description:
         'Tag new files automatically with a special tag to identify for later processing.',
       advanced: true
