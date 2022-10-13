@@ -7,7 +7,11 @@ export async function register(): Promise<void> {
     label: 'Athena',
     iconName: 'fas fa-file-import',
     description:
-      'Import files in import folder into joplin notes (PDF text in note comment, no OCR)'
+      `♾️ Imports files into joplin by monitoring a specific folder. ♾️
+
+      It will do not OCR the PDFs for you but will extract existing text from the PDF and will bring it to the global search of joplin.
+
+			Feel free to show some ⭐-love, create an issue (https://github.com/makaanneo/joplin-plugin-athena) if you run into issues.`
   });
 
   await joplin.settings.registerSettings({
@@ -16,16 +20,17 @@ export async function register(): Promise<void> {
       type: SettingItemType.String,
       section: 'importerSection',
       public: true,
-      label: 'Import Path',
+      label: 'Monitore Directory (for import)',
       description: 'Directory to monitor for import new files.'
     },
-    autoImportFiles: {
-      value: false,
-      type: SettingItemType.Bool,
+    importNotebook: {
+      value: '',
+      type: SettingItemType.String,
       section: 'importerSection',
       public: true,
-      label: 'Auto import new files from monitored directory.',
-      description: 'Auto import new files from monitored Directory.'
+      label: 'Import into Notebook',
+      description:
+        'If no notebook is specified, the import is made to the current notebook.'
     },
     ignoreFiles: {
       value: '.*',
@@ -40,18 +45,49 @@ export async function register(): Promise<void> {
       type: SettingItemType.String,
       section: 'importerSection',
       public: true,
-      label: 'Add as text',
+      label: 'Directe import as text.',
       description:
-        'Comma separated list of file extensions, which will be imported as text.'
+        'Comma separated list of file extensions, which will be imported as text. Like *.md or *.txt.'
     },
-    importNotebook: {
+    archiveImportedFiles: {
+      value: false,
+      type: SettingItemType.Bool,
+      section: 'importerSection',
+      public: true,
+      label: 'Archive imported files',
+      description:
+        'Move files after import into seperate folder with sub folder per year.',
+      advanced: false
+    },
+    archiveImportedFilesTarget: {
       value: '',
       type: SettingItemType.String,
       section: 'importerSection',
       public: true,
-      label: 'Notebook',
+      label: 'Archive imported files target',
       description:
-        'If no notebook is specified, the import is made to the current notebook.'
+        'Move files after import into seperate folder with sub folder per year.',
+      advanced: false
+    },
+    tagNewFilesAsNew: {
+      value: false,
+      type: SettingItemType.Bool,
+      section: 'importerSection',
+      public: true,
+      label: 'Add tags to imported files',
+      description:
+        'Tag new files automatically with a special tag to identify for later processing.',
+      advanced: false
+    },
+    tagNewFilesAsNewWithTag: {
+      value: 'document: new_file',
+      type: SettingItemType.String,
+      section: 'importerSection',
+      public: true,
+      label: 'Tag imported file with value',
+      description:
+        'Tag new files automatically with a special tag to identify for later processing.',
+      advanced: false
     },
     extractTagsFromFile: {
       value: false,
@@ -79,46 +115,6 @@ export async function register(): Promise<void> {
       public: true,
       label: 'Import recursive depth',
       description: 'Specifies the depth for the recursive import.',
-      advanced: true
-    },
-    archiveImportedFiles: {
-      value: false,
-      type: SettingItemType.Bool,
-      section: 'importerSection',
-      public: true,
-      label: 'Archive imported files',
-      description:
-        'Move files after import into seperate folder with sub folder per year.',
-      advanced: true
-    },
-    archiveImportedFilesTarget: {
-      value: '',
-      type: SettingItemType.String,
-      section: 'importerSection',
-      public: true,
-      label: 'Archive imported files target',
-      description:
-        'Move files after import into seperate folder with sub folder per year.',
-      advanced: true
-    },
-    tagNewFilesAsNew: {
-      value: false,
-      type: SettingItemType.Bool,
-      section: 'importerSection',
-      public: true,
-      label: 'Add tags to imported files',
-      description:
-        'Tag new files automatically with a special tag to identify for later processing.',
-      advanced: true
-    },
-    tagNewFilesAsNewWithTag: {
-      value: 'document: new_file',
-      type: SettingItemType.String,
-      section: 'importerSection',
-      public: true,
-      label: 'Tag imported file with value',
-      description:
-        'Tag new files automatically with a special tag to identify for later processing.',
       advanced: true
     },
     importDuplicates: {
