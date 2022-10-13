@@ -1,3 +1,10 @@
+# [1.10.0](https://github.com/makaanneo/joplin-plugin-athena/compare/v1.9.3...v1.10.0) (2022-10-13)
+
+
+### Features
+
+* **dependencies:** bump dependencies ([274dbf7](https://github.com/makaanneo/joplin-plugin-athena/commit/274dbf7b4e0e343d8876783fb75355b037d752ac))
+
 ## [1.9.3](https://github.com/makaanneo/joplin-plugin-athena/compare/v1.9.2...v1.9.3) (2022-10-13)
 
 
