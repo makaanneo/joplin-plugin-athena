@@ -1,3 +1,10 @@
+# [1.11.0](https://github.com/makaanneo/joplin-plugin-athena/compare/v1.10.0...v1.11.0) (2022-10-13)
+
+
+### Features
+
+* **settings:** rework a little bit the settings ([a3f89b2](https://github.com/makaanneo/joplin-plugin-athena/commit/a3f89b2c30ea7cdafe9db4e5f2f59b923abf33f9))
+
 # [1.10.0](https://github.com/makaanneo/joplin-plugin-athena/compare/v1.9.3...v1.10.0) (2022-10-13)
 
 
