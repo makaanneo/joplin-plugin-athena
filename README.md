@@ -45,13 +45,13 @@ For the time being the meta data of files is stored inside the note as comment b
 
 ## Roadmap
 
-- [ ] Research on better location for metadata and pdf text
+- [x] Research on better location for metadata and pdf text
 - [ ] Show import status in a status bar with progress
-- [ ] Improve tag handling on import
+- [ ] Improve tag handling on import (will be moved to other plugin)
 - [ ] Integrate OCR
-- [ ] Integrate Import of already existing Resources (attached to notes)
-- [ ] Build on export of files to a special folder for backups
-- [ ] Handle email attachments
+- ~~[ ] Integrate Import of already existing Resources (attached to notes)~~
+- [x] Build on export of files to a special folder for backups (archive directory)
+- ~~[ ] Handle email attachments (other plugin)~~
 - [ ] and a lot more
 
 ## Misc
