@@ -1,3 +1,10 @@
+# [1.12.0](https://github.com/makaanneo/joplin-plugin-athena/compare/v1.11.0...v1.12.0) (2022-10-14)
+
+
+### Features
+
+* **front matter:** add markdownItRuler ([42f5ed9](https://github.com/makaanneo/joplin-plugin-athena/commit/42f5ed9ab9eebb2f9ddc94899bc7d918a464135a))
+
 # [1.11.0](https://github.com/makaanneo/joplin-plugin-athena/compare/v1.10.0...v1.11.0) (2022-10-13)
 
 
