@@ -134,6 +134,15 @@ export async function register(): Promise<void> {
       label: 'Skip PDF Text body import',
       description: 'PDF Text will be skipped on import.',
       advanced: true
+    },
+    frontMatterRender: {
+      value: false,
+      type: SettingItemType.Bool,
+      section: 'importerSection',
+      public: true,
+      label: 'Enable front matter markdown-it rule',
+      description: 'It just ignores the front matter instead of rendering them as content between two lines. It is used to allow other plugins can take use of the front matter without breaking the rendered html. (requires restart)',
+      advanced: true
     }
   });
 }
@@ -167,6 +176,7 @@ export async function getImportSettings(): Promise<pluginSettings> {
     'tagNewFilesAsNewWithTag'
   );
   const skipPDFBodyText = await joplin.settings.value('skipPDFBodyText');
+  const frontMatterRender = await joplin.settings.value('frontMatterRender');
 
   return {
     extensionsAddAsText: extensionsAddAsText,
@@ -182,6 +192,7 @@ export async function getImportSettings(): Promise<pluginSettings> {
     tagNewFilesAsNew: tagNewFilesAsNew,
     tagNewFilesAsNewWithTag: tagNewFilesAsNewWithTag,
     importDuplicates: importDuplicates,
-    skipPDFBodyText: skipPDFBodyText
+    skipPDFBodyText: skipPDFBodyText,
+    frontMatterRender: frontMatterRender
   };
 }

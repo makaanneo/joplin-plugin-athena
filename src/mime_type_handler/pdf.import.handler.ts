@@ -160,6 +160,13 @@ class pdfImportHandler extends baseHandler {
     return result;
   }
 
+  async buildKeyVaulePais(
+    metaInformation: string,
+    pdfText: string
+  ): Promise<Array<[key:string, value:string]>> {
+    return null;
+  }
+
   async buildCommentBlockForNote(
     metaInformation: string,
     pdfText: string

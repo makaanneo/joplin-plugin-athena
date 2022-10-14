@@ -13,6 +13,7 @@ interface pluginSettings {
   tagNewFilesAsNewWithTag: string;
   importDuplicates: boolean;
   skipPDFBodyText: boolean;
+  frontMatterRender: boolean;
 }
 
 export { pluginSettings };

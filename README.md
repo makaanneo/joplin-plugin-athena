@@ -70,6 +70,7 @@ Basically, this plugin is inspired by:
 
 - [Resource Search Plugin](https://github.com/roman-r-m/joplin-plugin-resource-search)
 - [Hotfolder](https://github.com/JackGruber/joplin-plugin-hotfolder)
+- [Enhancement](https://github.com/SeptemberHX/joplin-plugin-enhancement)
 
 ## Development
 
