@@ -8,9 +8,8 @@ import { iFileExtensions } from '../core/fileExtensions';
 import { iFileNameTokenizer } from '../file_handler/file_name_tokenizer';
 import { iArchiveFile } from '../core/archiveFile';
 import { iJoplinNoteProcessor } from '../core/joplinNoteProcessor';
-import { iFileTypeProcessor } from '../core/iFileTypeProcessor';
-import { iFileTypeHandlerFactory } from 'src/core/FileTypeProcessor';
-import { iFileTypeHandler } from 'src/core/typeHandlerBase';
+import { iFileTypeHandler } from '../core/typeHandlerBase';
+import { iFileTypeHandlerFactory } from '../core/fileTypeHandlerFactory';
 
 jest.mock('../settings/settings');
 

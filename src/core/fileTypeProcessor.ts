@@ -1,35 +1,31 @@
-import 'reflect-metadata';
-import { inject, injectable, multiInject } from 'inversify';
+import { inject, injectable } from 'inversify';
 import { TYPES } from '../types';
-import path = require('path');
+import { iAthenaConfiguration } from '../settings/athenaConfiguration';
 import { iFileTypeHandler } from './typeHandlerBase';
-import { iDefaultFileHandler } from './defaultFileHandler';
+import { iRawFile, rawFile } from './rawFile';
+import { iFileTypeHandlerFactory } from './fileTypeHandlerFactory';
 
-export interface iFileTypeHandlerFactory {
-  getTypeHandler(filePath: string): Promise<iFileTypeHandler>;
+export interface iFileTypeProcessor {
+  loadFile(filePath: string): Promise<iRawFile>;
 }
 
 @injectable()
-export class fileTypeHandlerFactory implements iFileTypeHandlerFactory {
-  private _handler: Array<iFileTypeHandler>;
-  private _defaultHandler: iDefaultFileHandler;
+export class fileTypeProcessor implements iFileTypeProcessor {
+  private _settings: iAthenaConfiguration;
+  private _factory: iFileTypeHandlerFactory;
   constructor(
-    @multiInject(TYPES.iFileTypeHandler) handler: iFileTypeHandler[],
-    @inject(TYPES.iDefaultFileHandler) defaultHandler: iDefaultFileHandler
+    @inject(TYPES.iAthenaConfiguration) settings: iAthenaConfiguration,
+    @inject(TYPES.iFileTypeHandlerFactory) factory: iFileTypeHandlerFactory
   ) {
-    this._handler = handler;
-    this._defaultHandler = defaultHandler;
+    this._settings = settings;
+    this._factory = factory;
   }
-  async getTypeHandler(filePath: string): Promise<iFileTypeHandler> {
-    const fileName = path.basename(filePath);
-    const fileExt = path.extname(fileName);
-    let result: iFileTypeHandler = this._defaultHandler;
-    for (let index = 0; index < this._handler.length; index++) {
-      if (await this._handler[index].canHandle(fileExt)) {
-        result = this._handler[index];
-        break;
-      }
-    }
-    return result;
+  async loadFile(filePath: string): Promise<iRawFile> {
+    console.log('Start Load file');
+    const handler: iFileTypeHandler = await this._factory.getTypeHandler(
+      filePath
+    );
+    const file: rawFile = await handler.loadFile(filePath);
+    return file;
   }
 }

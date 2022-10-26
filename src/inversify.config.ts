@@ -5,11 +5,11 @@ import { fileExtensions, iFileExtensions } from './core/fileExtensions';
 import {
   fileTypeHandlerFactory,
   iFileTypeHandlerFactory
-} from './core/FileTypeProcessor';
+} from './core/fileTypeHandlerFactory';
 import {
   fileTypeProcessor,
   iFileTypeProcessor
-} from './core/iFileTypeProcessor';
+} from './core/fileTypeProcessor';
 import {
   iJoplinNoteBuilder,
   joplinNoteBuilder
