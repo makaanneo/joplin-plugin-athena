@@ -1,24 +1,23 @@
+import 'reflect-metadata';
 import joplin from 'api';
-import type { pluginSettings } from '../settings/pluginSettings';
-import * as settings from '../settings/settings';
 import fs = require('fs-extra');
 import crypto = require('crypto');
+import { inject, injectable } from 'inversify';
+import { TYPES } from '../types';
+import { iAthenaConfiguration } from '../settings/athenaConfiguration';
 
-class fileExtensions {
-  private _pluginSettings: pluginSettings;
-  constructor() {
-    this.initialize();
-  }
+export interface iFileExtensions {
+  isDuplicate(hash: string): Promise<boolean>;
+  buildFileHash(filePath: string): Promise<string>;
+}
 
-  /**
-   * initialize the controller component.
-   */
-  private async initialize() {
-    try {
-      this._pluginSettings = await settings.getImportSettings();
-    } catch (error) {
-      console.error(error);
-    }
+@injectable()
+export class fileExtensions implements iFileExtensions {
+  private _settings: iAthenaConfiguration;
+  constructor(
+    @inject(TYPES.iAthenaConfiguration) settings: iAthenaConfiguration
+  ) {
+    this._settings = settings;
   }
 
   public async isDuplicate(hash: string): Promise<boolean> {
@@ -45,4 +44,3 @@ class fileExtensions {
     return hash.digest('hex');
   }
 }
-export { fileExtensions };

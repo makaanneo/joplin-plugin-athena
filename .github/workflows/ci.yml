@@ -5,13 +5,16 @@ on:
 jobs:
   release:
     name: Build and test
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        version: [16]
+        os: [ubuntu-latest, windows-latest, macos-latest]
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
           cache: npm
-          node-version: 16
+          node-version: ${{ matrix.version }}
       - name: CI build
         run: yarn
         id: plugin-build

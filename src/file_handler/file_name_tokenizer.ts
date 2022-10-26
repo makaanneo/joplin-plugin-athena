@@ -1,32 +1,30 @@
-import type { pluginSettings } from '../settings/pluginSettings';
-import * as settings from '../settings/settings';
 import * as path from 'path';
+import { inject, injectable } from 'inversify';
+import { iAthenaConfiguration } from '../settings/athenaConfiguration';
+import { TYPES } from '../types';
 
-interface fileNameTokens {
+export interface fileNameTokens {
   DateTime: Date;
   Tokens: Array<string>;
 }
 
-class fileNameTokenizer {
-  private _pluginSettings: pluginSettings;
-  constructor() {
-    this.initialize();
+export interface iFileNameTokenizer {
+  tokenize(filename: string): Promise<fileNameTokens>;
+  getDatetimeFromFileNameIfPresent(fileName: string): Promise<string>;
+}
+
+@injectable()
+export class fileNameTokenizer {
+  private _settings: iAthenaConfiguration;
+  constructor(
+    @inject(TYPES.iAthenaConfiguration) settings: iAthenaConfiguration
+  ) {
+    this._settings = settings;
   }
 
   private dateTimeRegEx =
     /^([\+-]?\d{4}(?!\d{2}\b))((-?)((0[1-9]|1[0-2])(\3([12]\d|0[1-9]|3[01]))?|W([0-4]\d|5[0-2])(-?[1-7])?|(00[1-9]|0[1-9]\d|[12]\d{2}|3([0-5]\d|6[1-6])))([T\s]((([01]\d|2[0-3])((:?)[0-5]\d)?|24\:?00)([\.,]\d+(?!:))?)?(\17[0-5]\d([\.,]\d+)?)?([zZ]|([\+-])([01]\d|2[0-3]):?([0-5]\d)?)?)?)?/;
   private tokenRegEx: RegExp = /[a-zA-Z]+[0-9]*[^\W_]/g;
-
-  /**
-   * initialize the controller component.
-   */
-  private async initialize() {
-    try {
-      this._pluginSettings = await settings.getImportSettings();
-    } catch (error) {
-      console.error(error);
-    }
-  }
 
   public async tokenize(filename: string): Promise<fileNameTokens> {
     const extractedDateTime = await this.getDatetimeFromFileNameIfPresent(
@@ -60,7 +58,6 @@ class fileNameTokenizer {
   public async getDatetimeFromFileNameIfPresent(
     fileName: string
   ): Promise<string> {
-    await this.initialize();
     console.info(`Match for datetime on filename: ${fileName}`);
     let useDates = fileName.match(this.dateTimeRegEx);
     if (
@@ -81,5 +78,3 @@ class fileNameTokenizer {
     return null;
   }
 }
-
-export { fileNameTokenizer, fileNameTokens };
