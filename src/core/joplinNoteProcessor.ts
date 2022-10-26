@@ -2,12 +2,12 @@ import 'reflect-metadata';
 import { inject, injectable } from 'inversify';
 import { iAthenaConfiguration } from '../settings/athenaConfiguration';
 import { TYPES } from '../types';
-import { iFileTypeProcessor } from './iFileTypeProcessor';
 import { iJoplinNoteBuilder } from './joplinNoteBuilder';
 import { iJoplinApiBc } from './joplinApiBc';
 import { iArchiveFile } from './archiveFile';
 import { iJoplinTagProcessor } from './joplinTagProcessor';
 import { iJoplinFolderProcessor } from './joplinFolderProcessor';
+import { iFileTypeProcessor } from './fileTypeProcessor';
 
 export interface iJoplinNoteProcessor {
   buildNoteFromFile(file: string): Promise<void>;
