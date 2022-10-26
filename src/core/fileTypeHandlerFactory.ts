@@ -1,9 +1,9 @@
 import 'reflect-metadata';
 import { inject, injectable, multiInject } from 'inversify';
 import { TYPES } from '../types';
-import {iFileTypeHandler} from './typeHandlerBase'
-import {iDefaultFileHandler} from './defaultFileHandler'
-import { basename, extname } from 'node:path';
+import { iFileTypeHandler } from './typeHandlerBase';
+import { iDefaultFileHandler } from './defaultFileHandler';
+import { basename, extname } from 'path';
 
 export interface iFileTypeHandlerFactory {
   getTypeHandler(filePath: string): Promise<iFileTypeHandler>;
