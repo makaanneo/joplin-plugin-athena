@@ -10,6 +10,7 @@ import { iArchiveFile } from '../core/archiveFile';
 import { iJoplinNoteProcessor } from '../core/joplinNoteProcessor';
 import { iFileTypeHandler } from '../core/typeHandlerBase';
 import { iFileTypeHandlerFactory } from '../core/fileTypeHandlerFactory';
+import { iFileTypeProcessor } from '../core/fileTypeProcessor';
 
 jest.mock('../settings/settings');
 
