@@ -35,7 +35,7 @@ export class plainTextFileHandler
     return this._supported;
   }
   async loadFile(filePath: string): Promise<rawFile> {
-    let fileBuffer = null;
+    let fileBuffer: Buffer;
     const fileStats = fs.statSync(filePath);
     try {
       fileBuffer = fs.readFileSync(filePath);
@@ -47,12 +47,12 @@ export class plainTextFileHandler
     const file: iRawFile = new rawFile();
     file.Name = path.basename(filePath);
     file.Extension = path.extname(file.Name);
-    file.Content = fileBuffer;
+    file.Content = fileBuffer.toString();
     file.Metadata = {
       Title: file.Name,
       Author: '',
       CreationDate: fileStats.ctime,
-      Keywords: null,
+      Keywords: new Array<string>(),
       ModificationDate: fileStats.mtime,
       Subject: file.Name
     };
