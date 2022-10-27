@@ -1,3 +1,21 @@
+# [2.0.0](https://github.com/makaanneo/joplin-plugin-athena/compare/v1.12.0...v2.0.0) (2022-10-26)
+
+
+### Bug Fixes
+
+* **ci:** fix CI ([c62c106](https://github.com/makaanneo/joplin-plugin-athena/commit/c62c1061711aa3ec31b5a6037761e5c32b5cc5c8))
+* **cross platform:** fix cross platform ([37b8070](https://github.com/makaanneo/joplin-plugin-athena/commit/37b807058357e774fd6802af01dad9643f4eede5))
+
+
+### Features
+
+* **new import:** refactoring and imporvements ([33993ba](https://github.com/makaanneo/joplin-plugin-athena/commit/33993ba7a2fa63384d06b2a03175f3ab7dafd212))
+
+
+### BREAKING CHANGES
+
+* **new import:** The plugin now imports the files slightly different and creates a front-matter instead of a code comment block
+
 # [1.12.0](https://github.com/makaanneo/joplin-plugin-athena/compare/v1.11.0...v1.12.0) (2022-10-14)
 
 
