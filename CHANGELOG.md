@@ -1,3 +1,10 @@
+## [2.0.2](https://github.com/makaanneo/joplin-plugin-athena/compare/v2.0.1...v2.0.2) (2022-10-27)
+
+
+### Bug Fixes
+
+* **plain text:** fix plain text import ([6d3961e](https://github.com/makaanneo/joplin-plugin-athena/commit/6d3961e492411df4158a0e8a7bd4f9a6a1bee8df))
+
 ## [2.0.1](https://github.com/makaanneo/joplin-plugin-athena/compare/v2.0.0...v2.0.1) (2022-10-27)
 
 
