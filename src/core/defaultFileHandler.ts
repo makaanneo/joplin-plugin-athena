@@ -51,7 +51,7 @@ export class defaultFileHandler
       Title: file.Name,
       Author: '',
       CreationDate: fileStats.ctime,
-      Keywords: null,
+      Keywords: [],
       ModificationDate: fileStats.mtime,
       Subject: file.Name
     };

@@ -1,10 +1,11 @@
 import 'reflect-metadata';
 import joplin from 'api';
+import { basename } from 'path';
 import { injectable } from 'inversify';
-import path = require('path');
 import { iPreparedNote } from './iPreparedNote';
 import { joplinResource } from './joplinResource';
 import { JoplinNotebook } from './JoplinNotebook';
+import path from 'path';
 
 export class joplinNote {
   Id: string;
@@ -90,7 +91,7 @@ export class joplinApiBc implements iJoplinApiBc {
         ['resources'],
         null,
         {
-          title: path.basename(file)
+          title: basename(file)
         },
         [
           {

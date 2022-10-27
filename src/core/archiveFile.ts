@@ -19,7 +19,7 @@ export interface iArchiveFile {
     archiveBaseFolder: string,
     dateTime: Date
   ): Promise<string>;
-  getFileCount(fileName: string, archiveTarget: string): Promise<number>;
+  getFileNameNoise(fileName: string, archiveTarget: string): Promise<string>;
 }
 
 @injectable()
@@ -30,10 +30,12 @@ export class archiveFile implements iArchiveFile {
   ) {
     this._settings = settings;
   }
-  async getFileCount(fileName: string, archiveTarget: string): Promise<number> {
-    let target = path.join(archiveTarget, fileName);
-    const childs = readdirSync(archiveTarget);
-    return childs.filter((x) => x === fileName).length;
+  async getFileNameNoise(
+    fileName: string,
+    archiveTarget: string
+  ): Promise<string> {
+    const currentDate = new Date(Date.now());
+    return currentDate.getUTCMilliseconds().toString();
   }
 
   async archive(file: iRawFile): Promise<string> {
@@ -48,7 +50,7 @@ export class archiveFile implements iArchiveFile {
       await this.archiveFile(file.FullPath, file.Name, target, fileExt);
     } catch (e) {
       console.error(e);
-      return;
+      return undefined;
     }
     return '';
   }
@@ -59,12 +61,15 @@ export class archiveFile implements iArchiveFile {
     archivePath: string,
     fileExtension: string
   ): Promise<string> {
-    let target = path.join(archivePath, fileName);
+    const baseName = path.basename(fileName);
+    const extension = path.extname(baseName);
+    const clean = baseName.replace(extension, '');
+    let target = path.join(archivePath, clean);
     if (fs.existsSync(target)) {
-      const newFileName = `${fileName}-(${await this.getFileCount(
-        fileName,
+      const newFileName = `${clean}-(${await this.getFileNameNoise(
+        clean,
         archivePath
-      )}${fileExtension})`;
+      )})${fileExtension}`;
       target = path.join(archivePath, newFileName);
       fs.moveSync(sourceFile, target, { overwrite: false });
     } else {

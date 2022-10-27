@@ -5,7 +5,10 @@ import { iDirectoryMonitoreWorker } from './worker';
 import { myContainer } from './inversify.config';
 import { TYPES } from './types';
 import { register } from './settings/settings';
-import { iAthenaConfiguration } from './settings/athenaConfiguration';
+import {
+  athenaConfiguration,
+  iAthenaConfiguration
+} from './settings/athenaConfiguration';
 
 joplin.plugins.register({
   onStart: async () => {
@@ -26,13 +29,24 @@ joplin.plugins.register({
     joplin.settings.onChange(async (event: any) => {
       console.log('Settings changed');
       if (await settings.verify()) {
+        await settings.initilize();
+        await directoryMonitore.removeWatcher();
         await directoryMonitore.watchDirectory();
       }
     });
 
     // register business logic
     console.info('Athena plugin start watching!');
+    myContainer.snapshot();
+    myContainer.unbind(TYPES.iAthenaConfiguration);
+    myContainer
+      .bind<iAthenaConfiguration>(TYPES.iAthenaConfiguration)
+      .to(athenaConfiguration)
+      .inSingletonScope();
+    myContainer.restore();
+
     if (await settings.verify()) {
+      await directoryMonitore.removeWatcher();
       await directoryMonitore.watchDirectory();
     }
 

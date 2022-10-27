@@ -9,18 +9,28 @@ let watcher: Array<any> = [];
 
 export interface iDirectoryMonitoreWorker {
   watchDirectory(): Promise<void>;
+  removeWatcher(): Promise<void>;
 }
 
 @injectable()
 export class directoryMonitoreWorker implements iDirectoryMonitoreWorker {
   private _settings: iAthenaConfiguration;
   private _jnp: iJoplinNoteProcessor;
+  private _directoryWatcher: Array<any> = new Array<any>();
   constructor(
     @inject(TYPES.iAthenaConfiguration) settings: iAthenaConfiguration,
     @inject(TYPES.iJoplinNoteProcessor) jnp: iJoplinNoteProcessor
   ) {
     this._settings = settings;
     this._jnp = jnp;
+  }
+  async removeWatcher(): Promise<void> {
+    if (this._directoryWatcher.length > 0) {
+      this._directoryWatcher.forEach(async (element) => {
+        console.log(`End watching directory: ${element}`);
+        await element.close();
+      });
+    }
   }
 
   async watchDirectory(): Promise<void> {
@@ -35,12 +45,12 @@ export class directoryMonitoreWorker implements iDirectoryMonitoreWorker {
       this._settings.Values.importPath !== null
     ) {
       const ownObject = this;
-      if (watcher.length > 0) {
-        watcher.forEach(async (element) => {
+      if (this._directoryWatcher.length > 0) {
+        this._directoryWatcher.forEach(async (element) => {
           console.log(`End watching directory: ${element}`);
           await element.close();
         });
-        watcher = [];
+        this._directoryWatcher = [];
       }
       let chokidarWatcher = null;
       try {
@@ -59,7 +69,7 @@ export class directoryMonitoreWorker implements iDirectoryMonitoreWorker {
       } catch (error) {
         console.error(error);
       }
-      watcher.push(chokidarWatcher);
+      this._directoryWatcher.push(chokidarWatcher);
     } else {
       console.log('Nothing to monitore!');
     }

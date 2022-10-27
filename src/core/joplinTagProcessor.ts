@@ -24,7 +24,9 @@ export class joplinTagProcessor implements iJoplinTagProcessor {
     const result: Array<joplinTag> = new Array<joplinTag>();
     for (let index = 0; index < tags.length; index++) {
       const tag = await this._jApi.findTagByName(tags[index]);
-      console.log(`Retrieved tag: ${tag.Id} and title: ${tag.Title}`);
+      if (tag !== null) {
+        console.log(`Retrieved tag: ${tag.Id} and title: ${tag.Title}`);
+      }
       if (tag === null || tag === undefined) {
         const newTag = await this._jApi.postTag(tags[index]);
         result.push(newTag);
@@ -44,7 +46,9 @@ export class joplinTagProcessor implements iJoplinTagProcessor {
   }
 
   async buildTagsFromSettings(): Promise<Array<string>> {
+    this._settings.initilize();
     const tagsFromSettings = this._settings.Values.tagNewFilesTags;
+    console.log(`Tags from settings: ${tagsFromSettings}`);
     const result = tagsFromSettings.split(/\s*,\s*/);
     return result;
   }
