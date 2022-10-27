@@ -8,7 +8,7 @@ jobs:
     strategy:
       matrix:
         version: [16]
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
@@ -20,6 +20,7 @@ jobs:
         run: yarn
         id: plugin-build
       - name: Publish Plugin
+        if: ${{ matrix.os == ubuntu-latest}}
         run: npx semantic-release
         id: publish-plugin
         env:
