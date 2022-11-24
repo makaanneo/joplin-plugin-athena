@@ -1,0 +1,28 @@
+[2022-06-11-1639-a-file](:/someresourceid)
+
+<!--
+PDFMETADATATEXTSTART
+Title: 2022-06-11-1639-a-file
+CreationDate: 2022-06-23T14:39:05.000Z
+Author: author test
+Subject: subject test
+Keywords: keyword1, keyword2
+
+
+PDFMETADATATEXTEND
+PDFCONTENTTEXTSTART
+some text
+
+some more text
+
+PDFCONTENTTEXTEND
+FILEHASHSTART
+FILEHASHEND
+-->
+
+
+<!--
+FILEHASHSTART
+somehash1234567890
+FILEHASHEND
+-->

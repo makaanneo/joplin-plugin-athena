@@ -5,8 +5,6 @@ import { TYPES } from './types';
 import { iAthenaConfiguration } from './settings/athenaConfiguration';
 import { iJoplinNoteProcessor } from './core/joplinNoteProcessor';
 
-let watcher: Array<any> = [];
-
 export interface iDirectoryMonitoreWorker {
   watchDirectory(): Promise<void>;
   removeWatcher(): Promise<void>;
@@ -44,7 +42,6 @@ export class directoryMonitoreWorker implements iDirectoryMonitoreWorker {
       this._settings.Values.importPath !== undefined ||
       this._settings.Values.importPath !== null
     ) {
-      const ownObject = this;
       if (this._directoryWatcher.length > 0) {
         this._directoryWatcher.forEach(async (element) => {
           console.log(`End watching directory: ${element}`);

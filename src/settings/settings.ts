@@ -14,7 +14,9 @@ import {
   SKIP_FILE_CONTENT,
   TAG_NEW_FILES,
   TAG_NEW_FILES_TAGS,
-  FILE_HASH_ALGORITHM
+  FILE_HASH_ALGORITHM,
+  CODEMIRROR_FRONT_MATTER,
+  FOLD_FRONT_MATTER
 } from '../common';
 
 export async function register(): Promise<void> {
@@ -28,7 +30,7 @@ export async function register(): Promise<void> {
 
 			Feel free to show some ⭐-love, create an issue (https://github.com/makaanneo/joplin-plugin-athena) if you run into issues.`
   });
-  let settings = {};
+  const settings = {};
   settings[IMPORT_PATH] = {
     value: '',
     type: SettingItemType.String,
@@ -150,6 +152,25 @@ export async function register(): Promise<void> {
     label: 'Enable front matter markdown-it rule',
     description:
       'It just ignores the front matter instead of rendering them as content between two lines. It is used to allow other plugins can take use of the front matter without breaking the rendered html. (requires restart)',
+    advanced: true
+  };
+  settings[CODEMIRROR_FRONT_MATTER] = {
+    value: false,
+    type: SettingItemType.Bool,
+    section: 'importerSection',
+    public: true,
+    label: 'Enable front matter codemirror hyligthing.',
+    description:
+      'It renders the front matter as yaml-frontmatter - only yaml is supported. (requires restart)',
+    advanced: true
+  };
+  settings[FOLD_FRONT_MATTER] = {
+    value: false,
+    type: SettingItemType.Bool,
+    section: 'importerSection',
+    public: true,
+    label: 'Enable front matter codemirror fold all.',
+    description: 'It fold on command front matter as well.',
     advanced: true
   };
   settings[FILE_HASH_ALGORITHM] = {

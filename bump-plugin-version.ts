@@ -1,4 +1,4 @@
-const fs = require('fs-extra');
+import fs from 'fs-extra';
 
 console.log('process.argv', process.argv);
 
@@ -10,9 +10,5 @@ function bumpVersion(manifestPath, destPath, version) {
 }
 
 if (process.argv.length > 2) {
-  bumpVersion(
-    'src/manifest.json',
-    'src/manifest.json',
-    process.argv[2]
-  );
+  bumpVersion('src/manifest.json', 'src/manifest.json', process.argv[2]);
 }

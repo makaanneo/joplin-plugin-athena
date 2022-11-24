@@ -46,6 +46,10 @@ import {
   iJoplinFolderProcessor,
   joplinFolderProcessor
 } from './core/joplinFolderProcessor';
+import {
+  iMigrateFileImportFormatV1toV2,
+  migrateFileImportFormatV1toV2
+} from './core/migrateFileImportFormatV1toV2';
 
 const dIContainer = new Container();
 dIContainer
@@ -91,5 +95,8 @@ dIContainer
 dIContainer
   .bind<iJoplinFolderProcessor>(TYPES.iJoplinFolderProcessor)
   .to(joplinFolderProcessor);
+dIContainer
+  .bind<iMigrateFileImportFormatV1toV2>(TYPES.iMigrateFileImportFormatV1toV2)
+  .to(migrateFileImportFormatV1toV2);
 
 export { dIContainer as myContainer };

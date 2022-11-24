@@ -9,7 +9,7 @@ export interface documentFrontMatter {
   Created: Date;
   Modified: Date;
   Captured: Date;
-  ResourceLing: string;
+  ResourceLink: string;
   FileHash: iFileHash;
   Metadata: Array<metaData>;
   Content: string;

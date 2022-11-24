@@ -1,17 +1,23 @@
 import { inject, injectable } from 'inversify';
-import { EOL } from 'os';
 import { iAthenaConfiguration } from '../settings/athenaConfiguration';
 import { TYPES } from '../types';
 import { iRawFile } from './rawFile';
-import { joplinResource as jResource } from './joplinResource';
 import { stringify } from 'yaml';
 import { iPreparedNote, preparedNote } from './iPreparedNote';
 import { documentFrontMatter } from './documentFrontMatter';
 import { iJoplinApiBc } from './joplinApiBc';
 import { iJoplinFolderProcessor } from './joplinFolderProcessor';
+import { iJoplinResource } from './joplinResource';
 
 export interface iJoplinNoteBuilder {
-  buildNote(loadedFile: iRawFile, resource: jResource): Promise<iPreparedNote>;
+  buildNote(
+    loadedFile: iRawFile,
+    resource: iJoplinResource
+  ): Promise<iPreparedNote>;
+  mapFileToPreparedNote(
+    file: iRawFile,
+    resource: iJoplinResource
+  ): Promise<documentFrontMatter>;
 }
 
 @injectable()
@@ -30,12 +36,17 @@ export class joplinNoteBuilder implements iJoplinNoteBuilder {
   }
   async mapFileToPreparedNote(
     file: iRawFile,
-    jResource: jResource
+    resource: iJoplinResource
   ): Promise<documentFrontMatter> {
+    const resourceLink = await resource.buildResourceLink(
+      resource.title,
+      resource.id,
+      resource.mime
+    );
     return {
       Name: (await file.fileNameWithoutExtension(file.Name)).trim(),
       Author: (file.Metadata.Author ?? '').trim(),
-      Content: file.Content,
+      Content: ` \n ${file.Content}\n`,
       Sender: '',
       Captured: file.Captured,
       Created: file.Metadata?.CreationDate ?? null,
@@ -46,67 +57,67 @@ export class joplinNoteBuilder implements iJoplinNoteBuilder {
       Metadata: null, // map from to
       Modified: file.Metadata?.ModificationDate ?? null,
       Recipient: '',
-      ResourceLing: await jResource.buildResourceLink(
-        jResource.Title,
-        jResource.Id,
-        jResource.Mime
-      )
+      ResourceLink: resourceLink
     };
   }
 
-  async prepareFrontMatterText(
+  async prepareMetadataBlock(
     frontMatter: documentFrontMatter
   ): Promise<string> {
     const yaml_string = stringify(frontMatter);
 
-    let result: string = '';
-    result += '---';
-    result += EOL;
+    let result = '';
+    result += '``` yaml document header';
+    result += '\n';
     result += yaml_string;
-    result += EOL;
-    result += '---';
+    result += '\n';
+    result += '```';
 
     return result;
   }
 
   async prepareNoteBody(
-    frontMatterText: string,
+    metadataBlockText: string,
     resourceTitle: string,
     resourceLink: string
   ): Promise<string> {
-    let bodyText: string = '';
+    let bodyText = '';
 
-    bodyText += frontMatterText;
-    bodyText += EOL;
     bodyText += resourceTitle;
-    bodyText += EOL;
+    bodyText += '\n';
     bodyText += resourceLink;
-    bodyText += EOL;
+    bodyText += '\n';
+    bodyText += '\n';
+    bodyText += '# metadata';
+    bodyText += '\n';
+    bodyText += metadataBlockText;
+    bodyText += '\n';
+
     return bodyText;
   }
 
   async buildNote(
     loadedFile: iRawFile,
-    resource: jResource
+    resource: iJoplinResource
   ): Promise<iPreparedNote> {
     console.log('START build note.');
-    const frontMatter = await this.mapFileToPreparedNote(loadedFile, resource);
-    const frontMatterText = await this.prepareFrontMatterText(frontMatter);
+    const metaData = await this.mapFileToPreparedNote(loadedFile, resource);
+    const metaDataText = await this.prepareMetadataBlock(metaData);
     const resourceTitleBlock = await resource.buildResourceTitle(
       loadedFile.Name
     );
     const resourceLink = await resource.buildResourceLink(
       loadedFile.Name,
-      resource.Id,
-      resource.Mime
+      resource.id,
+      resource.mime
     );
     const note = new preparedNote();
     note.Body = await this.prepareNoteBody(
-      frontMatterText,
+      metaDataText,
       resourceTitleBlock,
       resourceLink
     );
-    note.Title = frontMatter.Name;
+    note.Title = metaData.Name;
     note.Tags = new Array<string>();
     note.Folder = (
       await this._jfp.getImportFolderId(this._settings.Values.importNotebook)

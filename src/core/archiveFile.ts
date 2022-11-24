@@ -40,6 +40,7 @@ export class archiveFile implements iArchiveFile {
 
   async archive(file: iRawFile): Promise<string> {
     const archiveTarget = this._settings.Values.archiveTarget;
+    let result = '';
     try {
       console.log(`Archive file: ${file.Name} to: ${archiveTarget}.`);
       const target = await this.createArchiveFolder(
@@ -47,12 +48,17 @@ export class archiveFile implements iArchiveFile {
         file.Captured
       );
       const fileExt = path.extname(file.FullPath);
-      await this.archiveFile(file.FullPath, file.Name, target, fileExt);
+      result = await this.archiveFile(
+        file.FullPath,
+        file.Name,
+        target,
+        fileExt
+      );
     } catch (e) {
       console.error(e);
       return undefined;
     }
-    return '';
+    return result;
   }
 
   public async archiveFile(

@@ -15,10 +15,10 @@ export class defaultFileHandler
   extends typeHandlerBase
   implements iDefaultFileHandler
 {
-  private _name: string = 'defaultFileHandler';
+  private _name = 'defaultFileHandler';
   private _supported: Array<string> = new Array<string>();
 
-  public IsDefault: boolean = true;
+  public IsDefault = true;
 
   constructor(
     @inject(TYPES.iAthenaConfiguration) settings: iAthenaConfiguration

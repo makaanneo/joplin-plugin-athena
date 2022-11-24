@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 // -----------------------------------------------------------------------------
 // This file is used to build the plugin file (.jpl) and plugin info (.json). It
 // is recommended not to edit this file as it would be overwritten when updating
@@ -130,7 +131,12 @@ function createPluginArchive(sourceDir, destPath) {
   console.info(chalk.cyan(`Plugin archive has been created in ${destPath}`));
 }
 
-const ignoreFilesForPluginArchive = ['bump-plugin-version.d.ts','emptyContentScript.d.ts','jest.config.d.ts' , 'webpack.config.d.ts']
+const ignoreFilesForPluginArchive = [
+  'bump-plugin-version.d.ts',
+  'emptyContentScript.d.ts',
+  'jest.config.d.ts',
+  'webpack.config.d.ts'
+];
 
 function tarFilter(path) {
   if (ignoreFilesForPluginArchive.includes(path)) {
@@ -294,7 +300,16 @@ const extraScriptConfig = Object.assign({}, baseConfig, {
 
 const emptyContentScript = Object.assign({}, baseConfig, {
   name: 'attachContentScripts',
-  entry: './emptyContentScript.js',
+  entry: './emptyContentScript.ts',
+  module: {
+    rules: [
+      {
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/
+      }
+    ]
+  },
   resolve: {
     alias: {
       api: path.resolve(__dirname, 'api')

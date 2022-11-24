@@ -16,7 +16,11 @@ const TYPES = {
   iJoplinNoteProcessor: Symbol.for('iJoplinNoteProcessor'),
   iDefaultFileHandler: Symbol.for('iDefaultFileHandler'),
   iJoplinTagProcessor: Symbol.for('iJoplinTagProcessor'),
-  iJoplinFolderProcessor: Symbol.for('iJoplinFolderProcessor')
+  iJoplinFolderProcessor: Symbol.for('iJoplinFolderProcessor'),
+  iMigrateFileImportFormatV1toV2: Symbol.for('iMigrateFileImportFormatV1toV2'),
+  iJoplinNote: Symbol.for('iJoplinNote'),
+  iJoplinResource: Symbol.for('iJoplinResource'),
+  iJoplinNotebook: Symbol.for('iJoplinNotebook')
 };
 
 export { TYPES };

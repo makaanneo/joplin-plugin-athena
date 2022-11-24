@@ -2,12 +2,12 @@ import { inject, injectable } from 'inversify';
 import { iAthenaConfiguration } from '../settings/athenaConfiguration';
 import { TYPES } from '../types';
 import { iJoplinApiBc } from './joplinApiBc';
-import { JoplinNotebook } from './JoplinNotebook';
+import { iJoplinNotebook } from './JoplinNotebook';
 
 export interface iJoplinFolderProcessor {
-  getImportFolderId(folderName: string): Promise<JoplinNotebook>;
-  findFolder(folderName: string): Promise<JoplinNotebook>;
-  createFolder(folderName: string): Promise<JoplinNotebook>;
+  getImportFolderId(folderName: string): Promise<iJoplinNotebook>;
+  findFolder(folderName: string): Promise<iJoplinNotebook>;
+  createFolder(folderName: string): Promise<iJoplinNotebook>;
 }
 
 @injectable()
@@ -21,19 +21,17 @@ export class joplinFolderProcessor implements iJoplinFolderProcessor {
     this._japi = japi;
     this._settings = settings;
   }
-  async findFolder(folderName: string): Promise<JoplinNotebook> {
-    return await this._japi.findNotebookByName(
-      this._settings.Values.importNotebook
-    );
+  async findFolder(folderName: string): Promise<iJoplinNotebook> {
+    return await this._japi.findNotebookByName(folderName);
   }
-  async getImportFolderId(folderName: string): Promise<JoplinNotebook> {
+  async getImportFolderId(folderName: string): Promise<iJoplinNotebook> {
     let folder = await this.findFolder(folderName);
     if (folder !== undefined && folder !== null) {
       return folder;
     }
     folder = await this.createFolder(folderName);
   }
-  async createFolder(folderName: string): Promise<JoplinNotebook> {
-    return await this._japi.postNotebook(this._settings.Values.importNotebook);
+  async createFolder(folderName: string): Promise<iJoplinNotebook> {
+    return await this._japi.postNotebook(folderName);
   }
 }

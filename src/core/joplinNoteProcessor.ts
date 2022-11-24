@@ -42,13 +42,13 @@ export class joplinNoteProcessor implements iJoplinNoteProcessor {
       `START: import file: ${file} from folder ${this._settings.Values.importPath}.`
     );
     const lodedFile = await this._ftp.loadFile(file);
-    const isDuplicate = await this._jdapi.findByHash(lodedFile.FileHash);
+    const isDuplicate = await this._jdapi.findNoteByHash(lodedFile.FileHash);
     if (isDuplicate && !this._settings.Values.importDuplicateFiles) {
       console.log('Skip duplicated file.');
       return;
     }
-    const joplinResource = await this._jdapi.postResource(file);
-    const preparedNote = await this._nb.buildNote(lodedFile, joplinResource);
+    const jRes = await this._jdapi.postResource(file);
+    const preparedNote = await this._nb.buildNote(lodedFile, jRes);
     const jNote = await this._jdapi.postNote(preparedNote);
 
     if (this._settings.Values.tagNewFiles) {
@@ -57,7 +57,8 @@ export class joplinNoteProcessor implements iJoplinNoteProcessor {
     }
 
     if (this._settings.Values.archiveImportedFiles) {
-      const archivedFIle = await this._af.archive(lodedFile);
+      const targetPath = await this._af.archive(lodedFile);
+      console.log(`File archived in path: ${targetPath}.`);
     } else {
       await this._af.cleanUp(lodedFile);
     }

@@ -3,37 +3,98 @@ import joplin from 'api';
 import { basename } from 'path';
 import { injectable } from 'inversify';
 import { iPreparedNote } from './iPreparedNote';
-import { joplinResource } from './joplinResource';
-import { JoplinNotebook } from './JoplinNotebook';
-import path from 'path';
+import { iJoplinResource, joplinResource } from './joplinResource';
+import { iJoplinNotebook } from './JoplinNotebook';
 
-export class joplinNote {
-  Id: string;
-  Title: string;
-  Tags: Array<string>;
+export interface iJoplinNote {
+  id: string;
+  title: string;
+  tags: Array<string>;
   parent_id: string;
   body: string;
+  created_time: number;
+}
+
+@injectable()
+export class joplinNote implements iJoplinNote {
+  id: string;
+  title: string;
+  tags: Array<string>;
+  parent_id: string;
+  body: string;
+  created_time: number;
 }
 
 export class joplinTag {
-  Id: string;
-  Title: string;
+  id: string;
+  title: string;
 }
 
 export interface iJoplinApiBc {
-  postResource(file: string): Promise<joplinResource>;
-  postNote(note: iPreparedNote): Promise<joplinNote>;
-  findByHash(hash: string): Promise<Array<joplinNote>>;
-  findNotebookByName(name: string): Promise<JoplinNotebook>;
-  postNotebook(name: string): Promise<JoplinNotebook>;
+  getResourcesOfNote(noteId: string): Promise<Array<iJoplinResource>>;
+  getNote(noteId: string): Promise<iJoplinNote>;
+  postResource(file: string): Promise<iJoplinResource>;
+  postNote(note: iPreparedNote): Promise<iJoplinNote>;
+  findNoteByHash(hash: string): Promise<Array<iJoplinNote>>;
+  findNotebookByName(name: string): Promise<iJoplinNotebook>;
+  postNotebook(name: string): Promise<iJoplinNotebook>;
   findTagByName(tag: string): Promise<joplinTag>;
   postTagToNote(noteId: string, tagId: string): Promise<void>;
   postTag(tagName: string): Promise<joplinTag>;
+  putNoteBody(noteId: string, noteBody: string): Promise<iJoplinNote>;
 }
 
 @injectable()
 export class joplinApiBc implements iJoplinApiBc {
-  async postNotebook(name: string): Promise<JoplinNotebook> {
+  putNoteBody(noteId: string, noteBody: string): Promise<iJoplinNote> {
+    console.log('Put note body to Joplin note.');
+    try {
+      const jNote = joplin.data.put(['notes', noteId], null, {
+        body: noteBody
+      });
+      return jNote;
+    } catch (e) {
+      console.error('Error on create note');
+      console.error(e);
+      return null;
+    }
+  }
+  async getResourcesOfNote(noteId: string): Promise<Array<iJoplinResource>> {
+    console.log('get resource of note by id.');
+    const result = await joplin.data.get(['notes', noteId, 'resources'], {
+      fields: ['id', 'size', 'title', 'filename', 'file_extension', 'mime']
+    });
+    if (
+      typeof result === undefined ||
+      result == null ||
+      (result != null && result.items.length === 0) ||
+      typeof result.items[0] === undefined
+    ) {
+      return null;
+    }
+    const jr: Array<iJoplinResource> = result.items.map((resource) => {
+      const result: iJoplinResource = new joplinResource();
+      result.id = resource.id;
+      result.filename = resource.filename;
+      result.mime = resource.mime;
+      result.file_extension = resource.file_extension;
+      result.size = resource.size;
+      result.title = resource.titel;
+      return result;
+    });
+    return jr;
+  }
+  async getNote(noteId: string): Promise<iJoplinNote> {
+    console.log('get note by id.');
+    const result = await joplin.data.get(['notes', noteId], {
+      fields: ['id', 'title', 'body', 'parent_id', 'created_time']
+    });
+    if (typeof result === undefined || result == null) {
+      return null;
+    }
+    return result;
+  }
+  async postNotebook(name: string): Promise<iJoplinNotebook> {
     console.log('Post notebook (folder) to Joplin.');
     try {
       const jNotebook = await joplin.data.post(['folders'], null, {
@@ -46,7 +107,7 @@ export class joplinApiBc implements iJoplinApiBc {
       return null;
     }
   }
-  async findByHash(hash: string): Promise<Array<joplinNote>> {
+  async findNoteByHash(hash: string): Promise<Array<iJoplinNote>> {
     console.log('Find note by hash.');
     const result = await joplin.data.get(['search'], {
       query: hash,
@@ -63,7 +124,7 @@ export class joplinApiBc implements iJoplinApiBc {
     return result.items;
   }
 
-  async postNote(note: iPreparedNote): Promise<joplinNote> {
+  async postNote(note: iPreparedNote): Promise<iJoplinNote> {
     console.log('Post note to Joplin.');
     try {
       const jNote = await joplin.data.post(['notes'], null, {
@@ -71,12 +132,7 @@ export class joplinApiBc implements iJoplinApiBc {
         title: note.Title,
         parent_id: note.Folder
       });
-      const result: joplinNote = new joplinNote();
-      result.Id = jNote.id;
-      result.Title = jNote.title;
-      result.parent_id = jNote.parent_id;
-      result.body = jNote.body;
-      return result;
+      return jNote;
     } catch (e) {
       console.error('Error on create note');
       console.error(e);
@@ -84,7 +140,7 @@ export class joplinApiBc implements iJoplinApiBc {
     }
   }
 
-  async postResource(file: string): Promise<joplinResource> {
+  async postResource(file: string): Promise<iJoplinResource> {
     console.log('Post Resource to Joplin.');
     try {
       const resource = await joplin.data.post(
@@ -99,10 +155,13 @@ export class joplinApiBc implements iJoplinApiBc {
           }
         ]
       );
-      const result: joplinResource = new joplinResource();
-      result.Id = resource.id;
-      result.Title = resource.title;
-      result.Mime = resource.mime;
+      const result: iJoplinResource = new joplinResource();
+      result.id = resource.id;
+      result.filename = resource.filename;
+      result.mime = resource.mime;
+      result.file_extension = resource.file_extension;
+      result.size = resource.size;
+      result.title = resource.titel;
       return result;
     } catch (e) {
       console.error('Error on create resources');
@@ -111,7 +170,7 @@ export class joplinApiBc implements iJoplinApiBc {
     }
   }
 
-  async findNotebookByName(name: string): Promise<JoplinNotebook> {
+  async findNotebookByName(name: string): Promise<iJoplinNotebook> {
     if (typeof name === undefined || name == null || name == '') {
       console.log(`Not value for folder title`);
       return null;
@@ -168,10 +227,7 @@ export class joplinApiBc implements iJoplinApiBc {
       return null;
     }
     const jTag = result.items[0];
-    const retrieved: joplinTag = new joplinTag();
-    retrieved.Id = jTag.id;
-    retrieved.Title = jTag.title;
-    return retrieved;
+    return jTag;
   }
 
   async postTag(tagName: string): Promise<joplinTag> {
@@ -180,10 +236,7 @@ export class joplinApiBc implements iJoplinApiBc {
       const jTag = await joplin.data.post(['tags'], null, {
         title: tagName
       });
-      const result: joplinTag = new joplinTag();
-      result.Id = jTag.id;
-      result.Title = jTag.title;
-      return result;
+      return jTag;
     } catch (e) {
       console.error('Error on create note');
       console.error(e);

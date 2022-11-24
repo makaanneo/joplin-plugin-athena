@@ -1,10 +1,26 @@
-export class joplinResource {
-  Title: string;
-  Id: string;
-  Mime: string;
-  JoplinResourceType: any;
+import { injectable } from 'inversify';
 
-  public async buildResourceLink(
+export interface iJoplinResource {
+  title: string;
+  id: string;
+  mime: string;
+  size: string;
+  filename: string;
+  file_extension: string;
+  buildResourceLink(name: string, id: string, mime: string): Promise<string>;
+  buildResourceTitle(name: string): Promise<string>;
+}
+
+@injectable()
+export class joplinResource implements iJoplinResource {
+  title: string;
+  id: string;
+  mime: string;
+  size: string;
+  filename: string;
+  file_extension: string;
+
+  async buildResourceLink(
     name: string,
     id: string,
     mime: string
@@ -16,7 +32,7 @@ export class joplinResource {
     return link;
   }
 
-  public async buildResourceTitle(name: string): Promise<string> {
+  async buildResourceTitle(name: string): Promise<string> {
     return `# ${name}`;
   }
 }

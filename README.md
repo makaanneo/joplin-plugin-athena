@@ -18,6 +18,12 @@ And copy PDF files inside the import path to start working.
 ## How it works
 These plugin imort files from certain folders, specified inside the settings. For pdf files it will extract some meta data if there as well as text stored inside the pdf (OCR must be done by the scanner application) and stores the text inside a comment block of the note itself.
 
+## Format in Note
+
+
+
+## Old style (Add function to auto migrate)
+
 ```xml
 <!--
 PDFMETADATATEXTSTART
@@ -71,6 +77,8 @@ Basically, this plugin is inspired by:
 - [Resource Search Plugin](https://github.com/roman-r-m/joplin-plugin-resource-search)
 - [Hotfolder](https://github.com/JackGruber/joplin-plugin-hotfolder)
 - [Enhancement](https://github.com/SeptemberHX/joplin-plugin-enhancement)
+- [Folding in Code Mirror Editor](https://github.com/ambrt/joplin-plugin-fold-cm)
+- [Zettlr](https://www.zettlr.com/)
 
 ## Development
 

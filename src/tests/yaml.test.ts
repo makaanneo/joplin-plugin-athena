@@ -27,7 +27,7 @@ describe('IoC Container works', function () {
       Metadata: null,
       Modified: new Date(Date.now()),
       Recipient: 'Recipient',
-      ResourceLing: 'ResourceLing'
+      ResourceLink: 'ResourceLing'
     };
 
     const actual = stringify(sut);

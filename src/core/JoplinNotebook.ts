@@ -1,6 +1,11 @@
-interface JoplinNotebook {
+export interface iJoplinNotebook {
   id: string;
   title: string;
   parent_id: string;
 }
-export { JoplinNotebook };
+
+export class joplinNotebook implements iJoplinNotebook {
+  id: string;
+  title: string;
+  parent_id: string;
+}

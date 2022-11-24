@@ -40,12 +40,10 @@ function getMock(): pluginSettings {
   return config;
 }
 
-const mockPluginSettings = getMock();
-
 describe('Tokenize filesnames without date', function () {
   beforeEach(() => {
     myContainer.snapshot();
-    let athenaSettingsMock = {
+    const athenaSettingsMock = {
       Values: getMock(),
       initilize: null,
       verify: null
@@ -115,7 +113,7 @@ describe('Tokenize filesnames without date', function () {
 describe('Tokenize filesnames with date', function () {
   beforeEach(() => {
     myContainer.snapshot();
-    let athenaSettingsMock = {
+    const athenaSettingsMock = {
       Values: getMock(),
       initilize: null,
       verify: null

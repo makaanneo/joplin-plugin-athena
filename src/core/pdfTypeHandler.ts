@@ -12,7 +12,7 @@ export class pdfTypeHandler
   implements iFileTypeHandler
 {
   private _pdf: pdf;
-  private _name: string = 'pdfTypeHandler';
+  private _name = 'pdfTypeHandler';
   private _supported: Array<string> = new Array<string>();
   constructor(
     @inject(TYPES.iAthenaConfiguration) settings: iAthenaConfiguration,
@@ -31,12 +31,12 @@ export class pdfTypeHandler
     return canHandle;
   }
   async extension(): Promise<Array<string>> {
-    let support: string[] = [];
+    const support: string[] = [];
     support.push('pdf');
     return support;
   }
   async loadFile(filePath: string): Promise<rawFile> {
-    let pdfFullText = await this._pdf.extractPdfText(filePath);
+    const pdfFullText = await this._pdf.extractPdfText(filePath);
     const metaInformation = await this._pdf.extractPdfMetadata(filePath);
     const file: iRawFile = new rawFile();
     file.Name = path.basename(filePath);

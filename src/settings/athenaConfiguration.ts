@@ -16,7 +16,9 @@ import {
   TAG_NEW_FILES,
   TAG_NEW_FILES_TAGS,
   pluginSettings,
-  FILE_HASH_ALGORITHM
+  FILE_HASH_ALGORITHM,
+  CODEMIRROR_FRONT_MATTER,
+  FOLD_FRONT_MATTER
 } from '../common';
 
 export interface iAthenaConfiguration {
@@ -99,6 +101,10 @@ export class athenaConfiguration implements iAthenaConfiguration {
     config.skipFileContent = await joplin.settings.value(SKIP_FILE_CONTENT);
     config.tagNewFiles = await joplin.settings.value(TAG_NEW_FILES);
     config.tagNewFilesTags = await joplin.settings.value(TAG_NEW_FILES_TAGS);
+    config.codemirrorFrontMatter = await joplin.settings.value(
+      CODEMIRROR_FRONT_MATTER
+    );
+    config.foldFrontMatter = await joplin.settings.value(FOLD_FRONT_MATTER);
     config.fileHashAlgorithm = await joplin.settings.value(FILE_HASH_ALGORITHM);
     config.importRecursiveDepth = await joplin.settings.value(
       IMPORT_RECURSIVE_DEPTH

@@ -25,21 +25,21 @@ export class joplinTagProcessor implements iJoplinTagProcessor {
     for (let index = 0; index < tags.length; index++) {
       const tag = await this._jApi.findTagByName(tags[index]);
       if (tag !== null) {
-        console.log(`Retrieved tag: ${tag.Id} and title: ${tag.Title}`);
+        console.log(`Retrieved tag: ${tag.id} and title: ${tag.title}`);
       }
       if (tag === null || tag === undefined) {
         const newTag = await this._jApi.postTag(tags[index]);
         result.push(newTag);
-        console.log(`Add new tag: ${newTag.Id} and title: ${newTag.Title}`);
+        console.log(`Add new tag: ${newTag.id} and title: ${newTag.title}`);
       } else {
         result.push(tag);
-        console.log(`Add existig tag: ${tag.Id} and title: ${tag.Title}`);
+        console.log(`Add existig tag: ${tag.id} and title: ${tag.title}`);
       }
     }
     for (let index = 0; index < result.length; index++) {
-      const tagId = result[index].Id;
-      console.log(`Tag note with id: ${jNote.Id} with tag with id: ${tagId}`);
-      await this._jApi.postTagToNote(jNote.Id, tagId);
+      const tagId = result[index].id;
+      console.log(`Tag note with id: ${jNote.id} with tag with id: ${tagId}`);
+      await this._jApi.postTagToNote(jNote.id, tagId);
     }
 
     return result;

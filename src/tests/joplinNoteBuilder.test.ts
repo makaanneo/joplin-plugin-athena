@@ -7,16 +7,17 @@ import {
   jest,
   it
 } from '@jest/globals';
-import fs = require('fs-extra');
-import * as path from 'path';
+import { iJoplinNoteBuilder } from '../core/joplinNoteBuilder';
 import { myContainer } from '../inversify.config';
 import { TYPES } from '../types';
+import { iRawFile, rawFile } from '../core/rawFile';
+import { iJoplinResource, joplinResource } from '../core/joplinResource';
 import { pluginSettings } from '../common';
-import { iAthenaConfiguration } from '../settings/athenaConfiguration';
-import { iArchiveFile } from '../core/archiveFile';
-import { verify } from 'crypto';
-
+import fs = require('fs-extra');
+import * as path from 'path';
+import { iAthenaConfiguration } from 'src/settings/athenaConfiguration';
 jest.mock('../settings/settings');
+jest.mock('path');
 
 const mockDateNow = new Date('2022-01-04T11:11:11.135Z');
 
@@ -36,11 +37,11 @@ function getMock(): pluginSettings {
   config.skipFileContent = false;
   config.tagNewFiles = false;
   config.tagNewFilesTags = '';
+  config.fileHashAlgorithm = 'sha256';
   config.importRecursiveDepth = 5;
   return config;
 }
-
-describe('create correct archive folder based on date', function () {
+describe('IoC Container works', function () {
   beforeEach(() => {
     myContainer.snapshot();
     const athenaSettingsMock = {
@@ -63,20 +64,25 @@ describe('create correct archive folder based on date', function () {
   afterEach(() => {
     myContainer.restore();
   });
-
-  it(`Should return target by using handed over date`, async () => {
-    const sut = myContainer.get<iArchiveFile>(TYPES.iArchiveFile);
-    const archiveBaseFolder = 'testPath/subPath';
-    const dateTime = new Date('2022-01-01T11:11:11.135Z');
-    const monthSubFolder = `${dateTime.getMonth() + 1 < 10 ? '0' : ''}${
-      dateTime.getMonth() + 1
-    }`;
-    const expected = path.join(
-      archiveBaseFolder,
-      dateTime.getFullYear().toString(),
-      monthSubFolder
+  it(`should return instance of atthenasettings`, async () => {
+    const sut: iJoplinNoteBuilder = myContainer.get<iJoplinNoteBuilder>(
+      TYPES.iJoplinNoteBuilder
     );
-    const actual = await sut.createArchiveFolder(archiveBaseFolder, dateTime);
-    expect(actual).toEqual(expected);
+    const file: iRawFile = new rawFile();
+    file.Name = 'name';
+    file.Metadata = {
+      Title: 'Title',
+      Subject: 'Subject',
+      Author: 'Author',
+      Keywords: ['key1,key2'],
+      CreationDate: new Date(Date.now()),
+      ModificationDate: new Date(Date.now())
+    };
+    const resource: iJoplinResource = new joplinResource();
+    resource.mime = 'dummy/pdf';
+    resource.id = 'id';
+    resource.title = 'title';
+    const actual = await sut.mapFileToPreparedNote(file, resource);
+    expect(actual).not.toEqual(undefined);
   });
 });
