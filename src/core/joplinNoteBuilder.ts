@@ -2,9 +2,9 @@ import { inject, injectable } from 'inversify';
 import { iAthenaConfiguration } from '../settings/athenaConfiguration';
 import { TYPES } from '../types';
 import { iRawFile } from './rawFile';
-import { stringify } from 'yaml';
+import YAML from 'yaml';
 import { iPreparedNote, preparedNote } from './iPreparedNote';
-import { documentFrontMatter } from './documentFrontMatter';
+import { documentFrontMatter as documentMetaData } from './documentFrontMatter';
 import { iJoplinApiBc } from './joplinApiBc';
 import { iJoplinFolderProcessor } from './joplinFolderProcessor';
 import { iJoplinResource } from './joplinResource';
@@ -17,7 +17,7 @@ export interface iJoplinNoteBuilder {
   mapFileToPreparedNote(
     file: iRawFile,
     resource: iJoplinResource
-  ): Promise<documentFrontMatter>;
+  ): Promise<documentMetaData>;
 }
 
 @injectable()
@@ -37,16 +37,16 @@ export class joplinNoteBuilder implements iJoplinNoteBuilder {
   async mapFileToPreparedNote(
     file: iRawFile,
     resource: iJoplinResource
-  ): Promise<documentFrontMatter> {
+  ): Promise<documentMetaData> {
     const resourceLink = await resource.buildResourceLink(
-      resource.title,
+      file.Name,
       resource.id,
       resource.mime
     );
     return {
       Name: (await file.fileNameWithoutExtension(file.Name)).trim(),
       Author: (file.Metadata.Author ?? '').trim(),
-      Content: ` \n ${file.Content}\n`,
+      Content: file.Content,
       Sender: '',
       Captured: file.Captured,
       Created: file.Metadata?.CreationDate ?? null,
@@ -61,10 +61,8 @@ export class joplinNoteBuilder implements iJoplinNoteBuilder {
     };
   }
 
-  async prepareMetadataBlock(
-    frontMatter: documentFrontMatter
-  ): Promise<string> {
-    const yaml_string = stringify(frontMatter);
+  async prepareMetadataBlock(metadata: documentMetaData): Promise<string> {
+    const yaml_string = YAML.stringify(metadata, { simpleKeys: false });
 
     let result = '';
     result += '``` yaml document header';
@@ -118,6 +116,7 @@ export class joplinNoteBuilder implements iJoplinNoteBuilder {
       resourceLink
     );
     note.Title = metaData.Name;
+    note.created_time = metaData.Created;
     note.Tags = new Array<string>();
     note.Folder = (
       await this._jfp.getImportFolderId(this._settings.Values.importNotebook)

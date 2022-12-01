@@ -83,7 +83,7 @@ joplin.plugins.register({
 
     await joplin.commands.register({
       name: 'migrateNoteFromV1ToV2',
-      label: 'Migrate from file import version V1 to V2.',
+      label: 'Athena: Migrate from file import version V1 to V2.',
       execute: async (noteIds: string[]) => {
         const notes = [];
         for (const noteId of noteIds) {
@@ -138,6 +138,3 @@ joplin.plugins.register({
     }
   }
 });
-function alert(arg0: string) {
-  throw new Error('Function not implemented.');
-}

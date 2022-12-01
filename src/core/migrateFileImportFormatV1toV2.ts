@@ -208,14 +208,11 @@ export class migrateFileImportFormatV1toV2
         ModificationDate: metaData.CreationDate
       };
       loadedFile.Name = existingNote.title;
-      console.log(loadedFile);
       const prepared = await this._jnb.buildNote(loadedFile, jResource);
-      console.log(prepared);
       const migrated = await this._jApi.putNoteBody(
         existingNote.id,
         prepared.Body
       );
-      console.log(migrated);
       if (migrated === null) {
         return null;
       }

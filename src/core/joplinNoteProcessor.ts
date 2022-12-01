@@ -6,7 +6,6 @@ import { iJoplinNoteBuilder } from './joplinNoteBuilder';
 import { iJoplinApiBc } from './joplinApiBc';
 import { iArchiveFile } from './archiveFile';
 import { iJoplinTagProcessor } from './joplinTagProcessor';
-import { iJoplinFolderProcessor } from './joplinFolderProcessor';
 import { iFileTypeProcessor } from './fileTypeProcessor';
 
 export interface iJoplinNoteProcessor {
@@ -41,29 +40,35 @@ export class joplinNoteProcessor implements iJoplinNoteProcessor {
     console.log(
       `START: import file: ${file} from folder ${this._settings.Values.importPath}.`
     );
-    const lodedFile = await this._ftp.loadFile(file);
-    const isDuplicate = await this._jdapi.findNoteByHash(lodedFile.FileHash);
-    if (isDuplicate && !this._settings.Values.importDuplicateFiles) {
-      console.log('Skip duplicated file.');
-      return;
-    }
-    const jRes = await this._jdapi.postResource(file);
-    const preparedNote = await this._nb.buildNote(lodedFile, jRes);
-    const jNote = await this._jdapi.postNote(preparedNote);
+    try {
+      const lodedFile = await this._ftp.loadFile(file);
+      const isDuplicate = await this._jdapi.findNoteByHash(lodedFile.FileHash);
+      if (isDuplicate && !this._settings.Values.importDuplicateFiles) {
+        console.log('Skip duplicated file.');
+        return;
+      }
+      const jRes = await this._jdapi.postResource(file);
+      const preparedNote = await this._nb.buildNote(lodedFile, jRes);
+      const jNote = await this._jdapi.postNote(preparedNote);
 
-    if (this._settings.Values.tagNewFiles) {
-      console.log('Tag imported files with pre defined tags.');
-      const jTags = await this._jtp.buildTags(jNote);
-    }
+      if (this._settings.Values.tagNewFiles) {
+        console.log('Tag imported files with pre defined tags.');
+        const jTags = await this._jtp.buildTags(jNote);
+      }
 
-    if (this._settings.Values.archiveImportedFiles) {
-      const targetPath = await this._af.archive(lodedFile);
-      console.log(`File archived in path: ${targetPath}.`);
-    } else {
-      await this._af.cleanUp(lodedFile);
+      if (this._settings.Values.archiveImportedFiles) {
+        const targetPath = await this._af.archive(lodedFile);
+        console.log(`File archived in path: ${targetPath}.`);
+      } else {
+        await this._af.cleanUp(lodedFile);
+      }
+      console.log(
+        `END: import file: ${file} from folder ${this._settings.Values.importPath}.`
+      );
+    } catch (e) {
+      console.error(
+        `ERROR: import file: ${file} from folder ${this._settings.Values.importPath} failed due to error ${e}.`
+      );
     }
-    console.log(
-      `END: import file: ${file} from folder ${this._settings.Values.importPath}.`
-    );
   }
 }

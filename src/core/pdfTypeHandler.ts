@@ -5,6 +5,7 @@ import { pdf } from '../pdf/pdf';
 import path = require('path');
 import { rawFile, iRawFile } from './rawFile';
 import { typeHandlerBase, iFileTypeHandler } from './typeHandlerBase';
+import { Console } from 'console';
 
 @injectable()
 export class pdfTypeHandler

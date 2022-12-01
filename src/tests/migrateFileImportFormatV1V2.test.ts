@@ -161,13 +161,19 @@ describe('Migrate v1 File import to v2 import Version', function () {
       .toString();
     const expected = {
       Author: 'author test',
-      CreationDate: new Date('2022-06-23T14:39:05.000Z'),
+      CreationDate: new Date('2022-01-01T14:39:05.000Z'),
       Keywords: 'keyword1, keyword2',
       Subject: 'subject test',
       Title: '2022-06-11-1639-a-file'
     };
     const actual = await sut.loadPDFMETADATATEXT(noteBody);
-    expect(actual).toEqual(expected);
+    expect(actual.Author).toEqual(expected.Author);
+    expect(actual.CreationDate.toISOString()).toEqual(
+      expected.CreationDate.toISOString()
+    );
+    expect(actual.Subject).toEqual(expected.Subject);
+    expect(actual.Title).toEqual(expected.Title);
+    expect(actual.Keywords).toEqual(expected.Keywords);
   });
   it(`on 2 filemetadata without data should loaded`, async () => {
     const sut = myContainer.get<iMigrateFileImportFormatV1toV2>(

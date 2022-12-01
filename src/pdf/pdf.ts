@@ -1,7 +1,7 @@
 import * as pdfjsLib from 'pdfjs-dist/build/pdf.js';
 import pdfjsWorker from 'pdfjs-dist/build/pdf.worker.entry';
-import { EOL } from 'os';
 import { PDFDateString } from 'pdfjs-dist';
+import { EOL } from 'os';
 import { injectable } from 'inversify';
 import { metaData } from '../core/fileMetaData';
 

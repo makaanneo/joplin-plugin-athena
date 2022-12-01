@@ -54,45 +54,57 @@ export class joplinApiBc implements iJoplinApiBc {
       });
       return jNote;
     } catch (e) {
-      console.error('Error on create note');
+      console.error('Error: Put note body to Joplin note.');
       console.error(e);
-      return null;
+      throw e;
     }
   }
   async getResourcesOfNote(noteId: string): Promise<Array<iJoplinResource>> {
     console.log('get resource of note by id.');
-    const result = await joplin.data.get(['notes', noteId, 'resources'], {
-      fields: ['id', 'size', 'title', 'filename', 'file_extension', 'mime']
-    });
-    if (
-      typeof result === undefined ||
-      result == null ||
-      (result != null && result.items.length === 0) ||
-      typeof result.items[0] === undefined
-    ) {
-      return null;
+    try {
+      const result = await joplin.data.get(['notes', noteId, 'resources'], {
+        fields: ['id', 'size', 'title', 'filename', 'file_extension', 'mime']
+      });
+      if (
+        typeof result === undefined ||
+        result == null ||
+        (result != null && result.items.length === 0) ||
+        typeof result.items[0] === undefined
+      ) {
+        return null;
+      }
+      const jr: Array<iJoplinResource> = result.items.map((resource) => {
+        const result: iJoplinResource = new joplinResource();
+        result.id = resource.id;
+        result.filename = resource.filename;
+        result.mime = resource.mime;
+        result.file_extension = resource.file_extension;
+        result.size = resource.size;
+        result.title = resource.titel;
+        return result;
+      });
+      return jr;
+    } catch (e) {
+      console.error('Error: get resource of note by id.');
+      console.error(e);
+      throw e;
     }
-    const jr: Array<iJoplinResource> = result.items.map((resource) => {
-      const result: iJoplinResource = new joplinResource();
-      result.id = resource.id;
-      result.filename = resource.filename;
-      result.mime = resource.mime;
-      result.file_extension = resource.file_extension;
-      result.size = resource.size;
-      result.title = resource.titel;
-      return result;
-    });
-    return jr;
   }
   async getNote(noteId: string): Promise<iJoplinNote> {
     console.log('get note by id.');
-    const result = await joplin.data.get(['notes', noteId], {
-      fields: ['id', 'title', 'body', 'parent_id', 'created_time']
-    });
-    if (typeof result === undefined || result == null) {
-      return null;
+    try {
+      const result = await joplin.data.get(['notes', noteId], {
+        fields: ['id', 'title', 'body', 'parent_id', 'created_time']
+      });
+      if (typeof result === undefined || result == null) {
+        return null;
+      }
+      return result;
+    } catch (e) {
+      console.error('Error: get note by id.');
+      console.error(e);
+      throw e;
     }
-    return result;
   }
   async postNotebook(name: string): Promise<iJoplinNotebook> {
     console.log('Post notebook (folder) to Joplin.');
@@ -104,24 +116,30 @@ export class joplinApiBc implements iJoplinApiBc {
     } catch (e) {
       console.error('Error on create note');
       console.error(e);
-      return null;
+      throw e;
     }
   }
   async findNoteByHash(hash: string): Promise<Array<iJoplinNote>> {
     console.log('Find note by hash.');
-    const result = await joplin.data.get(['search'], {
-      query: hash,
-      type: 'note'
-    });
-    if (
-      typeof result === undefined ||
-      result == null ||
-      (result != null && result.items.length === 0) ||
-      typeof result.items[0] === undefined
-    ) {
-      return null;
+    try {
+      const result = await joplin.data.get(['search'], {
+        query: hash,
+        type: 'note'
+      });
+      if (
+        typeof result === undefined ||
+        result == null ||
+        (result != null && result.items.length === 0) ||
+        typeof result.items[0] === undefined
+      ) {
+        return null;
+      }
+      return result.items;
+    } catch (e) {
+      console.error('Error: Find note by hash');
+      console.error(e);
+      throw e;
     }
-    return result.items;
   }
 
   async postNote(note: iPreparedNote): Promise<iJoplinNote> {
@@ -130,13 +148,15 @@ export class joplinApiBc implements iJoplinApiBc {
       const jNote = await joplin.data.post(['notes'], null, {
         body: note.Body,
         title: note.Title,
-        parent_id: note.Folder
+        parent_id: note.Folder,
+        user_created_time: note.created_time?.getTime(),
+        user_updated_time: note.created_time?.getTime()
       });
       return jNote;
     } catch (e) {
-      console.error('Error on create note');
+      console.error('Error: Post note to Joplin');
       console.error(e);
-      return null;
+      throw e;
     }
   }
 
@@ -164,9 +184,9 @@ export class joplinApiBc implements iJoplinApiBc {
       result.title = resource.titel;
       return result;
     } catch (e) {
-      console.error('Error on create resources');
+      console.error('Error: Post Resource to Joplin');
       console.error(e);
-      return null;
+      throw e;
     }
   }
 
@@ -177,27 +197,34 @@ export class joplinApiBc implements iJoplinApiBc {
     }
 
     console.info(`Search for folders: ${name}`);
+    try {
+      const query = await joplin.data.get(['search'], {
+        type: 'folder',
+        query: name
+      });
 
-    const query = await joplin.data.get(['search'], {
-      type: 'folder',
-      query: name
-    });
+      if (
+        typeof query === undefined ||
+        query == null ||
+        (query != null && query.length === 0) ||
+        typeof query.items[0] === undefined
+      ) {
+        return null;
+      }
 
-    if (
-      typeof query === undefined ||
-      query == null ||
-      (query != null && query.length === 0) ||
-      typeof query.items[0] === undefined
-    ) {
-      return null;
+      if (query.items.length > 1) {
+        console.warn(
+          `Retrieved more then one folder for titel: ${query.length}`
+        );
+      }
+      const folder = query.items[0];
+      console.log(`Retrieved folder ${folder.title}`);
+      return folder;
+    } catch (e) {
+      console.error(`Error: Search for folders: ${name}`);
+      console.error(e);
+      throw e;
     }
-
-    if (query.items.length > 1) {
-      console.warn(`Retrieved more then one folder for titel: ${query.length}`);
-    }
-    const folder = query.items[0];
-    console.log(`Retrieved folder ${folder.title}`);
-    return folder;
   }
 
   async postTagToNote(noteId: string, tagId: string): Promise<void> {
@@ -209,25 +236,32 @@ export class joplinApiBc implements iJoplinApiBc {
     } catch (e) {
       console.error('note tagging error');
       console.error(e);
+      throw e;
     }
   }
 
   async findTagByName(tag: string): Promise<joplinTag> {
     console.log('Find tag by name.');
-    const result = await joplin.data.get(['search'], {
-      query: tag,
-      type: 'tag'
-    });
-    if (
-      typeof result === undefined ||
-      result == null ||
-      (result != null && result.items.length === 0) ||
-      typeof result.items[0] === undefined
-    ) {
-      return null;
+    try {
+      const result = await joplin.data.get(['search'], {
+        query: tag,
+        type: 'tag'
+      });
+      if (
+        typeof result === undefined ||
+        result == null ||
+        (result != null && result.items.length === 0) ||
+        typeof result.items[0] === undefined
+      ) {
+        return null;
+      }
+      const jTag = result.items[0];
+      return jTag;
+    } catch (e) {
+      console.error('Error: Find tag by name.');
+      console.error(e);
+      throw e;
     }
-    const jTag = result.items[0];
-    return jTag;
   }
 
   async postTag(tagName: string): Promise<joplinTag> {
@@ -238,9 +272,9 @@ export class joplinApiBc implements iJoplinApiBc {
       });
       return jTag;
     } catch (e) {
-      console.error('Error on create note');
+      console.error('Error: Post tag to Joplin.');
       console.error(e);
-      return null;
+      throw e;
     }
   }
 }

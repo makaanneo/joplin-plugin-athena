@@ -5,17 +5,15 @@
 ``` yaml document header
 Name: title
 Author: author test
-Content: |2+
-   
-   
+Content: |+
+  
   some text
 
   some more text
 
-
 Sender: ""
 Captured: 2022-07-27T13:44:57.229Z
-Created: &a1 2022-06-23T14:39:05.000Z
+Created: &a1 2022-01-01T14:39:05.000Z
 FileHash:
   Hash: somehash1234567890
 Metadata: null
