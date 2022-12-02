@@ -28,9 +28,8 @@ const testNote2: iJoplinNote = new joplinNote();
 testNote2.id = 'id';
 testNote2.title = 'prepared_title';
 testNote2.created_time = 1658929497229;
-testNote2.body = fs
-  .readFileSync('./src/tests/testData/simpleNoteBody.txt')
-  .toString();
+testNote2.body =
+  '[2022-06-11-1639-a-file](:/someresourceid)\n\n<!--\nPDFMETADATATEXTSTART\nTitle: 2022-06-11-1639-a-file\nCreationDate: 2022-01-01T14:39:05.000Z\nAuthor: author test\nSubject: subject test\nKeywords: keyword1, keyword2\n\n\nPDFMETADATATEXTEND\nPDFCONTENTTEXTSTART\nsome text\n\nsome more text\n\nPDFCONTENTTEXTEND\nFILEHASHSTART\nFILEHASHEND\n-->\n\n\n<!--\nFILEHASHSTART\nsomehash1234567890\nFILEHASHEND\n-->\n';
 @injectable()
 class joplinApiBcMock implements iJoplinApiBc {
   private _resource: iJoplinResource;
@@ -52,9 +51,8 @@ class joplinApiBcMock implements iJoplinApiBc {
     testNote.id = 'id';
     testNote.title = 'title';
     testNote.created_time = 1658929497229;
-    testNote.body = fs
-      .readFileSync('./src/tests/testData/simpleNoteBody.txt')
-      .toString();
+    testNote.body =
+      '[2022-06-11-1639-a-file](:/someresourceid)\n\n<!--\nPDFMETADATATEXTSTART\nTitle: 2022-06-11-1639-a-file\nCreationDate: 2022-01-01T14:39:05.000Z\nAuthor: author test\nSubject: subject test\nKeywords: keyword1, keyword2\n\n\nPDFMETADATATEXTEND\nPDFCONTENTTEXTSTART\nsome text\n\nsome more text\n\nPDFCONTENTTEXTEND\nFILEHASHSTART\nFILEHASHEND\n-->\n\n\n<!--\nFILEHASHSTART\nsomehash1234567890\nFILEHASHEND\n-->\n';
     return testNote;
   }
   async postResource(file: string): Promise<joplinResource> {
@@ -156,9 +154,8 @@ describe('Migrate v1 File import to v2 import Version', function () {
     const sut = myContainer.get<iMigrateFileImportFormatV1toV2>(
       TYPES.iMigrateFileImportFormatV1toV2
     );
-    const noteBody = fs
-      .readFileSync('./src/tests/testData/simpleNoteBody.txt')
-      .toString();
+    const noteBody =
+      '[2022-06-11-1639-a-file](:/someresourceid)\n\n<!--\nPDFMETADATATEXTSTART\nTitle: 2022-06-11-1639-a-file\nCreationDate: 2022-01-01T14:39:05.000Z\nAuthor: author test\nSubject: subject test\nKeywords: keyword1, keyword2\n\n\nPDFMETADATATEXTEND\nPDFCONTENTTEXTSTART\nsome text\n\nsome more text\n\nPDFCONTENTTEXTEND\nFILEHASHSTART\nFILEHASHEND\n-->\n\n\n<!--\nFILEHASHSTART\nsomehash1234567890\nFILEHASHEND\n-->\n';
     const expected = {
       Author: 'author test',
       CreationDate: new Date('2022-01-01T14:39:05.000Z'),
@@ -179,9 +176,8 @@ describe('Migrate v1 File import to v2 import Version', function () {
     const sut = myContainer.get<iMigrateFileImportFormatV1toV2>(
       TYPES.iMigrateFileImportFormatV1toV2
     );
-    const noteBody = fs
-      .readFileSync('./src/tests/testData/nometadata.txt')
-      .toString();
+    const noteBody =
+      '[2022-06-11-1639-a-file](:/7a1d68564e3c4ffabfa70555533b428e)\n\n<!--\nPDFMETADATATEXTSTART\n\n\n\nPDFMETADATATEXTEND\nPDFCONTENTTEXTSTART\nsome text\n\nsome more text\n\nPDFCONTENTTEXTEND\nFILEHASHSTART\nFILEHASHEND\n-->\n\n\n<!--\nFILEHASHSTART\nsomehash1234567890\nFILEHASHEND\n-->\n';
     const expected = {
       Author: '',
       CreationDate: null,
@@ -196,9 +192,8 @@ describe('Migrate v1 File import to v2 import Version', function () {
     const sut = myContainer.get<iMigrateFileImportFormatV1toV2>(
       TYPES.iMigrateFileImportFormatV1toV2
     );
-    const noteBody = fs
-      .readFileSync('./src/tests/testData/simpleNoteBody.txt')
-      .toString();
+    const noteBody =
+      '[2022-06-11-1639-a-file](:/someresourceid)\n\n<!--\nPDFMETADATATEXTSTART\nTitle: 2022-06-11-1639-a-file\nCreationDate: 2022-01-01T14:39:05.000Z\nAuthor: author test\nSubject: subject test\nKeywords: keyword1, keyword2\n\n\nPDFMETADATATEXTEND\nPDFCONTENTTEXTSTART\nsome text\n\nsome more text\n\nPDFCONTENTTEXTEND\nFILEHASHSTART\nFILEHASHEND\n-->\n\n\n<!--\nFILEHASHSTART\nsomehash1234567890\nFILEHASHEND\n-->\n';
     const expected = 'somehash1234567890';
     const actual = await sut.loadFILEHASH(noteBody);
     expect(actual).toEqual(expected);
@@ -207,9 +202,8 @@ describe('Migrate v1 File import to v2 import Version', function () {
     const sut = myContainer.get<iMigrateFileImportFormatV1toV2>(
       TYPES.iMigrateFileImportFormatV1toV2
     );
-    const noteBody = fs
-      .readFileSync('./src/tests/testData/noFileHash.txt')
-      .toString();
+    const noteBody =
+      '[2022-06-11-1639-a-file](:/7a1d68564e3c4ffabfa70555533b428e)\n\n<!--\nPDFMETADATATEXTSTART\nTitle: 2022-06-11-1639-a-file\nCreationDate: 2022-01-01T14:39:05.000Z\n\nPDFMETADATATEXTEND\nPDFCONTENTTEXTSTART\nsome text\n\nsome more text\n\nPDFCONTENTTEXTEND\nFILEHASHSTART\nFILEHASHEND\n-->\n\n\n<!--\nFILEHASHSTART\nFILEHASHEND\n-->\n';
     const expected = '';
     const actual = await sut.loadFILEHASH(noteBody);
     expect(actual).toEqual(expected);
@@ -218,9 +212,8 @@ describe('Migrate v1 File import to v2 import Version', function () {
     const sut = myContainer.get<iMigrateFileImportFormatV1toV2>(
       TYPES.iMigrateFileImportFormatV1toV2
     );
-    const noteBody = fs
-      .readFileSync('./src/tests/testData/simpleNoteBody.txt')
-      .toString();
+    const noteBody =
+      '[2022-06-11-1639-a-file](:/someresourceid)\n\n<!--\nPDFMETADATATEXTSTART\nTitle: 2022-06-11-1639-a-file\nCreationDate: 2022-01-01T14:39:05.000Z\nAuthor: author test\nSubject: subject test\nKeywords: keyword1, keyword2\n\n\nPDFMETADATATEXTEND\nPDFCONTENTTEXTSTART\nsome text\n\nsome more text\n\nPDFCONTENTTEXTEND\nFILEHASHSTART\nFILEHASHEND\n-->\n\n\n<!--\nFILEHASHSTART\nsomehash1234567890\nFILEHASHEND\n-->\n';
     const expected = '\nsome text\n\nsome more text\n\n';
     const actual = await sut.loadPDFCONTENTTEXT(noteBody);
     expect(actual).toEqual(expected);
@@ -230,9 +223,8 @@ describe('Migrate v1 File import to v2 import Version', function () {
     const sut = myContainer.get<iMigrateFileImportFormatV1toV2>(
       TYPES.iMigrateFileImportFormatV1toV2
     );
-    const noteBody = fs
-      .readFileSync('./src/tests/testData/noContent.txt')
-      .toString();
+    const noteBody =
+      '[2022-06-11-1639-a-file](:/7a1d68564e3c4ffabfa70555533b428e)\n\n<!--\nPDFMETADATATEXTSTART\nTitle: 2022-06-11-1639-a-file\nCreationDate: 2022-01-01T14:39:05.000Z\nAuthor: author test\nSubject: subject test\nKeywords: keyword1, keyword2\n\n\nPDFMETADATATEXTEND\nPDFCONTENTTEXTSTART\nPDFCONTENTTEXTEND\nFILEHASHSTART\nFILEHASHEND\n-->\n\n\n<!--\nFILEHASHSTART\nsomehash1234567890\nFILEHASHEND\n-->\n';
     const expected = '\n';
     const actual = await sut.loadPDFCONTENTTEXT(noteBody);
     expect(actual).toEqual(expected);
@@ -242,9 +234,8 @@ describe('Migrate v1 File import to v2 import Version', function () {
     const sut = myContainer.get<iMigrateFileImportFormatV1toV2>(
       TYPES.iMigrateFileImportFormatV1toV2
     );
-    const expected = fs
-      .readFileSync('./src/tests/testData/expectedNote.txt')
-      .toString();
+    const expected =
+      '# title\n[title](:/someresourceid)\n\n# metadata\n``` yaml document header\nName: title\nAuthor: author test\nContent: |+\n  \n  some text\n\n  some more text\n\nSender: ""\nCaptured: 2022-07-27T13:44:57.229Z\nCreated: &a1 2022-01-01T14:39:05.000Z\nFileHash:\n  Hash: somehash1234567890\nMetadata: null\nModified: *a1\nRecipient: ""\nResourceLink: "[title](:/someresourceid)"\n\n```\n';
     const noteId = 'noteId';
     const actual = await sut.migrate(noteId);
     expect(actual.Body).toEqual(expected);
