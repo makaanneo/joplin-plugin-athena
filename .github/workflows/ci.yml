@@ -17,11 +17,15 @@ jobs:
           cache: npm
           node-version: ${{ matrix.version }}
       - name: CI build
-        run: yarn
+        run: |
+          git config --global core.autocrlf false 
+          yarn
         id: plugin-build
       - name: Publish Plugin
         if: ${{ matrix.os == 'ubuntu-latest'}}
-        run: npx semantic-release
+        run: |
+          git config --global core.autocrlf false 
+          npx semantic-release
         id: publish-plugin
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
