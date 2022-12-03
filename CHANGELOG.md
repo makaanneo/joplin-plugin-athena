@@ -1,3 +1,16 @@
+# [2.1.0](https://github.com/makaanneo/joplin-plugin-athena/compare/v2.0.2...v2.1.0) (2022-12-02)
+
+
+### Bug Fixes
+
+* **test:** fix tests ([6d7eae9](https://github.com/makaanneo/joplin-plugin-athena/commit/6d7eae977fec86d2b8ef0c9f8333e52e6fbf8e82))
+
+
+### Features
+
+* **import:** modify import and fix tests ([4257d7b](https://github.com/makaanneo/joplin-plugin-athena/commit/4257d7b49da2a03eb79addea126b17bad1b8bac3))
+* **migrate:** Integrate a command to migrate from V1 to V2 note content for file import. ([e1ad694](https://github.com/makaanneo/joplin-plugin-athena/commit/e1ad6946c783d77ad8205d8bb3da330f3dabd6d5))
+
 ## [2.0.2](https://github.com/makaanneo/joplin-plugin-athena/compare/v2.0.1...v2.0.2) (2022-10-27)
 
 
