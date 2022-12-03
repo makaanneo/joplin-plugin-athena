@@ -1,13 +1,13 @@
 import { iAthenaConfiguration } from '../settings/athenaConfiguration';
 import fs = require('fs-extra');
 import crypto = require('crypto');
-import { rawFile } from './rawFile';
 import { injectable } from 'inversify';
+import { iRawFile } from './rawFile';
 
 export interface iFileTypeHandler {
   canHandle(fileExtension: string): Promise<boolean>;
   extension(): Promise<string[]>;
-  loadFile(filePath: string): Promise<rawFile>;
+  loadFile(filePath: string): Promise<iRawFile>;
 }
 
 @injectable()

@@ -41,7 +41,7 @@ export class defaultFileHandler
   async extension(): Promise<Array<string>> {
     return this._supported;
   }
-  async loadFile(filePath: string): Promise<rawFile> {
+  async loadFile(filePath: string): Promise<iRawFile> {
     const fileStats = fs.statSync(filePath);
     const file: iRawFile = new rawFile();
     file.Name = path.basename(filePath);

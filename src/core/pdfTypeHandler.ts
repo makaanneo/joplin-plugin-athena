@@ -5,7 +5,6 @@ import { pdf } from '../pdf/pdf';
 import path = require('path');
 import { rawFile, iRawFile } from './rawFile';
 import { typeHandlerBase, iFileTypeHandler } from './typeHandlerBase';
-import { Console } from 'console';
 
 @injectable()
 export class pdfTypeHandler
@@ -36,7 +35,7 @@ export class pdfTypeHandler
     support.push('pdf');
     return support;
   }
-  async loadFile(filePath: string): Promise<rawFile> {
+  async loadFile(filePath: string): Promise<iRawFile> {
     const pdfFullText = await this._pdf.extractPdfText(filePath);
     const metaInformation = await this._pdf.extractPdfMetadata(filePath);
     const file: iRawFile = new rawFile();

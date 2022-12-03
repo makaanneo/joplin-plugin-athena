@@ -34,7 +34,7 @@ export class plainTextFileHandler
   async extension(): Promise<Array<string>> {
     return this._supported;
   }
-  async loadFile(filePath: string): Promise<rawFile> {
+  async loadFile(filePath: string): Promise<iRawFile> {
     let fileBuffer: Buffer;
     const fileStats = fs.statSync(filePath);
     try {

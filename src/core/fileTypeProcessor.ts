@@ -25,7 +25,7 @@ export class fileTypeProcessor implements iFileTypeProcessor {
     const handler: iFileTypeHandler = await this._factory.getTypeHandler(
       filePath
     );
-    const file: rawFile = await handler.loadFile(filePath);
+    const file: iRawFile = await handler.loadFile(filePath);
     return file;
   }
 }

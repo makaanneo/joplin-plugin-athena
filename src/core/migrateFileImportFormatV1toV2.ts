@@ -52,8 +52,8 @@ export class migrateFileImportFormatV1toV2
     while (result === '' && indexOfFILEHASHEND !== -1) {
       result = body
         .substring(indexOfFILEHASHSTART, indexOfFILEHASHEND)
-        .replace(startToken, '')
-        .replace(endToken, '');
+        .replaceAll(startToken, '')
+        .replaceAll(endToken, '');
       if (result !== '') {
         break;
       }
@@ -83,31 +83,31 @@ export class migrateFileImportFormatV1toV2
       if (value.includes('Title:')) {
         title = value
           .substring(value.indexOf(':') + 1)
-          .replace(EOL, '')
+          .replaceAll(EOL, '')
           .trim();
       }
       if (value.includes('Subject:')) {
         subject = value
           .substring(value.indexOf(':') + 1)
-          .replace(EOL, '')
+          .replaceAll(EOL, '')
           .trim();
       }
       if (value.includes('Author:')) {
         author = value
           .substring(value.indexOf(':') + 1)
-          .replace(EOL, '')
+          .replaceAll(EOL, '')
           .trim();
       }
       if (value.includes('CreationDate:')) {
         creationDate = value
           .substring(value.indexOf(':') + 1)
-          .replace(EOL, '')
+          .replaceAll(EOL, '')
           .trim();
       }
       if (value.includes('Keywords:')) {
         keywords = value
           .substring(value.indexOf(':') + 1)
-          .replace(EOL, '')
+          .replaceAll(EOL, '')
           .trim();
       }
     });
@@ -131,8 +131,8 @@ export class migrateFileImportFormatV1toV2
     while (result === '' && indexOfFILEHASHEND !== -1) {
       result = body
         .substring(indexOfFILEHASHSTART, indexOfFILEHASHEND)
-        .replace(startToken, '')
-        .replace(endToken, '');
+        .replaceAll(startToken, '')
+        .replaceAll(endToken, '');
       if (result !== '') {
         break;
       }
@@ -152,12 +152,12 @@ export class migrateFileImportFormatV1toV2
     while (result === '' && indexOfFILEHASHEND !== -1) {
       result = body
         .substring(indexOfFILEHASHSTART, indexOfFILEHASHEND)
-        .replace(startToken, '')
-        .replace(endToken, '')
-        .replace(EOL, '')
-        .replace('\n', '');
+        .replaceAll(startToken, '')
+        .replaceAll(endToken, '')
+        .replaceAll(EOL, '')
+        .replaceAll('\n', '');
       if (result !== '') {
-        result = result.replace('\n', '');
+        result = result.replaceAll('\n', '');
         break;
       }
       offset = indexOfFILEHASHEND + endToken.length;

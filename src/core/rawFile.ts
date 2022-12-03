@@ -16,7 +16,13 @@ export class rawFile implements iRawFile {
   Name: string;
   Extension: string;
   Metadata: metaData;
-  Content: string;
+  private _content = '';
+  get Content(): string {
+    return this._content;
+  }
+  set Content(value: string) {
+    this._content = value.replaceAll('\r', '');
+  }
   FileHash: string;
   FullPath: string;
   Captured: Date;
@@ -24,7 +30,7 @@ export class rawFile implements iRawFile {
   async fileNameWithoutExtension(fullFileName: string): Promise<string> {
     const fileName = path.basename(fullFileName);
     const fileExt = path.extname(fullFileName);
-    const withOutExtension = fileName.replace(fileExt, '');
+    const withOutExtension = fileName.replaceAll(fileExt, '');
     return withOutExtension;
   }
 }

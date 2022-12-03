@@ -9,7 +9,7 @@
     "strict": false,
     "declaration": true,
     "sourceMap": true,
-    "lib": ["es6"],
+    "lib": ["es6", "ES2021.String"],
     "types": ["reflect-metadata"],
     "moduleResolution": "node",
     "experimentalDecorators": true,

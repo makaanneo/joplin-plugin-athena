@@ -69,14 +69,16 @@ export class archiveFile implements iArchiveFile {
   ): Promise<string> {
     const baseName = path.basename(fileName);
     const extension = path.extname(baseName);
-    const clean = baseName.replace(extension, '');
-    let target = path.join(archivePath, clean);
+    const clean = baseName.replaceAll(extension, '');
+    let target = path.join(archivePath, `${clean}${extension}`);
     if (fs.existsSync(target)) {
       const newFileName = `${clean}-(${await this.getFileNameNoise(
         clean,
         archivePath
       )})${fileExtension}`;
       target = path.join(archivePath, newFileName);
+      console.log('target file name for archive');
+      console.log(target);
       fs.moveSync(sourceFile, target, { overwrite: false });
     } else {
       fs.moveSync(sourceFile, target, { overwrite: true });

@@ -11,19 +11,52 @@ Due to the fact that the PDF text and metadata are stored inside the note they a
 ## Usage
 
 Fill in the required values for the options.
-![Image](assets/JoplinOptions.png)
-
+### regular options
+![Image](assets/JoplinOptionsSimple.png)
+### advanced options
+![Image](assets/JoplinOptionsAdvanced.png)
 And copy PDF files inside the import path to start working.
 
 ## How it works
-These plugin imort files from certain folders, specified inside the settings. For pdf files it will extract some meta data if there as well as text stored inside the pdf (OCR must be done by the scanner application) and stores the text inside a comment block of the note itself.
+These plugin imort files from certain folders, specified inside the settings. For pdf files it will extract some meta data if there as well as text stored inside the pdf (OCR must be done by the scanner application) and stores the text inside a yaml code block of the note itself.
+![Image](assets/Athena_in_action.png)
 
 ## Format in Note
+The format of importat files is:
 
+``` markdown
+# 2022-12-03-simple-test-document.pdf
+[2022-12-03-simple-test-document.pdf](:/450edcc8f9894a3c888f729b0ad87f21)
 
+# metadata
+```
+````
+``` yaml document header
+Name: 2022-12-03-simple-test-document
+Author: ""
+Content: |
+  Part I
+  Lorem ipsum dolor sit amet
+  1  Lorem
+  ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor inci-
+  didunt ut labore et dolore magna aliqua. Nibh sed pulvinar proin gravida.
+  1
+Sender: ""
+Captured: 2022-12-03T13:10:12.124Z
+Created: 2022-12-03T13:09:12.000Z
+FileHash:
+  Algorithm: sha512
+  Hash: 16f6a18bc0797fb235e465bc6475516996911372c5bfe06b6af9180d29bcde95c611027614a4a1d4511a453fe918431016c113b9e42d594ec900138c51b3ad6a
+Metadata: null
+Modified: 2022-12-03T13:09:12.000Z
+Recipient: ""
+ResourceLink: "[2022-12-03-simple-test-document.pdf](:/450edcc8f9894a3c888f729b0ad87f21)"
 
-## Old style (Add function to auto migrate)
+```
+````
 
+## Old style (deprecated)
+The old style can be migrated by a command by selecting multiple notes.
 ```xml
 <!--
 PDFMETADATATEXTSTART
@@ -51,13 +84,9 @@ For the time being the meta data of files is stored inside the note as comment b
 
 ## Roadmap
 
-- [x] Research on better location for metadata and pdf text
 - [ ] Show import status in a status bar with progress
 - [ ] Improve tag handling on import (will be moved to other plugin)
 - [ ] Integrate OCR
-~~ - [ ] Integrate Import of already existing Resources (attached to notes)~~
-- [x] Build on export of files to a special folder for backups (archive directory)
-~~ - [ ] Handle email attachments (other plugin)~~
 - [ ] and a lot more
 
 ## Misc
