@@ -1,3 +1,10 @@
+## [2.1.2](https://github.com/makaanneo/joplin-plugin-athena/compare/v2.1.1...v2.1.2) (2022-12-05)
+
+
+### Bug Fixes
+
+* **release:** New Major is there. ([7d9d025](https://github.com/makaanneo/joplin-plugin-athena/commit/7d9d0252373b5049db32da341100995201a12051))
+
 ## [2.1.1](https://github.com/makaanneo/joplin-plugin-athena/compare/v2.1.0...v2.1.1) (2022-12-03)
 
 
