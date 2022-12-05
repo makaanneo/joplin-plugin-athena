@@ -5,18 +5,27 @@ on:
 jobs:
   release:
     name: Build and test
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        version: [16]
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
           cache: npm
-          node-version: 16
+          node-version: ${{ matrix.version }}
       - name: CI build
-        run: yarn
+        run: |
+          git config --global core.autocrlf false 
+          yarn
         id: plugin-build
       - name: Publish Plugin
-        run: npx semantic-release
+        if: ${{ matrix.os == 'ubuntu-latest'}}
+        run: |
+          git config --global core.autocrlf false 
+          npx semantic-release
         id: publish-plugin
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

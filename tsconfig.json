@@ -2,13 +2,19 @@
   "compilerOptions": {
     "outDir": "./dist/",
     "module": "commonjs",
-    "target": "es2015",
+    "target": "es6",
     "jsx": "react",
     "allowJs": true,
     "baseUrl": ".",
     "strict": false,
     "declaration": true,
-    "sourceMap": true
+    "sourceMap": true,
+    "lib": ["es6", "ES2021.String"],
+    "types": ["reflect-metadata"],
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "esModuleInterop": true
   },
   "exclude": ["node_modules", "**/*.spec.ts"]
 }

@@ -1,34 +1,140 @@
+import 'reflect-metadata';
 import joplin from 'api';
-import * as settings from './settings/settings';
-import { watchAndImport } from './importer';
-import { ContentScriptType } from 'api/types';
+import { ContentScriptType, MenuItemLocation } from 'api/types';
+import { iDirectoryMonitoreWorker } from './worker';
+import { myContainer } from './inversify.config';
+import { TYPES } from './types';
+import { register } from './settings/settings';
+import {
+  athenaConfiguration,
+  iAthenaConfiguration
+} from './settings/athenaConfiguration';
+import { ContextMsg, ContextMsgType } from './common';
+import { iMigrateFileImportFormatV1toV2 } from './core/migrateFileImportFormatV1toV2';
 
 joplin.plugins.register({
-  onStart: async function () {
-
+  onStart: async () => {
     console.info('Athena plugin started!');
     // register settings
-    await settings.register();
+    await register();
 
-    const watcher = new watchAndImport();
-    let pluginSettings = await settings.getImportSettings();
-    console.log();
+    const settings = myContainer.get<iAthenaConfiguration>(
+      TYPES.iAthenaConfiguration
+    );
+    await settings.initilize();
+    const directoryMonitore = myContainer.get<iDirectoryMonitoreWorker>(
+      TYPES.iDirectoryMonitoreWorker
+    );
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
     joplin.settings.onChange(async (event: any) => {
       console.log('Settings changed');
-      await watcher.initialize(); // refreshes as well settings in object.
-      await watcher.watchDirectory();
+      if (await settings.verify()) {
+        await settings.initilize();
+        await directoryMonitore.removeWatcher();
+        await directoryMonitore.watchDirectory();
+      }
     });
+
     // register business logic
     console.info('Athena plugin start watching!');
-    await watcher.initialize();
-    await watcher.watchDirectory();
+    myContainer.snapshot();
+    myContainer.unbind(TYPES.iAthenaConfiguration);
+    myContainer
+      .bind<iAthenaConfiguration>(TYPES.iAthenaConfiguration)
+      .to(athenaConfiguration)
+      .inSingletonScope();
+    myContainer.restore();
 
-    if (pluginSettings.frontMatterRender) {
-			await joplin.contentScripts.register(
-				ContentScriptType.MarkdownItPlugin,
-				'enhancement_front_matter',
-				'./driver/markdownItRuler/frontMatter/index.js'
-			);
-		}
+    if (await settings.verify()) {
+      await directoryMonitore.removeWatcher();
+      await directoryMonitore.watchDirectory();
+    }
+
+    if (settings.Values.frontMatterRenderRule) {
+      await joplin.contentScripts.register(
+        ContentScriptType.MarkdownItPlugin,
+        'enhancement_front_matter',
+        './driver/markdownItRuler/frontMatter/index.js'
+      );
+    }
+
+    await joplin.commands.register({
+      name: 'foldPlugin',
+      label: 'Fold all ',
+      execute: async () => {
+        await joplin.commands.execute('editor.execCommand', {
+          name: 'foldPlugin',
+          args: []
+        });
+      }
+    });
+
+    await joplin.commands.register({
+      name: 'unfoldPlugin',
+      label: 'Unfold all ',
+      execute: async () => {
+        await joplin.commands.execute('editor.execCommand', {
+          name: 'unfoldPlugin',
+          args: []
+        });
+      }
+    });
+
+    await joplin.commands.register({
+      name: 'migrateNoteFromV1ToV2',
+      label: 'Athena: Migrate from file import version V1 to V2.',
+      execute: async (noteIds: string[]) => {
+        const notes = [];
+        for (const noteId of noteIds) {
+          notes.push(await joplin.data.get(['notes', noteId]));
+        }
+
+        const migrator = myContainer.get<iMigrateFileImportFormatV1toV2>(
+          TYPES.iMigrateFileImportFormatV1toV2
+        );
+
+        notes.forEach((element) => {
+          console.log(`START: Migrate of note ${element.title}`);
+          migrator.migrate(element.id);
+          console.log(`END: Migrate of note ${element.title}`);
+        });
+      }
+    });
+    await joplin.views.menuItems.create(
+      'migrateNoteFromV1ToV2Context',
+      'migrateNoteFromV1ToV2',
+      MenuItemLocation.NoteListContextMenu
+    );
+    await joplin.views.menuItems.create(
+      'foldAllMenuItem',
+      'foldPlugin',
+      MenuItemLocation.Tools,
+      { accelerator: 'CmdOrCtrl+Alt+F' }
+    );
+    await joplin.views.menuItems.create(
+      'unfoldAllMenuItem',
+      'unfoldPlugin',
+      MenuItemLocation.Tools,
+      { accelerator: 'CmdOrCtrl+Alt+U' }
+    );
+
+    if (settings.Values.codemirrorFrontMatter) {
+      console.log('Load codemirror contentscript.');
+      await joplin.contentScripts.register(
+        ContentScriptType.CodeMirrorPlugin,
+        'athena-codemirror',
+        './driver/codemirror/frontmatter/index.js'
+      );
+
+      await joplin.contentScripts.onMessage(
+        'athena-codemirror',
+        async (msg: ContextMsg) => {
+          if (msg.type === ContextMsgType.GET_SETTINGS) {
+            return settings;
+          }
+        }
+      );
+    }
   }
 });

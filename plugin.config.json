@@ -1,5 +1,6 @@
 {
   "extraScripts": [
-		"driver/markdownItRuler/frontMatter/index.ts"
+    "driver/markdownItRuler/frontMatter/index.ts",
+    "driver/codemirror/frontmatter/index.ts"
   ]
 }
