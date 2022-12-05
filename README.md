@@ -1,5 +1,7 @@
 # Athena
 
+> new Version
+
 [![build](https://github.com/makaanneo/joplin-plugin-athena/actions/workflows/ci.yml/badge.svg)](https://github.com/makaanneo/joplin-plugin-athena/actions/workflows/ci.yml)
 
 Athena is an open-source plugin. You can use the plugin to manage your PDFs with the power of Joplin and cary all your documents inside your pocket.
