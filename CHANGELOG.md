@@ -1,3 +1,10 @@
+## [2.1.3](https://github.com/makaanneo/joplin-plugin-athena/compare/v2.1.2...v2.1.3) (2022-12-15)
+
+
+### Bug Fixes
+
+* **require version 2.9.17:** due to a high impact bug min version for now it 2.9.17 ([532df86](https://github.com/makaanneo/joplin-plugin-athena/commit/532df86fa922fe52e13c521c0f639e29c64a96bf))
+
 ## [2.1.2](https://github.com/makaanneo/joplin-plugin-athena/compare/v2.1.1...v2.1.2) (2022-12-05)
 
 
