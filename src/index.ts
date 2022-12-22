@@ -11,6 +11,7 @@ import {
 } from './settings/athenaConfiguration';
 import { ContextMsg, ContextMsgType } from './common';
 import { iMigrateFileImportFormatV1toV2 } from './core/migrateFileImportFormatV1toV2';
+import { iMigrateExistingResourceToDocumentNote } from './core/migrateExistingResourceToDocumentNote';
 
 joplin.plugins.register({
   onStart: async () => {
@@ -94,16 +95,71 @@ joplin.plugins.register({
           TYPES.iMigrateFileImportFormatV1toV2
         );
 
-        notes.forEach((element) => {
-          console.log(`START: Migrate of note ${element.title}`);
-          migrator.migrate(element.id);
-          console.log(`END: Migrate of note ${element.title}`);
+        notes.forEach((note) => {
+          console.log(`START: Migrate of note ${note.title}`);
+          migrator.migrate(note.id);
+          console.log(`END: Migrate of note ${note.title}`);
         });
       }
     });
+    await joplin.commands.register({
+      name: 'importAttachedResourceAppendToNote',
+      label: 'Athena: Append note attachment to documentNote. (Beta)',
+      execute: async (noteIds: string[]) => {
+        const notes = [];
+        for (const noteId of noteIds) {
+          notes.push(await joplin.data.get(['notes', noteId]));
+        }
+
+        const migrator =
+          myContainer.get<iMigrateExistingResourceToDocumentNote>(
+            TYPES.iMigrateExistingResourceToDocumentNote
+          );
+
+        notes.forEach((note) => {
+          console.log(`START: Import to document note ${note.title}`);
+          migrator.migrate(note.id, false);
+          console.log(`END: Import to document note ${note.title}`);
+        });
+      }
+    });
+
+    await joplin.commands.register({
+      name: 'importAttachedResourceOverrideNoteBodyOfNote',
+      label:
+        'Athena: Override note body and add all Attachment to documentNote. (Beta)',
+      execute: async (noteIds: string[]) => {
+        const notes = [];
+        for (const noteId of noteIds) {
+          notes.push(await joplin.data.get(['notes', noteId]));
+        }
+
+        const migrator =
+          myContainer.get<iMigrateExistingResourceToDocumentNote>(
+            TYPES.iMigrateExistingResourceToDocumentNote
+          );
+
+        notes.forEach((note) => {
+          console.log(`START: Import to document note ${note.title}`);
+          migrator.migrate(note.id, true);
+          console.log(`END: Import to document note ${note.title}`);
+        });
+      }
+    });
+
     await joplin.views.menuItems.create(
       'migrateNoteFromV1ToV2Context',
       'migrateNoteFromV1ToV2',
+      MenuItemLocation.NoteListContextMenu
+    );
+    await joplin.views.menuItems.create(
+      'importAttachedResourceAppendToNoteContext',
+      'importAttachedResourceAppendToNote',
+      MenuItemLocation.NoteListContextMenu
+    );
+    await joplin.views.menuItems.create(
+      'importAttachedResourceOverrideNoteBodyOfNoteContext',
+      'importAttachedResourceOverrideNoteBodyOfNote',
       MenuItemLocation.NoteListContextMenu
     );
     await joplin.views.menuItems.create(

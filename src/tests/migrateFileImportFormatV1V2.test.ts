@@ -23,6 +23,7 @@ import { iPreparedNote } from '../core/iPreparedNote';
 import { iJoplinResource, joplinResource } from '../core/joplinResource';
 import { inject, injectable } from 'inversify';
 import { iJoplinNotebook, joplinNotebook } from '../core/JoplinNotebook';
+import { iJoplinAttachment } from 'src/core/joplinAttachment';
 
 const testNote2: iJoplinNote = new joplinNote();
 testNote2.id = 'id';
@@ -40,6 +41,12 @@ class joplinApiBcMock implements iJoplinApiBc {
   ) {
     this._resource = resource;
     this._notebook = notebook;
+  }
+  getResourceById(resourceId: string): Promise<iJoplinResource> {
+    throw new Error('Method not implemented.');
+  }
+  async getAttachmentById(resourceId: string): Promise<iJoplinAttachment> {
+    throw new Error('Method not implemented.');
   }
   async getResourcesOfNote(noteId: string): Promise<joplinResource[]> {
     const result: joplinResource[] = [];
@@ -104,6 +111,8 @@ function getMock(): pluginSettings {
   config.tagNewFiles = false;
   config.tagNewFilesTags = '';
   config.importRecursiveDepth = 5;
+  config.pluginDataDir = '';
+  config.documentsSectionHeader = 'test';
   return config;
 }
 
@@ -235,7 +244,7 @@ describe('Migrate v1 File import to v2 import Version', function () {
       TYPES.iMigrateFileImportFormatV1toV2
     );
     const expected =
-      '# title\n[title](:/someresourceid)\n\n# metadata\n``` yaml document header\nName: title\nAuthor: author test\nContent: |+\n  \n  some text\n\n  some more text\n\nSender: ""\nCaptured: 2022-07-27T13:44:57.229Z\nCreated: &a1 2022-01-01T14:39:05.000Z\nFileHash:\n  Hash: somehash1234567890\nMetadata: null\nModified: *a1\nRecipient: ""\nResourceLink: "[title](:/someresourceid)"\n\n```\n';
+      '# test\n## title\n[title](:/someresourceid)\n\n## metadata\n``` yaml document header\nName: title\nAuthor: author test\nContent: |+\n  \n  some text\n\n  some more text\n\nSender: ""\nCaptured: 2022-07-27T13:44:57.229Z\nCreated: &a1 2022-01-01T14:39:05.000Z\nFileHash:\n  Hash: somehash1234567890\nMetadata: null\nModified: *a1\nRecipient: ""\nResourceLink: "[title](:/someresourceid)"\n\n```\n';
     const noteId = 'noteId';
     const actual = await sut.migrate(noteId);
     expect(actual.Body).toEqual(expected);

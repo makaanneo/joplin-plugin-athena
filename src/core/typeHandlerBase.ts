@@ -12,7 +12,7 @@ export interface iFileTypeHandler {
 
 @injectable()
 export abstract class typeHandlerBase {
-  private _settings: iAthenaConfiguration;
+  protected _settings: iAthenaConfiguration;
   constructor(settings: iAthenaConfiguration) {
     this._settings = settings;
   }

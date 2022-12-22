@@ -50,6 +50,11 @@ import {
   iMigrateFileImportFormatV1toV2,
   migrateFileImportFormatV1toV2
 } from './core/migrateFileImportFormatV1toV2';
+import {
+  iMigrateExistingResourceToDocumentNote,
+  migrateExistingResourceToDocumentNote
+} from './core/migrateExistingResourceToDocumentNote';
+import { iJoplinAttachment, joplinAttachment } from './core/joplinAttachment';
 
 const dIContainer = new Container();
 dIContainer
@@ -98,5 +103,13 @@ dIContainer
 dIContainer
   .bind<iMigrateFileImportFormatV1toV2>(TYPES.iMigrateFileImportFormatV1toV2)
   .to(migrateFileImportFormatV1toV2);
+dIContainer
+  .bind<iMigrateExistingResourceToDocumentNote>(
+    TYPES.iMigrateExistingResourceToDocumentNote
+  )
+  .to(migrateExistingResourceToDocumentNote);
+dIContainer
+  .bind<iJoplinAttachment>(TYPES.iJoplinAttachment)
+  .to(joplinAttachment);
 
 export { dIContainer as myContainer };

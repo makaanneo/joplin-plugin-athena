@@ -177,7 +177,7 @@ export class migrateFileImportFormatV1toV2
         );
         return null;
       }
-      if (existingNote.body.startsWith('---')) {
+      if (existingNote.body.includes('``` yaml document header')) {
         console.log(
           `Note ${existingNote.title} is already migreated to frontmatter format.`
         );
@@ -208,7 +208,12 @@ export class migrateFileImportFormatV1toV2
         ModificationDate: metaData.CreationDate
       };
       loadedFile.Name = existingNote.title;
-      const prepared = await this._jnb.buildNote(loadedFile, jResource);
+      const prepared = await this._jnb.buildNote(
+        loadedFile,
+        jResource,
+        1,
+        true
+      );
       const migrated = await this._jApi.putNoteBody(
         existingNote.id,
         prepared.Body

@@ -36,7 +36,10 @@ export class pdfTypeHandler
     return support;
   }
   async loadFile(filePath: string): Promise<iRawFile> {
-    const pdfFullText = await this._pdf.extractPdfText(filePath);
+    let pdfFullText = '';
+    if (this._settings.Values.skipFileContent) {
+      pdfFullText = await this._pdf.extractPdfText(filePath);
+    }
     const metaInformation = await this._pdf.extractPdfMetadata(filePath);
     const file: iRawFile = new rawFile();
     file.Name = path.basename(filePath);

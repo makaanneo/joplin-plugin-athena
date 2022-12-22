@@ -14,6 +14,8 @@ export const FRONT_MATTER_RENDER_RULE = 'frontMatterRenderRule';
 export const FILE_HASH_ALGORITHM = 'fileHashAlgorithm';
 export const CODEMIRROR_FRONT_MATTER = 'codemirrorFrontMatter';
 export const FOLD_FRONT_MATTER = 'foldFrontMatter';
+export const PLUGIN_DATA_DIR = 'pluginDataDir';
+export const DOCUMENTS_SECTION_HEADER = 'DocumentsSectionHeader';
 
 export class pluginSettings {
   ignoreFiles: string;
@@ -33,6 +35,8 @@ export class pluginSettings {
   fileHashAlgorithm: string;
   codemirrorFrontMatter: boolean;
   foldFrontMatter: boolean;
+  pluginDataDir: string;
+  documentsSectionHeader: string;
 }
 
 export enum ContextMsgType {

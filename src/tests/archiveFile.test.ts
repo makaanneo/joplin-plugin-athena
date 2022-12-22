@@ -41,6 +41,7 @@ function getMock(): pluginSettings {
 }
 
 describe('create correct archive folder based on date', function () {
+  const archiveBaseFolder = 'testPath/subPath';
   beforeEach(() => {
     myContainer.snapshot();
     const athenaSettingsMock = {
@@ -62,11 +63,11 @@ describe('create correct archive folder based on date', function () {
 
   afterEach(() => {
     myContainer.restore();
+    fs.rmdirSync(archiveBaseFolder, { recursive: true });
   });
 
   it(`Should return target by using handed over date`, async () => {
     const sut = myContainer.get<iArchiveFile>(TYPES.iArchiveFile);
-    const archiveBaseFolder = 'testPath/subPath';
     const dateTime = new Date('2022-01-01T11:11:11.135Z');
     const monthSubFolder = `${dateTime.getMonth() + 1 < 10 ? '0' : ''}${
       dateTime.getMonth() + 1

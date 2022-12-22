@@ -12,12 +12,15 @@ import { iJoplinResource } from './joplinResource';
 export interface iJoplinNoteBuilder {
   buildNote(
     loadedFile: iRawFile,
-    resource: iJoplinResource
+    resource: iJoplinResource,
+    headerLevel: number,
+    documentSection: boolean
   ): Promise<iPreparedNote>;
   mapFileToPreparedNote(
     file: iRawFile,
     resource: iJoplinResource
   ): Promise<documentMetaData>;
+  perpareHeaderLevel(headerLevel: number): Promise<string>;
 }
 
 @injectable()
@@ -74,19 +77,36 @@ export class joplinNoteBuilder implements iJoplinNoteBuilder {
     return result;
   }
 
+  async perpareHeaderLevel(headerLevel: number): Promise<string> {
+    let result = '';
+    for (let loop = 0; loop < headerLevel; loop++) {
+      result += '#';
+    }
+    return result;
+  }
+
+  async buildDocumentHeaderSection(): Promise<string> {
+    return `# ${this._settings.Values.documentsSectionHeader}`;
+  }
+
   async prepareNoteBody(
     metadataBlockText: string,
     resourceTitle: string,
-    resourceLink: string
+    resourceLink: string,
+    headerLevel: number,
+    documentSection: boolean
   ): Promise<string> {
     let bodyText = '';
-
+    if (documentSection) {
+      bodyText += await this.buildDocumentHeaderSection();
+      bodyText += '\n';
+    }
     bodyText += resourceTitle;
     bodyText += '\n';
     bodyText += resourceLink;
     bodyText += '\n';
     bodyText += '\n';
-    bodyText += '# metadata';
+    bodyText += `${await this.perpareHeaderLevel(headerLevel)} metadata`;
     bodyText += '\n';
     bodyText += metadataBlockText;
     bodyText += '\n';
@@ -96,13 +116,17 @@ export class joplinNoteBuilder implements iJoplinNoteBuilder {
 
   async buildNote(
     loadedFile: iRawFile,
-    resource: iJoplinResource
+    resource: iJoplinResource,
+    headerLevel: number,
+    documentSection: boolean
   ): Promise<iPreparedNote> {
     console.log('START build note.');
+    const targetHeaderLevel = documentSection ? headerLevel + 1 : headerLevel;
     const metaData = await this.mapFileToPreparedNote(loadedFile, resource);
     const metaDataText = await this.prepareMetadataBlock(metaData);
     const resourceTitleBlock = await resource.buildResourceTitle(
-      loadedFile.Name
+      loadedFile.Name,
+      await this.perpareHeaderLevel(targetHeaderLevel)
     );
     const resourceLink = await resource.buildResourceLink(
       loadedFile.Name,
@@ -113,7 +137,9 @@ export class joplinNoteBuilder implements iJoplinNoteBuilder {
     note.Body = await this.prepareNoteBody(
       metaDataText,
       resourceTitleBlock,
-      resourceLink
+      resourceLink,
+      targetHeaderLevel,
+      documentSection
     );
     note.Title = metaData.Name;
     note.created_time = metaData.Created;

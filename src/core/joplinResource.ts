@@ -7,8 +7,9 @@ export interface iJoplinResource {
   size: string;
   filename: string;
   file_extension: string;
+  body: Uint8Array;
   buildResourceLink(name: string, id: string, mime: string): Promise<string>;
-  buildResourceTitle(name: string): Promise<string>;
+  buildResourceTitle(name: string, headerBlock: string): Promise<string>;
 }
 
 @injectable()
@@ -19,6 +20,7 @@ export class joplinResource implements iJoplinResource {
   size: string;
   filename: string;
   file_extension: string;
+  body: Uint8Array;
 
   async buildResourceLink(
     name: string,
@@ -32,7 +34,7 @@ export class joplinResource implements iJoplinResource {
     return link;
   }
 
-  async buildResourceTitle(name: string): Promise<string> {
-    return `# ${name}`;
+  async buildResourceTitle(name: string, headerBlock: string): Promise<string> {
+    return `${headerBlock} ${name}`;
   }
 }

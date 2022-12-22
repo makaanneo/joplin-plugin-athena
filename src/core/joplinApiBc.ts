@@ -5,6 +5,7 @@ import { injectable } from 'inversify';
 import { iPreparedNote } from './iPreparedNote';
 import { iJoplinResource, joplinResource } from './joplinResource';
 import { iJoplinNotebook } from './JoplinNotebook';
+import { iJoplinAttachment, joplinAttachment } from './joplinAttachment';
 
 export interface iJoplinNote {
   id: string;
@@ -42,10 +43,53 @@ export interface iJoplinApiBc {
   postTagToNote(noteId: string, tagId: string): Promise<void>;
   postTag(tagName: string): Promise<joplinTag>;
   putNoteBody(noteId: string, noteBody: string): Promise<iJoplinNote>;
+  getAttachmentById(resourceId: string): Promise<iJoplinAttachment>;
+  getResourceById(resourceId: string): Promise<iJoplinResource>;
 }
 
 @injectable()
 export class joplinApiBc implements iJoplinApiBc {
+  async getResourceById(resourceId: string): Promise<iJoplinResource> {
+    console.log(`get resource by id ${resourceId}.`);
+    try {
+      const resource = await joplin.data.get(['resources', resourceId], {
+        fields: ['id', 'size', 'title', 'filename', 'file_extension', 'mime']
+      });
+      const result: iJoplinResource = new joplinResource();
+      result.id = resource.id;
+      result.filename = resource.filename;
+      result.mime = resource.mime;
+      result.file_extension = resource.file_extension;
+      result.size = resource.size;
+      result.title = resource.title;
+      return result;
+    } catch (e) {
+      console.error('Error: get resource by id.');
+      console.error(e);
+      throw e;
+    }
+  }
+
+  async getAttachmentById(resourceId: string): Promise<iJoplinAttachment> {
+    console.log(`get attachment by id ${resourceId}.`);
+    try {
+      const result = await joplin.data.get(
+        ['resources', resourceId, 'file'],
+        {}
+      );
+      console.info(result);
+      const jr: iJoplinAttachment = new joplinAttachment();
+      jr.type = result.type;
+      jr.body = result.body;
+      jr.contentType = result.contentType;
+      jr.attachmentFilename = result.attachmentFilename;
+      return jr;
+    } catch (e) {
+      console.error('Error: get attachment by id.');
+      console.error(e);
+      throw e;
+    }
+  }
   putNoteBody(noteId: string, noteBody: string): Promise<iJoplinNote> {
     console.log('Put note body to Joplin note.');
     try {
@@ -73,6 +117,7 @@ export class joplinApiBc implements iJoplinApiBc {
       ) {
         return null;
       }
+      console.info(result);
       const jr: Array<iJoplinResource> = result.items.map((resource) => {
         const result: iJoplinResource = new joplinResource();
         result.id = resource.id;

@@ -16,7 +16,8 @@ import {
   TAG_NEW_FILES_TAGS,
   FILE_HASH_ALGORITHM,
   CODEMIRROR_FRONT_MATTER,
-  FOLD_FRONT_MATTER
+  FOLD_FRONT_MATTER,
+  DOCUMENTS_SECTION_HEADER
 } from '../common';
 
 export async function register(): Promise<void> {
@@ -181,6 +182,15 @@ export async function register(): Promise<void> {
     label: 'File hash algorithm',
     description:
       'Algortihm used by crypto to build hash for the imported file. The default value ist sha512',
+    advanced: true
+  };
+  settings[DOCUMENTS_SECTION_HEADER] = {
+    value: 'documents',
+    type: SettingItemType.String,
+    section: 'importerSection',
+    public: true,
+    label: 'Document section header',
+    description: 'Header for document section as level one header.',
     advanced: true
   };
   await joplin.settings.registerSettings(settings);

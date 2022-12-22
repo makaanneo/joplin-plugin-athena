@@ -48,7 +48,7 @@ export class joplinNoteProcessor implements iJoplinNoteProcessor {
         return;
       }
       const jRes = await this._jdapi.postResource(file);
-      const preparedNote = await this._nb.buildNote(lodedFile, jRes);
+      const preparedNote = await this._nb.buildNote(lodedFile, jRes, 1, true);
       const jNote = await this._jdapi.postNote(preparedNote);
 
       if (this._settings.Values.tagNewFiles) {

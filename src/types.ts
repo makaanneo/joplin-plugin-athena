@@ -20,7 +20,11 @@ const TYPES = {
   iMigrateFileImportFormatV1toV2: Symbol.for('iMigrateFileImportFormatV1toV2'),
   iJoplinNote: Symbol.for('iJoplinNote'),
   iJoplinResource: Symbol.for('iJoplinResource'),
-  iJoplinNotebook: Symbol.for('iJoplinNotebook')
+  iJoplinNotebook: Symbol.for('iJoplinNotebook'),
+  iJoplinAttachment: Symbol.for('iJoplinAttachment'),
+  iMigrateExistingResourceToDocumentNote: Symbol.for(
+    'iMigrateExistingResourceToDocumentNote'
+  )
 };
 
 export { TYPES };

@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import joplin from 'api';
-import { injectable, postConstruct } from 'inversify';
+import { injectable } from 'inversify';
 import {
   ARCHIVE_IMPORTED_FILES,
   ARCHIVE_TARGET,
@@ -18,7 +18,8 @@ import {
   pluginSettings,
   FILE_HASH_ALGORITHM,
   CODEMIRROR_FRONT_MATTER,
-  FOLD_FRONT_MATTER
+  FOLD_FRONT_MATTER,
+  DOCUMENTS_SECTION_HEADER
 } from '../common';
 
 export interface iAthenaConfiguration {
@@ -101,6 +102,9 @@ export class athenaConfiguration implements iAthenaConfiguration {
     config.skipFileContent = await joplin.settings.value(SKIP_FILE_CONTENT);
     config.tagNewFiles = await joplin.settings.value(TAG_NEW_FILES);
     config.tagNewFilesTags = await joplin.settings.value(TAG_NEW_FILES_TAGS);
+    config.documentsSectionHeader = await joplin.settings.value(
+      DOCUMENTS_SECTION_HEADER
+    );
     config.codemirrorFrontMatter = await joplin.settings.value(
       CODEMIRROR_FRONT_MATTER
     );
@@ -109,6 +113,7 @@ export class athenaConfiguration implements iAthenaConfiguration {
     config.importRecursiveDepth = await joplin.settings.value(
       IMPORT_RECURSIVE_DEPTH
     );
+    config.pluginDataDir = await joplin.plugins.dataDir();
     return config;
   }
 }
