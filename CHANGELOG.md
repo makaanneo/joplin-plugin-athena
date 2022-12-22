@@ -1,3 +1,10 @@
+# [2.2.0](https://github.com/makaanneo/joplin-plugin-athena/compare/v2.1.3...v2.2.0) (2022-12-22)
+
+
+### Features
+
+* **import existing:** trigger import of attached resources of a note into the note ([3579202](https://github.com/makaanneo/joplin-plugin-athena/commit/35792026e621bcce895e086a633f253cb02acbf5))
+
 ## [2.1.3](https://github.com/makaanneo/joplin-plugin-athena/compare/v2.1.2...v2.1.3) (2022-12-15)
 
 
