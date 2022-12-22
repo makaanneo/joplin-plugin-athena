@@ -1,3 +1,10 @@
+## [2.2.2](https://github.com/makaanneo/joplin-plugin-athena/compare/v2.2.1...v2.2.2) (2022-12-22)
+
+
+### Bug Fixes
+
+* **pdf content:** fix content not imported if skipcontent option is not set. ([0d6c2bc](https://github.com/makaanneo/joplin-plugin-athena/commit/0d6c2bcc2a6a56e12cedfaf456576dcdb08641c0))
+
 ## [2.2.1](https://github.com/makaanneo/joplin-plugin-athena/compare/v2.2.0...v2.2.1) (2022-12-22)
 
 
