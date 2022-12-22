@@ -1,3 +1,10 @@
+## [2.2.1](https://github.com/makaanneo/joplin-plugin-athena/compare/v2.2.0...v2.2.1) (2022-12-22)
+
+
+### Bug Fixes
+
+* **logging:** remove not needed logging. ([9400590](https://github.com/makaanneo/joplin-plugin-athena/commit/940059037f05d4e6aebe876499030dda16503cbd))
+
 # [2.2.0](https://github.com/makaanneo/joplin-plugin-athena/compare/v2.1.3...v2.2.0) (2022-12-22)
 
 
