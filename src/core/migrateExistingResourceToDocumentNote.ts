@@ -92,8 +92,6 @@ export class migrateExistingResourceToDocumentNote
     const tempPath = await this.constructTempPathName(uuid);
     try {
       const existingNote = await this._jApi.getNote(noteToMigrateId);
-      console.info('note');
-      console.info(existingNote);
       if (!this.canMigrate(existingNote.body)) {
         console.log(
           `Note ${existingNote.title} is not compatible for migration.`

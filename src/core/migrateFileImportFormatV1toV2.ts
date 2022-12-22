@@ -168,9 +168,7 @@ export class migrateFileImportFormatV1toV2
   }
   async migrate(noteToMigrateId: string): Promise<iPreparedNote> {
     try {
-      console.log(noteToMigrateId);
       const existingNote = await this._jApi.getNote(noteToMigrateId);
-      console.log(existingNote);
       if (!this.canMigrate(existingNote.body)) {
         console.log(
           `Note ${existingNote.title} is not compatible for migration.`
