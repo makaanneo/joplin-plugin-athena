@@ -1,3 +1,11 @@
+## [2.2.3](https://github.com/makaanneo/joplin-plugin-athena/compare/v2.2.2...v2.2.3) (2022-12-30)
+
+
+### Bug Fixes
+
+* **dependency:** fix ([60ad770](https://github.com/makaanneo/joplin-plugin-athena/commit/60ad770e197a93d618c8e85607f7d1d93d1dba5c))
+* **upgrade to node 18:** upgrade to latest node LTS ([aa0d3f5](https://github.com/makaanneo/joplin-plugin-athena/commit/aa0d3f54856052022b574c6a1c5afaff40d97ff5))
+
 ## [2.2.2](https://github.com/makaanneo/joplin-plugin-athena/compare/v2.2.1...v2.2.2) (2022-12-22)
 
 
