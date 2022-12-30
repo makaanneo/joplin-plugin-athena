@@ -23,7 +23,6 @@ const userConfigPath = path.resolve(rootDir, userConfigFilename);
 const distDir = path.resolve(rootDir, 'dist');
 const srcDir = path.resolve(rootDir, 'src');
 const publishDir = path.resolve(rootDir, 'publish');
-
 const userConfig = Object.assign(
   {},
   {
@@ -106,9 +105,10 @@ function readManifest(manifestPath) {
 }
 
 function createPluginArchive(sourceDir, destPath) {
+  const cleanSource = sourceDir.replaceAll('\\', '/');
   const distFiles = glob
-    .sync(`${sourceDir}/**/*`, { nodir: true })
-    .map((f) => f.substr(sourceDir.length + 1));
+    .sync(`${cleanSource}/**/*`, { nodir: true })
+    .map((f) => f.substr(cleanSource.length + 1));
 
   if (!distFiles.length)
     throw new Error(
