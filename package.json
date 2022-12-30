@@ -85,7 +85,7 @@
   "overrides": {
     "marked": "^4.0.10",
     "semantic-release": "^19.0.5",
-    "pretty-format": "^28.1.1",
+    "pretty-format": "^29.3.1",
     "simple-get": "^4.0.1",
     "string-width": "^4.2.3",
     "Minimist": "^1.2.6",
